@@ -1,0 +1,34 @@
+services:
+  i2v:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    image: i2v-motion:dev
+    container_name: i2v-dev
+    working_dir: /workspace
+    env_file:
+      - ../.env
+    environment:
+      - HF_HOME=/cache/huggingface
+      - TRANSFORMERS_CACHE=/cache/huggingface
+      - TORCH_HOME=/cache/torch
+    volumes:
+      - ..:/workspace
+      - hf_cache:/cache/huggingface
+      - torch_cache:/cache/torch
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    shm_size: "16gb"
+    ipc: host
+    stdin_open: true
+    tty: true
+    command: bash
+
+volumes:
+  hf_cache:
+  torch_cache:

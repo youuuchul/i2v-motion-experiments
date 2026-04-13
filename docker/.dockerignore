@@ -1,0 +1,12 @@
+.git
+.venv
+venv
+__pycache__
+*.pyc
+outputs
+data
+assets/samples/*.mp4
+notebooks/.ipynb_checkpoints
+.mypy_cache
+.pytest_cache
+.ruff_cache

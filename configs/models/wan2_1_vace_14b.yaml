@@ -1,0 +1,9 @@
+name: wan2_1_vace_14b
+class: i2v.models.wan2_1_vace_14b.Wan21VACE14BPipeline
+init:
+  model_id: Wan-AI/Wan2.1-VACE-14B-diffusers
+  dtype: float16
+  device: cuda
+  # L4 24GB 빠듯 → offload + vae slicing 기본 ON
+  enable_model_cpu_offload: true
+  enable_vae_slicing: true

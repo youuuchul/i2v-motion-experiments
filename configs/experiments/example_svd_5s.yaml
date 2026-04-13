@@ -1,0 +1,16 @@
+experiment: example_svd_5s
+notes: "Baseline SVD run, 5s vertical."
+
+model_config: configs/models/svd.yaml
+preset: configs/presets/reels_5s.yaml
+
+input:
+  image: assets/samples/sample.jpg
+  prompt: ""          # SVD는 이미지만 사용
+  negative_prompt: ""
+
+run:
+  seed: 42
+  num_inference_steps: 25
+  guidance_scale: null
+  out_dir: outputs/example_svd_5s

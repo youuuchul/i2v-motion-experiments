@@ -1,0 +1,6 @@
+name: svd
+class: i2v.models.svd.SVDPipeline
+init:
+  model_id: stabilityai/stable-video-diffusion-img2vid-xt
+  dtype: bfloat16
+  device: cuda

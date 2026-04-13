@@ -1,0 +1,16 @@
+experiment: example_wan2_1_vace_14b_5s
+notes: "Wan2.1-VACE-14B I2V baseline, 5s vertical. L4 24GB 전제."
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/reels_5s.yaml
+
+input:
+  image: assets/samples/sample.png
+  prompt: "cinematic slow zoom-in, soft lighting"
+  negative_prompt: "low quality, blurry, watermark"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/example_wan2_1_vace_14b_5s

@@ -1,0 +1,57 @@
+[project]
+name = "i2v-motion"
+version = "0.0.1"
+description = "Image(+text) to video experimentation workspace: training, inference, analysis."
+requires-python = ">=3.10"
+readme = "README.md"
+
+dependencies = [
+    "torch>=2.3",
+    "torchvision",
+    "diffusers>=0.30",
+    "transformers>=4.44,<5",
+    "accelerate>=0.33",
+    "safetensors",
+    "huggingface_hub",
+    "peft>=0.12",
+    "einops",
+    "imageio[ffmpeg]",
+    "av",
+    "opencv-python-headless",
+    "pillow",
+    "numpy",
+    "pydantic>=2",
+    "pyyaml",
+    "omegaconf",
+    "python-dotenv",
+    "tqdm",
+    "rich",
+    "streamlit>=1.36",
+    "openai>=1.40",
+    "anthropic>=0.34",
+]
+
+[project.optional-dependencies]
+train = ["bitsandbytes", "wandb", "datasets"]
+eval = ["lpips", "scikit-image", "torchmetrics"]
+serve = ["fastapi", "uvicorn[standard]", "pydantic-settings"]
+dev = ["pytest", "ruff", "black", "mypy", "ipython", "jupyter"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+ignore = ["E501"]
+
+[tool.black]
+line-length = 100
+target-version = ["py310"]
+
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]

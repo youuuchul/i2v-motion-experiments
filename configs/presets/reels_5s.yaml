@@ -1,0 +1,6 @@
+# Default vertical short-form preset (Reels/Shorts).
+width: 576
+height: 1024
+fps: 24
+duration_s: 5.0
+aspect: "9:16"

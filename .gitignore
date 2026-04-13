@@ -1,10 +1,65 @@
+# Python
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+build/
+dist/
+
+# Env
 .venv/
+venv/
 .env
-outputs/
-checkpoints/
+.env.*
+!.env.example
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# HF / model caches & weights
 hf_cache/
+.cache/
+checkpoints/
+*.safetensors
+*.bin
+*.pt
+*.pth
+*.ckpt
+*.gguf
+
+# Data & experiment artifacts (heavy / per-user)
+data/raw/
+data/processed/
+data/user_uploads/
+outputs/
+runs/
+wandb/
+mlruns/
+logs/
+experiments/runs/
+
+# Media (allow small reference assets under assets/)
 *.mp4
 *.mov
-.ipynb_checkpoints/
+*.webm
+*.mkv
+*.gif
+!assets/**/*.mp4
+!assets/**/*.gif
+
+# Streamlit
+.streamlit/secrets.toml
+
+# OS
+Thumbs.db
+
+# Claude local (keep shared skills under .claude/skills/)
+.claude/settings.local.json
+.claude/scheduled_tasks.lock

@@ -2,8 +2,12 @@ name: wan2_1_vace_14b
 class: i2v.models.wan2_1_vace_14b.Wan21VACE14BPipeline
 init:
   model_id: Wan-AI/Wan2.1-VACE-14B-diffusers
+  gguf_repo: QuantStack/Wan2.1_14B_VACE-GGUF
+  gguf_filename: Wan2.1_14B_VACE-Q4_K_M.gguf
   dtype: float16
   device: cuda
-  # L4 24GB 빠듯 → offload + vae slicing 기본 ON
+  # GGUF는 sequential offload 비호환. model_cpu_offload로 모듈 단위 GPU 스왑 + VAE tiling
+  enable_sequential_cpu_offload: false
   enable_model_cpu_offload: true
   enable_vae_slicing: true
+  quantize_text_encoder_4bit: true

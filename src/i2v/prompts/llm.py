@@ -41,7 +41,7 @@ class PromptBuilder:
             from openai import OpenAI
 
             client = OpenAI(api_key=env("OPENAI_API_KEY", required=True))
-            model = self.model or env("OPENAI_MODEL", "gpt-4o-mini")
+            model = self.model or env("OPENAI_MODEL", "gpt-5-mini")
             resp = client.chat.completions.create(
                 model=model,
                 messages=[

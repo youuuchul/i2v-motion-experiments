@@ -27,4 +27,11 @@ COPY pyproject.toml README.md /workspace/
 COPY src /workspace/src
 RUN pip install -e ".[dev]"
 
+# gcc needed at runtime by bitsandbytes' triton JIT path
+RUN apt-get update && apt-get install -y --no-install-recommends gcc g++ \
+    && rm -rf /var/lib/apt/lists/*
+
+# Quantization backends (separate layer so base install stays cached across rebuilds)
+RUN pip install gguf bitsandbytes ftfy
+
 CMD ["bash"]

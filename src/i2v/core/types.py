@@ -28,14 +28,25 @@ class VideoSpec(BaseModel):
         return v
 
 
+GenerationMode = Literal["t2v", "i2v", "r2v"]
+
+
 class GenerationRequest(BaseModel):
-    """One i2v generation job, model-agnostic."""
+    """One image/text → video job, model-agnostic.
+
+    mode:
+        - "i2v": 첫 프레임이 입력 이미지로 고정(inpaint). 일반 I2V.
+        - "r2v": 입력 이미지는 스타일/피사체 reference. 자유 생성, 첫 프레임 비고정.
+        - "t2v": 텍스트만으로 생성. image는 무시.
+    """
 
     model_config = {"arbitrary_types_allowed": True}
 
     image: Image.Image
     prompt: str = ""
     negative_prompt: str = ""
+    mode: GenerationMode = "i2v"
+    reference_images: list[Image.Image] = Field(default_factory=list)
     spec: VideoSpec = Field(default_factory=VideoSpec)
     seed: int | None = None
     guidance_scale: float | None = None

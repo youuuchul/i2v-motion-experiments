@@ -1,0 +1,8 @@
+# Smoke test preset: 작은 해상도·짧은 길이로 파이프 검증용.
+# Wan2.1 VACE 14B + Q3 GGUF + L4 24GB VRAM에서 활성화 메모리 여유 확보.
+# 9:16 근사 (432x768 = 9:16 정확).
+width: 432
+height: 768
+fps: 16
+duration_s: 3.0
+aspect: "9:16"

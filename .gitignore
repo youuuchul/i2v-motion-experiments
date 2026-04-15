@@ -54,6 +54,16 @@ experiments/runs/
 !assets/**/*.mp4
 !assets/**/*.gif
 
+# Sample input images — 개인 사진 노출 방지. 재현 시 각자 준비.
+# (placeholder 구조는 assets/samples/.gitkeep 로 유지)
+assets/samples/*.png
+assets/samples/*.jpg
+assets/samples/*.jpeg
+assets/samples/*.JPG
+assets/samples/*.JPEG
+assets/samples/*.webp
+!assets/samples/.gitkeep
+
 # Streamlit
 .streamlit/secrets.toml
 

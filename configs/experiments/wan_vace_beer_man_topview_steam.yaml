@@ -1,0 +1,25 @@
+experiment: wan_vace_beer_man_topview_steam
+notes: "맥주+남자(탑뷰) → 테이블 위 음식에서 김/증기 자연스럽게 올라오는 미세 환경 모션 (food_motion/steam_rise). 탑뷰 구도라 음식 영역이 넓게 보임"
+tags: ["baseline", "v2", "topview", "new_image"]
+
+template:
+  category: food_motion
+  subcategory: steam_rise
+  intent: product_showcase
+  secondary:
+    - {category: ambiance, subcategory: bokeh_breathe}
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/smoke_test.yaml
+
+input:
+  mode: i2v
+  image: assets/samples/beer_man_topview.JPG
+  prompt: "top-down shot of a dining table, warm steam and gentle vapor slowly rising from the food plates, subtle wisps curling upward, warm ambient restaurant lighting, very slow subtle motion, cinematic overhead food cinematography"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, glitchy, text, logo, fast motion, camera shake"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_beer_man_topview_steam

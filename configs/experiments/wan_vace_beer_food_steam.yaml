@@ -1,0 +1,23 @@
+experiment: wan_vace_beer_food_steam
+notes: "치킨+맥주 → 치킨에서 올라오는 김 (음식 김)"
+tags: ["baseline", "v1"]
+
+template:
+  category: food_motion
+  subcategory: steam_rise
+  intent: product_showcase
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/smoke_test.yaml
+
+input:
+  mode: i2v
+  image: assets/samples/beer.png
+  prompt: "warm steam rising gently from the fried chicken on the plate, drifting vapor curling upward, golden cinematic light, slow smooth motion, rich savory atmosphere"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, glitchy, text, logo"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_beer_food_steam

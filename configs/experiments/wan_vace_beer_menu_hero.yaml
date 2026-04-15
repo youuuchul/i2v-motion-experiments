@@ -1,0 +1,23 @@
+experiment: wan_vace_beer_menu_hero
+notes: "치킨+맥주 → 메인 메뉴를 강조하는 hero push-in 광고 프레이밍 (menu_showcase)"
+tags: ["baseline", "v2", "category_expansion"]
+
+template:
+  category: menu_showcase
+  subcategory: hero_push_in
+  intent: product_showcase
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/smoke_test.yaml
+
+input:
+  mode: i2v
+  image: assets/samples/beer.png
+  prompt: "advertising hero shot of the chicken and beer combo, slow cinematic push-in to the centerpiece, golden warm rim light, premium food commercial style, smooth steady framing emphasizing the main dish"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, glitchy, text, logo"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_beer_menu_hero

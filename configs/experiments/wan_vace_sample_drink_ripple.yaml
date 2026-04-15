@@ -1,0 +1,23 @@
+experiment: wan_vace_sample_drink_ripple
+notes: "여자+라떼 → 라떼 표면 잔잔한 출렁임 (음료 미세 움직임)"
+tags: ["baseline", "v1"]
+
+template:
+  category: drink_motion
+  subcategory: ripple
+  intent: product_showcase
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/smoke_test.yaml
+
+input:
+  mode: i2v
+  image: assets/samples/sample.png
+  prompt: "liquid surface gently rippling in the latte cup, subtle waves and tiny steam wisps, macro detail, soft warm cafe lighting, smooth slow motion"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, glitchy, text, logo"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_sample_drink_ripple

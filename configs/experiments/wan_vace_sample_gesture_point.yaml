@@ -1,0 +1,23 @@
+experiment: wan_vace_sample_gesture_point
+notes: "여자+라떼 → 컵을 손가락으로 가리키며 추천하는 제스처 (인물 액션, person_action)"
+tags: ["baseline", "v2", "category_expansion"]
+
+template:
+  category: person_action
+  subcategory: gesture_point
+  intent: product_showcase
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/smoke_test.yaml
+
+input:
+  mode: i2v
+  image: assets/samples/sample.png
+  prompt: "young woman gently pointing toward the latte cup with a warm smile, recommending gesture, soft hand movement, cozy cafe background with subtle bokeh, cinematic warm tone"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, glitchy, text, logo, extra fingers, deformed hands"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_sample_gesture_point

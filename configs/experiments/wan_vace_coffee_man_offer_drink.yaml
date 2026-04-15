@@ -1,0 +1,25 @@
+experiment: wan_vace_coffee_man_offer_drink
+notes: "남자+아이스커피 → 커피를 카메라 쪽으로 내미는 액션 (인물 액션)"
+tags: ["baseline", "v1"]
+
+template:
+  category: person_action
+  subcategory: offer_drink
+  intent: product_showcase
+  secondary:
+    - {category: camera_move, subcategory: dolly_in}
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/smoke_test.yaml
+
+input:
+  mode: i2v
+  image: assets/samples/coffee_man.png
+  prompt: "young man smiling and gently extending the iced coffee cup toward the camera, slow dolly-in motion, warm rooftop bokeh of string lights at sunset, confident natural pose"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, glitchy, text, logo, extra fingers"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_coffee_man_offer_drink

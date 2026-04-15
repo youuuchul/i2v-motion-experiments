@@ -1,0 +1,23 @@
+experiment: wan_vace_sample_golden_hour
+notes: "여자+라떼 → 골든아워 따뜻한 색온도와 긴 그림자 (camera_move/golden_hour)"
+tags: ["baseline", "v2", "lighting"]
+
+template:
+  category: camera_move
+  subcategory: golden_hour
+  intent: ambiance
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/smoke_test.yaml
+
+input:
+  mode: i2v
+  image: assets/samples/sample.png
+  prompt: "warm golden hour sunlight pouring through the cafe window, amber color temperature, long soft shadows stretching across the table, subtle dust particles drifting in the light beam, slow gentle camera drift, cinematic late-afternoon mood"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, glitchy, text, logo, cool tone, harsh midday light"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_sample_golden_hour

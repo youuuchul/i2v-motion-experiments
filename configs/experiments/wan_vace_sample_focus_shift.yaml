@@ -1,0 +1,23 @@
+experiment: wan_vace_sample_focus_shift
+notes: "여자+라떼 → 인물에서 카페 배경으로 포커스/구도 이동 (카메라 워크)"
+tags: ["baseline", "v1"]
+
+template:
+  category: camera_move
+  subcategory: face_to_bg
+  intent: portrait
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/smoke_test.yaml
+
+input:
+  mode: i2v
+  image: assets/samples/sample.png
+  prompt: "cinematic rack focus pulling from the woman's face to the warm cafe background with glowing pendant lights, shallow depth of field, smooth focus transition, subtle camera pull back"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, glitchy, text, logo"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_sample_focus_shift

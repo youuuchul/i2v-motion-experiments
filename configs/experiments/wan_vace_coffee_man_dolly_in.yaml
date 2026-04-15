@@ -1,0 +1,23 @@
+experiment: wan_vace_coffee_man_dolly_in
+notes: "남자+아이스커피 → 카메라가 인물 쪽으로 푸시인 (camera_move/dolly_in)"
+tags: ["baseline", "v2", "category_expansion"]
+
+template:
+  category: camera_move
+  subcategory: dolly_in
+  intent: portrait
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/smoke_test.yaml
+
+input:
+  mode: i2v
+  image: assets/samples/coffee_man.png
+  prompt: "slow cinematic dolly-in toward the young man holding an iced coffee, gradual push-in framing, warm rooftop string light bokeh, shallow depth of field, smooth steady camera"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, glitchy, text, logo, extra fingers"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_coffee_man_dolly_in

@@ -1,0 +1,19 @@
+experiment: smoke_wan2_1_vace_14b_r2v
+notes: "Wan2.1-VACE-14B Q4 GGUF smoke test — R2V 모드. 입력을 reference로만 쓰고 자유 생성."
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/smoke_test.yaml
+
+input:
+  mode: r2v
+  image: assets/samples/sample.png
+  # reference_images:      # 여러 장 쓰려면 여기에 추가 (image는 단일 reference로 자동 사용)
+  #   - assets/samples/ref1.png
+  prompt: "cinematic slow zoom-in, soft lighting"
+  negative_prompt: "low quality, blurry, watermark"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/smoke_wan2_1_vace_14b_r2v

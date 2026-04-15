@@ -1,0 +1,23 @@
+experiment: wan_vace_beer_food_glaze
+notes: "치킨+맥주 → 치킨 표면 양념/기름 윤기 흐름 (food_motion/sauce_pour 변형)"
+tags: ["baseline", "v2", "category_expansion"]
+
+template:
+  category: food_motion
+  subcategory: sauce_pour
+  intent: product_showcase
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/smoke_test.yaml
+
+input:
+  mode: i2v
+  image: assets/samples/beer.png
+  prompt: "glossy oil and seasoning glistening on the crispy fried chicken surface, slow shimmering highlights traveling along the crust, warm cinematic light, mouth-watering food cinematography, subtle macro motion"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, glitchy, text, logo, oversaturated"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_beer_food_glaze

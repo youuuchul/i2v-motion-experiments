@@ -1,0 +1,17 @@
+experiment: smoke_wan2_1_vace_14b
+notes: "Wan2.1-VACE-14B Q3 GGUF smoke test — 축소 해상도·짧은 길이로 VRAM/파이프 검증."
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/smoke_test.yaml
+
+input:
+  mode: i2v            # i2v | r2v | t2v
+  image: assets/samples/sample.png
+  prompt: "cinematic slow zoom-in, soft lighting"
+  negative_prompt: "low quality, blurry, watermark"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/smoke_wan2_1_vace_14b

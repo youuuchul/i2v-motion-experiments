@@ -1,0 +1,25 @@
+experiment: wan_vace_beer_man_topview_lift
+notes: "맥주+남자(탑뷰) → 탑뷰 시작에서 맥주잔을 손으로 들어 카메라 쪽으로 올리는 액션. 시점 자체가 바뀌는 난이도 높은 케이스 (person_action/lift_to_camera)"
+tags: ["baseline", "v2", "topview", "new_image", "challenging"]
+
+template:
+  category: person_action
+  subcategory: lift_to_camera
+  intent: product_showcase
+  secondary:
+    - {category: camera_move, subcategory: dolly_in}
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/smoke_test.yaml
+
+input:
+  mode: i2v
+  image: assets/samples/beer_man_topview.JPG
+  prompt: "the man's hand reaches down into frame, grasps the beer glass on the table, and slowly lifts it upward toward the camera as the perspective naturally shifts from top-down to eye-level, the glass growing larger in frame, warm atmospheric light, smooth natural motion"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, glitchy, text, logo, extra fingers, deformed hands, static"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_beer_man_topview_lift

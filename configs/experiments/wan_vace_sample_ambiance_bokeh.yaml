@@ -1,0 +1,23 @@
+experiment: wan_vace_sample_ambiance_bokeh
+notes: "여자+라떼 → 배경 보케 미세 호흡, 인물은 정적 (ambiance/bokeh_breathe)"
+tags: ["baseline", "v2", "category_expansion"]
+
+template:
+  category: ambiance
+  subcategory: bokeh_breathe
+  intent: ambiance
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/smoke_test.yaml
+
+input:
+  mode: i2v
+  image: assets/samples/sample.png
+  prompt: "subject remains still while the warm background bokeh gently breathes and shimmers, soft pendant light glow pulsing subtly, dreamy cafe atmosphere, very minimal motion, cinematic shallow depth of field"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, glitchy, text, logo, fast movement, camera shake"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_sample_ambiance_bokeh

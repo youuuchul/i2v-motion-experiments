@@ -1,0 +1,25 @@
+experiment: wan_vace_sample_offer_drink
+notes: "여자+라떼 → 잔을 카메라 쪽으로 내미는 액션 (인물 액션)"
+tags: ["baseline", "v1"]
+
+template:
+  category: person_action
+  subcategory: offer_drink
+  intent: product_showcase
+  secondary:
+    - {category: ambiance, subcategory: bokeh_breathe}
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/smoke_test.yaml
+
+input:
+  mode: i2v
+  image: assets/samples/sample.png
+  prompt: "young woman gracefully extending the latte cup toward the camera, soft smile, slow forward motion of the hands, warm cafe bokeh background, natural head tilt"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, glitchy, text, logo, extra fingers"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_sample_offer_drink

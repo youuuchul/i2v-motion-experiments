@@ -1,0 +1,25 @@
+experiment: wan_vace_beer_man_topview_face_reveal
+notes: "맥주+남자(탑뷰) → 안 보이던 얼굴이 고개 들면서 드러나는 동작. 숨겨진 얼굴이 나타나는 reveal 테스트 (person_action/face_reveal)"
+tags: ["baseline", "v2", "topview", "new_image", "challenging"]
+
+template:
+  category: person_action
+  subcategory: face_reveal
+  intent: portrait
+  secondary:
+    - {category: camera_move, subcategory: dolly_in}
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/smoke_test.yaml
+
+input:
+  mode: i2v
+  image: assets/samples/beer_man_topview.JPG
+  prompt: "the man slowly tilts his head upward, his face gradually revealing itself to the camera, soft expression emerging into view, natural neck and shoulder motion, warm ambient light catching his features as he looks up, cinematic reveal moment, smooth gentle motion"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, glitchy, text, logo, static, unchanged pose, deformed face"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_beer_man_topview_face_reveal

@@ -1,8 +1,7 @@
 experiment: wan_vace_meme_char_refB_potato
 notes: |
-  meme_ai_character / ai_character_2 스타일 클레이메이션. 감자 캐릭터 variant.
-  베이스: assets/memes/ai_character_2/frames/frame_75.jpg (투명 봉지 안 클레이 감자).
-tags: ["v2", "meme_round5", "meme_ai_character", "claymation_character", "i2v_ref_start"]
+  meme_ai_character — ai_character_2 클레이메이션. 클레이 감자가 봉지 열고 나와 카메라 쪽으로 걸어오며 말함.
+tags: ["v2", "meme_round5", "meme_ai_character", "product_standup", "full_body_animation", "speaking", "walks_out_wrapper", "claymation_character", "i2v_ref_start", "5s"]
 
 template:
   motion_template: null
@@ -12,13 +11,13 @@ template:
   intent: meme
 
 model_config: configs/models/wan2_1_vace_14b.yaml
-preset: configs/presets/smoke_test.yaml
+preset: configs/presets/meme_5s.yaml
 
 input:
   mode: i2v
   image: assets/memes/ai_character_2/frames/frame_75.jpg
-  prompt: "cute claymation stop-motion style preserved, the small clay potato character with rosy cheeks and closed-eye smile gently breathes and subtly rocks from side to side inside its transparent wrapper, tiny blink motion, clay textured fridge interior background stays still, soft cool diffused fridge lighting, minimal camera drift, 9:16 vertical, stop-motion animation feel"
-  negative_prompt: "low quality, blurry, watermark, distorted, photorealistic skin, real human, dramatic motion, wrapper tearing, text overlay change, cartoon 2D, CGI smooth"
+  prompt: "cute claymation stop-motion style preserved, the small clay potato character with rosy cheeks opens its transparent wrapper and steps out fully revealing tiny clay arms and stubby legs, walks slowly forward toward the camera with bouncy steps, waving both arms enthusiastically, its mouth opens and closes repeatedly as if happily narrating something with visible syllables, eyes open wider expressively, whole body sways and tilts with each step, pixar-style claymation full-body animation, clay textured fridge background stays still, soft cool fridge lighting, 9:16 vertical"
+  negative_prompt: "low quality, blurry, watermark, distorted, photorealistic skin, real human, only subtle blink, static body, potato staying in wrapper, wrapper tearing violently, mouth closed, silent still, text overlay change, cartoon 2D, CGI smooth"
 
 run:
   seed: 42

@@ -1,9 +1,7 @@
 experiment: wan_vace_meme_char_refB_banana
 notes: |
-  meme_ai_character / ai_character_2 스타일 (쭈방 꿀팁/배민). 클레이메이션 캐릭터.
-  베이스: assets/memes/ai_character_2/frames/frame_25.jpg (클레이 바나나 캐릭터).
-  i2v 로 클레이 질감 유지하면서 미세 흔들림·깜빡임 이어가는지 검증.
-tags: ["v2", "meme_round5", "meme_ai_character", "claymation_character", "i2v_ref_start"]
+  meme_ai_character — ai_character_2 클레이메이션. 클레이 바나나가 훅에서 뛰어내려 카메라 쪽으로 뛰며 입 움직여 말함.
+tags: ["v2", "meme_round5", "meme_ai_character", "product_standup", "full_body_animation", "speaking", "hops_to_camera", "claymation_character", "i2v_ref_start", "5s"]
 
 template:
   motion_template: null
@@ -13,13 +11,13 @@ template:
   intent: meme
 
 model_config: configs/models/wan2_1_vace_14b.yaml
-preset: configs/presets/smoke_test.yaml
+preset: configs/presets/meme_5s.yaml
 
 input:
   mode: i2v
   image: assets/memes/ai_character_2/frames/frame_25.jpg
-  prompt: "cute claymation stop-motion style preserved, the small yellow clay banana bunch character with simple smile gently sways hanging on the silver clay hook, subtle breath-like motion, tiny blink, warm pastel clay textured kitchen background stays still, soft diffused lighting, slow barely-perceptible camera drift, 9:16 vertical, stop-motion animation feel"
-  negative_prompt: "low quality, blurry, watermark, distorted, photorealistic texture, sharp edges, real fruit, real human, gritty, horror, dramatic motion, text overlay change, cartoon 2D style, CGI smooth"
+  prompt: "cute claymation stop-motion style preserved, the small yellow clay banana bunch character leaps down off the silver clay hook and hops forward toward the camera with cheerful energy, tiny clay arms wave enthusiastically left and right with each hop, its clay mouth opens and closes rapidly as if happily chattering syllables, its simple smile expression changes between speaking and laughing, whole body bounces and tilts with each hop landing, pixar-style claymation full-body animation, warm pastel clay kitchen background stays still, soft diffused lighting, 9:16 vertical"
+  negative_prompt: "low quality, blurry, watermark, distorted, photorealistic texture, sharp edges, real fruit, real human, gritty, horror, only subtle blink, static body, banana staying on hook, mouth closed, silent still, text overlay change, cartoon 2D style, CGI smooth"
 
 run:
   seed: 42

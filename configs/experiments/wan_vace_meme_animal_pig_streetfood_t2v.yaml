@@ -11,7 +11,7 @@ template:
   intent: meme
 
 model_config: configs/models/wan2_1_vace_14b.yaml
-preset: configs/presets/smoke_test.yaml
+preset: configs/presets/meme_5s.yaml
 
 input:
   mode: t2v

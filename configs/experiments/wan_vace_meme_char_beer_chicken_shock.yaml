@@ -1,8 +1,7 @@
 experiment: wan_vace_meme_char_beer_chicken_shock
 notes: |
-  meme_ai_character / ai_character_1 스타일. 이번엔 치킨 조각이 의인화.
-  베이스: beer.png. 치킨이 놀란 눈과 작은 팔이 자라는 전환.
-tags: ["v2", "meme_round5", "meme_ai_character", "realistic_anthropomorph", "i2v_hard"]
+  meme_ai_character — 치킨 조각이 살아나 작은 날개 달고 공중을 날아다님 + 입이 움직이며 말함.
+tags: ["v2", "meme_round5", "meme_ai_character", "product_standup", "full_body_animation", "flying", "speaking", "5s"]
 
 template:
   motion_template: null
@@ -12,13 +11,13 @@ template:
   intent: meme
 
 model_config: configs/models/wan2_1_vace_14b.yaml
-preset: configs/presets/smoke_test.yaml
+preset: configs/presets/meme_5s.yaml
 
 input:
   mode: i2v
   image: assets/samples/beer.png
-  prompt: "a piece of the crispy fried chicken slowly grows a shocked cartoon face with wide surprised circular eyes, raised eyebrows, and a small round open mouth, while two tiny animated cartoon arms with outstretched hands extend from its sides in startled surprise, the surrounding beer bottle and other food stays photorealistic, warm moody pub lighting, close-up macro shot with shallow depth of field, 9:16 vertical"
-  negative_prompt: "low quality, blurry, watermark, distorted, jittery, realistic human face, beak, realistic chicken body, flat 2D cartoon, clay texture, text overlay, food deformation, face on wrong object"
+  prompt: "a piece of crispy fried chicken suddenly comes alive as a full-body cartoon character: the chicken piece lifts up from the plate, two tiny cartoon wings sprout from its sides and flap rapidly lifting it into the air above the table, two small cartoon arms extend gesturing dramatically, a shocked cartoon face with wide round eyes, raised eyebrows and an open surprised mouth appears on its body, the mouth rapidly opens and closes as if squawking loudly in shock, the whole chicken piece flies in a small looping arc through the air, photorealistic kitchen and beer bottle stay still, warm moody pub lighting, 9:16 vertical"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, realistic chicken, full beak, face floating on static chicken, only face animated, chicken not lifting, stuck on plate, silent still, mouth closed, missing wings, flat 2D cartoon, clay texture, food deformation"
 
 run:
   seed: 42

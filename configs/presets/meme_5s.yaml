@@ -1,0 +1,10 @@
+# Meme experiment preset: 5s duration @ 432x768 @ 16fps.
+# Motion/smoke 에서 쓰던 smoke_test(3s) 대비 num_frames ~1.65x.
+# L4 24GB: 3s = 14.96GB VRAM → 5s 예상 ~17-18GB (약 5-6GB 여유).
+# 프레임: 16fps × 5s = 80 (diffusers pipeline 이 81로 반올림).
+# 런타임: 3s ~33분 대비 ~55분 예상 (per run).
+width: 432
+height: 768
+fps: 16
+duration_s: 5.0
+aspect: "9:16"

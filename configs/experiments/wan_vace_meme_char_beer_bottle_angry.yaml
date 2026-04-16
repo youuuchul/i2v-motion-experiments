@@ -1,9 +1,8 @@
 experiment: wan_vace_meme_char_beer_bottle_angry
 notes: |
-  meme_ai_character / ai_character_1 스타일 (할말은한다) — 사실적 식품 위에 극적 만화 얼굴/팔 등장.
-  베이스: beer.png (치킨+맥주). 맥주병이 분노한 얼굴+팔 만들어내는 전환 연출.
-  레퍼런스: assets/memes/ai_character_1/frames/frame_{0,50,95}.jpg.
-tags: ["v2", "meme_round5", "meme_ai_character", "realistic_anthropomorph", "i2v_hard"]
+  meme_ai_character — 맥주병 풀바디 캐릭터화 + 말하기 + 카메라로 걸어옴.
+  v1(3s) 얼굴만 → v2(5s) 병이 일어나 팔·다리 나와서 걸으며 외치는 풀바디 애니메이션.
+tags: ["v2", "meme_round5", "meme_ai_character", "product_standup", "full_body_animation", "speaking", "walks_to_camera", "5s"]
 
 template:
   motion_template: null
@@ -13,13 +12,13 @@ template:
   intent: meme
 
 model_config: configs/models/wan2_1_vace_14b.yaml
-preset: configs/presets/smoke_test.yaml
+preset: configs/presets/meme_5s.yaml
 
 input:
   mode: i2v
   image: assets/samples/beer.png
-  prompt: "the dark olive-green beer bottle slowly transforms into an expressive cartoon character: thick furrowed eyebrows, wide angry eyes, and an open shouting mouth emerge naturally on the glass body, two thin animated cartoon arms with clenched fists extend outward gesturing dramatically in protest, the surrounding crispy fried chicken remains photorealistic, warm moody pub lighting preserved, 3D render of real product with exaggerated emerging cartoon facial features, shallow depth of field close-up, 9:16 vertical"
-  negative_prompt: "low quality, blurry, watermark, distorted, jittery, realistic human face, mouth deformation, missing arms, flat 2D cartoon, clay texture, cute kawaii, text overlay, bottle breaking, label deformation"
+  prompt: "the entire dark olive-green beer bottle suddenly comes alive as a full-body cartoon character: the bottle lifts off the table and stands upright on its own, two cartoon legs sprout from its base and take deliberate steps forward walking toward the camera, two cartoon arms extend from its sides gesturing angrily, furrowed eyebrows, wide angry eyes appear on the upper glass body, its open mouth rapidly opens and closes as if shouting a furious monologue with syllables, the whole bottle body sways and tilts with each stomping step, pixar-style full-body character animation, bottle label preserved, surrounding food stays photorealistic, warm moody pub lighting, 9:16 vertical"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, face floating on static bottle, only face animated, bottle not lifting, bottle not walking, static body, mouth closed, silent still, missing legs, flat 2D cartoon, clay texture, label deformation, bottle breaking"
 
 run:
   seed: 42

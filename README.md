@@ -3,6 +3,48 @@
 이미지(+텍스트) → 비디오 모델 실험 / 파인튜닝 / 결과 분석 워크스페이스.
 타깃 출력은 **세로(9:16) 릴스/쇼츠**, 1차 길이 **5초** (3~15초 가변).
 
+베이스라인: **Wan2.1-VACE-14B (Q4 GGUF + bnb4 T5 + model_cpu_offload)**, GCP L4 24GB 환경.
+
+---
+
+## Quickstart (clone → 실행, 30분)
+
+> 전제: NVIDIA 드라이버(>=535) + Docker + nvidia-container-toolkit 가 호스트에 설치돼있고,
+> GPU 는 24GB VRAM 이상 (L4/A10G/3090/4090 등). HF token 만 있으면 됨.
+
+```bash
+# 1) 클론
+git clone <this-repo> i2v-motion-experiments
+cd i2v-motion-experiments
+
+# 2) 환경 변수
+cp .env.example .env
+#   .env 열어서 최소한 HF_TOKEN= 채우기.
+#   docker bind-mount 권한 정렬을 위해 UID/GID 도 채우는 게 안전:
+echo "UID=$(id -u)"  >> .env
+echo "GID=$(id -g)"  >> .env
+
+# 3) 샘플 이미지 (assets/samples/* 는 .gitignore — 개인 사진 노출 방지)
+#    smoke 실험은 sample.png 하나만 있으면 동작.
+cp <본인이 쓸 사진>.png assets/samples/sample.png
+
+# 4) (권장) 추론 로딩 피크 흡수용 16GB swap
+sudo fallocate -l 16G /swapfile && sudo chmod 600 /swapfile \
+  && sudo mkswap /swapfile && sudo swapon /swapfile
+
+# 5) 도커 빌드 + smoke test (Q4 GGUF + 432×768 · 3s · 40step ≈ 30분)
+sudo docker compose -f docker/compose.yaml build
+sudo docker compose -f docker/compose.yaml run --rm i2v \
+  python scripts/run_inference.py --config configs/experiments/smoke_wan2_1_vace_14b.yaml
+
+# 6) 결과 분석 (Streamlit 갤러리)
+sudo docker compose -f docker/compose.yaml run --rm --service-ports i2v \
+  streamlit run apps/streamlit_app.py --server.address 0.0.0.0 --server.headless true
+# 브라우저: http://<HOST_IP>:8501  (GCP 라면 8501 방화벽 허용 필요)
+```
+
+문제가 생기면 [§3 환경 / 흔한 함정](#3-환경--흔한-함정) 참고.
+
 ---
 
 ## 1. 단계별 목표 & 현황
@@ -32,11 +74,10 @@ L4 VRAM·VM RAM 제약 때문에 그대로는 못 돌림. 확정된 조합:
 | Text encoder (UMT5-XXL) | **bitsandbytes 4bit (NF4)** (~2.5GB) | `Wan-AI/Wan2.1-VACE-14B-diffusers` text_encoder |
 | VAE / scheduler / tokenizer | fp16 원본 | 동일 diffusers 리포 |
 
-런타임 옵션:
+런타임 옵션 (`configs/models/wan2_1_vace_14b.yaml`):
 - `enable_model_cpu_offload()` — GGUF는 `enable_sequential_cpu_offload()` 비호환 (meta-tensor 초기화에서 `KeyError`)
 - `enable_vae_tiling()` + `enable_vae_slicing()` — VAE 활성화 절감
-- 환경변수 `PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True` — 단편화 완화
-- **16GB swap 필수** — 로딩 피크 스파이크 흡수 (없으면 VM 리셋)
+- 환경변수 `PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True` — 단편화 완화 (compose 가 자동 주입)
 
 ### 성능 기준점 (L4 22GB 실측)
 - 432×768 · 3s · 16fps · 40 steps · Q4_K_M → **~30분** (44s/it)
@@ -51,51 +92,36 @@ L4 VRAM·VM RAM 제약 때문에 그대로는 못 돌림. 확정된 조합:
 
 ---
 
-## 3. VM / Docker 환경
+## 3. 환경 / 흔한 함정
 
-### VM (GCP)
-- Debian 12, L4 GPU 1개 (24GB VRAM, 실제 가용 ~22GB), 16GB RAM, 100GB 디스크
-- 16GB swapfile (`/swapfile`) — 추론 로딩 피크 흡수용
-- NVIDIA 드라이버 595 + CUDA 12.4
-
-### Docker
-- `docker/Dockerfile` — CUDA 12.4 runtime + Python 3.11 + torch 2.6 + gguf/bnb/ftfy
+### Docker (compose) 동작 방식
+- `docker/Dockerfile`: CUDA 12.4 runtime + Python 3.11 + torch 2.6 + gguf/bnb/ftfy
 - `docker/compose.yaml`:
-  - HF/torch 캐시 볼륨 (최초 fp16 캐시 70GB → Q4 전환 후 ~22GB)
-  - `user: "${UID:-1004}:${GID:-1007}"` — 호스트 유저 UID 매핑 (outputs 권한 정렬)
-  - 포트 8501 노출 (Streamlit)
-  - `PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True`
+  - HF/torch 캐시는 named volume (`hf_cache`, `torch_cache`) — 컨테이너 재생성해도 모델 재다운로드 X
+  - `user: "${UID:-1000}:${GID:-1000}"` — `.env` 의 `UID`/`GID` 로 호스트 유저 매핑 (outputs 권한 정렬)
+  - 8501 포트 노출 (Streamlit), `--service-ports` 가 있어야 바인딩됨
+  - `PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True` 자동 주입
 
-### 주의 / 잔 팁
-- HF 다운로드 시 `HF_HUB_DISABLE_XET=1` 필수 (VM에서 xet deadlock) — Dockerfile에 반영
-- `.env` 에 `HF_TOKEN = <value>` 로 공백 붙이면 dotenv 로드 안 됨 → `HF_TOKEN=<value>` (등호 양쪽 공백 X)
-
----
-
-## 4. 세팅
-
-### 최초 (VM에서)
+### 캐시 권한이 뒤틀렸을 때
+named volume 의 초기 권한은 root:root 라서 첫 실행 시 `PermissionError` 가 날 수 있음:
 ```bash
-cp .env.example .env          # HF_TOKEN, OPENAI_API_KEY 등 채우기
-sudo fallocate -l 16G /swapfile && sudo chmod 600 /swapfile \
-  && sudo mkswap /swapfile && sudo swapon /swapfile
-sudo docker-compose -f docker/compose.yaml build
+bash scripts/setup_cache_perms.sh   # docker_hf_cache / docker_torch_cache 의 owner 를 호스트 유저로
 ```
 
-### rclone (Google Drive 백업용, 선택)
-1. 로컬 PC에서 `rclone config` → remote 이름 `gdrive`, Drive OAuth (개인 드라이브면 "Shared Drive?" 에 `n`)
-2. 로컬 `~/.config/rclone/rclone.conf` 를 VM 같은 경로로 복사 (scp 또는 VSCode)
-3. VM에 rclone 설치: `sudo apt-get install -y unzip && curl https://rclone.org/install.sh | sudo bash`
-4. 확인: `rclone lsd gdrive:`
+### 흔한 함정
+- `.env` 의 `HF_TOKEN = <value>` 처럼 등호 양쪽 공백 → dotenv 로드 안 됨. `HF_TOKEN=<value>` 로.
+- HF 다운로드 멈춤 (xet deadlock) → Dockerfile 에 `HF_HUB_DISABLE_XET=1` 박혀있음. 호스트에서 직접 돌릴 땐 export 필요.
+- `assets/samples/*` 는 gitignore. 클론 직후엔 비어있고, 본인 이미지를 같은 파일명으로 넣어야 기존 YAML 이 그대로 동작.
+- swap 없이 Q4 GGUF 로딩 → 피크 RAM 스파이크로 VM 리셋. 16GB swap 권장.
 
 ---
 
-## 5. 사용법
+## 4. 사용법
 
 ### 추론 (1회 실행)
 실험 YAML 지정:
 ```bash
-sudo docker-compose -f docker/compose.yaml run --rm i2v \
+sudo docker compose -f docker/compose.yaml run --rm i2v \
   python scripts/run_inference.py --config configs/experiments/smoke_wan2_1_vace_14b.yaml
 ```
 
@@ -113,24 +139,38 @@ outputs/
 - 실패해도 run_dir 생성 + `status: error` + traceback 기록됨
 - 레거시(규약 이전) mp4 흡수: `python3 scripts/migrate_outputs.py`
 
-### 결과 분석 (Streamlit)
+### 배치 (여러 실험 순차 실행)
 ```bash
-sudo docker-compose -f docker/compose.yaml run --rm --service-ports i2v \
+# 카테고리별 미완료 실험만 골라 백그라운드 컨테이너로 실행
+bash scripts/resume_batch.sh           # 실행 (detached container 'batch')
+bash scripts/resume_batch.sh --dry     # 후보만 확인
+
+# 직접 지정
+sudo docker compose -f docker/compose.yaml run --rm i2v \
+  python scripts/run_batch.py --glob "configs/experiments/wan_vace_*.yaml" \
+                              --sync-after-each
+```
+같은 model_config 끼리 그룹핑 → 모델 로드 1회로 여러 실험 돌림.
+
+### Streamlit (Gallery + Generate)
+```bash
+sudo docker compose -f docker/compose.yaml run --rm --service-ports i2v \
   streamlit run apps/streamlit_app.py --server.address 0.0.0.0 --server.headless true
 ```
-브라우저에서 `http://<VM_EXTERNAL_IP>:8501`. GCP 방화벽 8501 포트 허용 필요.
 
 **Gallery 탭**
-- 실험/모드/상태 필터
-- 테이블: 시작시간·실험·모드·모델·양자화·스텝·seed·wall_sec·vram_peak
+- 실험/모드/상태/template 카테고리 필터
+- 테이블: run_num · version · 시작시간(KST) · 실험 · template · mode · model · quant · steps · seed · wall_sec · vram_peak
 - 1~4개 선택 → 1개면 비디오+config snapshot+run.log, 여러 개면 side-by-side 비교
 - archived 엔트리는 "📦 archived to Drive" 안내 + rclone 복원 명령 자동 표시
 
-**Generate 탭** (ad-hoc 실행; 일회성 테스트용)
+**Generate 탭** (ad-hoc; 일회성 테스트)
 - mode/해상도/스텝 조절 후 즉시 실행. 결과는 `outputs/streamlit/<model>/` 에 저장.
 
-### Drive 백업 / 아카이브
+### Drive 백업 / 아카이브 (선택)
+rclone 으로 Google Drive 에 결과물 보관, 로컬 디스크 확보:
 ```bash
+# 사전: rclone 설치 + ~/.config/rclone/rclone.conf 에 'gdrive' remote 등록
 python3 scripts/sync_to_drive.py --dry-run                             # 대상 확인만
 python3 scripts/sync_to_drive.py --delete-local-video                  # 업로드 + 로컬 비디오 삭제
 python3 scripts/sync_to_drive.py --older-than-days 7 --delete-local-video
@@ -146,12 +186,17 @@ python3 scripts/sync_to_drive.py --experiment smoke_wan2_1_vace_14b
 
 ---
 
-## 6. 실험 전략
+## 5. 실험 전략
 
 ### 실험 YAML 구조
 ```yaml
 experiment: <unique_name>
 notes: "실험 의도 한 줄"
+tags: ["baseline", ...]            # 선택
+template:                          # 선택 (Streamlit 필터용)
+  category: person_action
+  subcategory: face_reveal
+  intent: portrait
 model_config: configs/models/<model>.yaml   # 모델 어댑터 + init 인자
 preset: configs/presets/<preset>.yaml       # 해상도/fps/길이
 input:
@@ -188,11 +233,6 @@ run:
 4. `outputs/<name>/<name>_<ts>_seed<N>/` 자동 저장 + index 업데이트
 5. Streamlit Gallery 에서 비교
 
-### 샘플 이미지 준비 (다른 환경에서 재현 시)
-- `assets/samples/*` 는 **gitignore** (개인 사진 노출 방지). repo 에는 포함 안 됨.
-- 기존 YAML 의 `input.image` 경로 (`assets/samples/<file>.png`) 에 **본인이 쓸 이미지를 그대로 같은 이름으로** 두거나, YAML 의 경로를 바꿔서 사용.
-- 최소 1장 있으면 smoke_test preset 으로 30분 이내 첫 런 확인 가능.
-
 ### 관련 문서
 - [`docs/ROADMAP.md`](docs/ROADMAP.md) — Phase 0~6 계획 / 결정 로그
 - [`docs/SCHEMA.md`](docs/SCHEMA.md) — meta.json v2 / index.jsonl 필드 사양
@@ -200,9 +240,9 @@ run:
 
 ---
 
-## 7. 결과 분석 워크플로
+## 6. 결과 분석 워크플로
 
-1. **동일 실험 반복** (seed 고정, 같은 config) → 재현성 확인
+1. **동일 실험 반복** (seed 고정, 같은 config) → 재현성 확인 (Streamlit 의 `version` 컬럼이 동일)
 2. **축 하나씩 변경** (예: steps 20 ↔ 40) → Gallery 에서 2개 선택, side-by-side 비교
 3. 관찰 → `notes` 업데이트 + meta.json 내 `wall_sec`/`vram_peak_mib` 로 객관 지표 교차
 4. 비교 끝난 실험은 `sync_to_drive.py --delete-local-video` 로 이동 (로컬 디스크 확보)
@@ -212,7 +252,7 @@ run:
 
 ---
 
-## 8. 협업 / 머지 규칙 (`CLAUDE.md` 일관)
+## 7. 협업 / 머지 규칙 (`CLAUDE.md` 일관)
 
 - 새 모델은 `src/i2v/models/<name>.py` + `@registry.register("<name>")` + `configs/models/<name>.yaml`. 외부에선 `BasePipeline` 인터페이스만 의존.
 - 코드에 하이퍼파라미터 하드코딩 금지 — YAML 로.
@@ -223,7 +263,7 @@ run:
 
 ---
 
-## 9. 디렉토리
+## 8. 디렉토리
 
 ```
 configs/
@@ -238,11 +278,11 @@ src/i2v/
   training/     파인튜닝 루프 (현재 비어있음)
   eval/         메트릭 / 비교 분석 (현재 비어있음)
   serving/      서빙 스텁 (Phase 3)
-  utils/        config, video, seed, run_logging
+  utils/        config, video, seed, run_logging, meta_v2
 apps/           streamlit 프로토타입
-scripts/        run_inference / run_finetune / migrate_outputs / sync_to_drive
+scripts/        run_inference / run_batch / resume_batch / migrate_* / sync_to_drive
 docker/         Dockerfile, compose.yaml
 outputs/        실행 결과물 (gitignored, index.jsonl + run_dirs)
-assets/         작은 참조 자산 (샘플 이미지 등, 트래킹 대상)
+assets/         작은 참조 자산. assets/samples/* 는 gitignore (개인 사진 보호)
 data/           대용량 데이터셋 (gitignored)
 ```

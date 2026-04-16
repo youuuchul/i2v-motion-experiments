@@ -16,7 +16,7 @@ set -euo pipefail
 DRY=0
 [[ "${1:-}" == "--dry" ]] && DRY=1
 
-REPO=/home/youuchul/work/i2v-motion-experiments
+REPO="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$REPO"
 
 # 후보 목록 (Phase 0 baseline + lighting). 새 카테고리 추가 시 여기 한 줄 추가.
@@ -43,6 +43,10 @@ CANDIDATES=(
   wan_vace_beer_man_topview_steam
   wan_vace_beer_man_topview_lift
   wan_vace_beer_man_topview_face_reveal
+  # 5차 - man_box (얼굴 일관성 + 오브젝트 형태 안정성)
+  wan_vace_man_box_face_reveal
+  wan_vace_man_box_lift_to_camera
+  wan_vace_man_box_gesture_point
 )
 
 # index.jsonl 에서 완료된 experiment 추출

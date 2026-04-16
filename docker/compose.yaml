@@ -6,8 +6,9 @@ services:
     image: i2v-motion:dev
     container_name: i2v-dev
     # 호스트 UID:GID 로 실행 → bind-mount outputs/ 의 파일 소유권이 호스트 유저와 일치.
-    # 기본값은 현재 GCP VM 유저. 다른 환경에서는 UID=$(id -u) GID=$(id -g) 로 export 후 실행.
-    user: "${UID:-1004}:${GID:-1007}"
+    # `.env` 에 `UID=$(id -u)` `GID=$(id -g)` 를 넣거나, compose 호출 전에 export 하면 자동 적용.
+    # 기본값 1000:1000 은 대다수 단일 유저 리눅스의 첫 사용자.
+    user: "${UID:-1000}:${GID:-1000}"
     working_dir: /workspace
     env_file:
       - ../.env

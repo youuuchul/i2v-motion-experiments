@@ -1,0 +1,25 @@
+experiment: wan_vace_beer_meme_ai_animal
+notes: "치킨+맥주 → AI 동물(다람쥐)이 프레임으로 들어와 치킨 냄새 맡고 반응. meme_template=meme_ai_animal 첫 검증"
+tags: ["v2", "meme_validation", "meme_ai_animal"]
+
+template:
+  motion_template: null
+  meme_template: meme_ai_animal
+  category: food_motion
+  subcategory: animal_appear
+  intent: meme
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/smoke_test.yaml
+
+input:
+  mode: i2v
+  image: assets/samples/beer.png
+  prompt: "a small fluffy 3d animated squirrel character runs into the frame from the side, climbs onto the edge of the plate of crispy fried chicken, sniffs it with tiny twitches of its nose, big curious eyes, playful wholesome cartoon style seamlessly integrated with the realistic food scene, subtle camera zoom in, warm moody pub lighting"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, glitchy, text, logo, scary, realistic rat, uncanny, deformed animal, extra limbs"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_beer_meme_ai_animal

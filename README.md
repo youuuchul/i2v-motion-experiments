@@ -192,11 +192,13 @@ python3 scripts/sync_to_drive.py --experiment smoke_wan2_1_vace_14b
 ```yaml
 experiment: <unique_name>
 notes: "실험 의도 한 줄"
-tags: ["baseline", ...]            # 선택
-template:                          # 선택 (Streamlit 필터용)
-  category: person_action
-  subcategory: face_reveal
-  intent: portrait
+tags: ["v2", ...]                  # 선택
+template:                          # v2 정책 (2026-04-16~)
+  motion_template: lift_to_camera  # 활성 6개 모션 중 하나 (신규 실험 필수)
+  meme_template: null              # 또는 meme_ai_character / meme_ai_animal / meme_dance_ref
+  category: person_action          # (legacy) v1 taxonomy. 신규는 선택
+  subcategory: offer_drink         # (legacy)
+  intent: product_showcase
 model_config: configs/models/<model>.yaml   # 모델 어댑터 + init 인자
 preset: configs/presets/<preset>.yaml       # 해상도/fps/길이
 input:
@@ -211,6 +213,16 @@ run:
   guidance_scale: 5.0
   out_dir: outputs/<experiment>             # run_inference 가 run_dir 로 재작성
 ```
+
+### 템플릿 정책 (2026-04-16~)
+
+신규 실험은 아래 두 축의 조합으로 정의된다. 상세는 [`docs/TEMPLATES.md`](docs/TEMPLATES.md).
+
+**Motion templates (6, 필수 1개):** `consume_product`, `lift_to_camera`, `dolly_in`, `orbit_pan`, `steam_rise`, `surface_shimmer`
+
+**Meme templates (3, 선택):** `meme_ai_character`, `meme_ai_animal`, `meme_dance_ref` (※ dance_ref는 레퍼런스 영상 처리 PoC 필요 — 현재 배치 제외)
+
+조명/광학/분위기는 모션이 아님 — 별도 `configs/presets/lighting/` 로 분리 예정, 모션과 직교 조합.
 
 ### 비교 축
 - **mode** (i2v vs r2v): 구도 고정 vs 자유 해석
@@ -236,7 +248,7 @@ run:
 ### 관련 문서
 - [`docs/ROADMAP.md`](docs/ROADMAP.md) — Phase 0~6 계획 / 결정 로그
 - [`docs/SCHEMA.md`](docs/SCHEMA.md) — meta.json v2 / index.jsonl 필드 사양
-- [`docs/TEMPLATES.md`](docs/TEMPLATES.md) — 템플릿 카테고리 taxonomy / 승격 플로우
+- [`docs/TEMPLATES.md`](docs/TEMPLATES.md) — 활성 **Motion 6개 + Meme 3개** 정책 / 기존 config 맵핑 / legacy taxonomy / 승격 플로우
 
 ---
 

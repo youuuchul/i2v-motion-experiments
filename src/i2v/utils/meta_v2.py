@@ -234,6 +234,8 @@ def build_meta_v2(
         },
         "template": {
             "template_id": tmpl.get("template_id"),
+            "motion_template": tmpl.get("motion_template"),
+            "meme_template": tmpl.get("meme_template"),
             "category": tmpl.get("category"),
             "subcategory": tmpl.get("subcategory"),
             "intent": tmpl.get("intent"),
@@ -313,6 +315,8 @@ def to_index_entry(meta: dict) -> dict:
         "experiment": exp.get("name"),
         "tags": exp.get("tags", []),
         "template_id": tmpl.get("template_id"),
+        "motion_template": tmpl.get("motion_template"),
+        "meme_template": tmpl.get("meme_template"),
         "template_category": tmpl.get("category"),
         "template_subcategory": tmpl.get("subcategory"),
         "template_secondary": [

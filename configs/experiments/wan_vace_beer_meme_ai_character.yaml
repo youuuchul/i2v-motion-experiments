@@ -1,0 +1,25 @@
+experiment: wan_vace_beer_meme_ai_character
+notes: "치킨+맥주 → AI 캐릭터(3D 마스코트)가 등장해 치킨에 반응. meme_template=meme_ai_character 첫 검증"
+tags: ["v2", "meme_validation", "meme_ai_character"]
+
+template:
+  motion_template: null
+  meme_template: meme_ai_character
+  category: person_action
+  subcategory: character_appear
+  intent: meme
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/smoke_test.yaml
+
+input:
+  mode: i2v
+  image: assets/samples/beer.png
+  prompt: "a small cute pixar-style 3d animated mascot character unexpectedly pops up from behind the beer glass, looks up curiously at the crispy fried chicken on the table, reaches toward it with tiny hands with wide excited eyes, playful cartoon character seamlessly integrated with realistic food scene, subtle slow dolly-in, warm moody pub lighting"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, glitchy, text, logo, scary, uncanny, extra limbs, flickering character"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_beer_meme_ai_character

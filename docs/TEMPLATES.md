@@ -4,7 +4,109 @@
 
 ---
 
-## Category / Subcategory
+## 🎯 Active Motion Templates (v2 정책, 2026-04-16 확정)
+
+**이제부터 신규 실험은 아래 6개 모션 중 하나로만 진행한다.** 15+ 개로 흩어져 있던 subcategory를 리소스·일관성 이유로 6개 프리미티브로 압축.
+
+| # | motion_template | 카테고리 | 설명 |
+|---|---|---|---|
+| 1 | `consume_product` | Subject | 손이 제품을 입으로: 마시기 / 한 입 베어물기. F&B 실사용 모션 |
+| 2 | `lift_to_camera` | Subject | 제품을 들어 카메라 쪽으로 보여주기 (offer / gesture / menu_hero 포함) |
+| 3 | `dolly_in` | Camera | 천천히 줌인 / push-in |
+| 4 | `orbit_pan` | Camera | 좌↔우 패닝 / 약한 오빗 |
+| 5 | `steam_rise` | Product micro | 김·증기 상승 |
+| 6 | `surface_shimmer` | Product micro | 표면 윤기 / 액체 파동 (glaze + ripple 통합) |
+
+**규칙:**
+- 새 실험 config의 `template` 블록은 위 6개 중 하나에 맵핑되어야 함
+- 6개로 커버 안 되는 케이스는 **신규 모션 추가 PR** 논의부터
+- 조명/광학/분위기(rim_light, golden_hour, silhouette, bokeh, focus_shift)는 **모션이 아님** → `configs/presets/lighting/*.yaml`로 분리해 모션과 직교 조합
+- face_reveal은 **실험 품질 불안정**으로 폐기
+
+**Why:** L4 한 장(리소스 상한) × 카테고리 혼잡 감당 불가 → 6개 × 샘플 3장 = 18런 / 라운드로 고정.
+
+---
+
+## 🎬 Meme Templates (v2 정책, 2026-04-16 확정)
+
+모션 템플릿과 **직교**하는 축. 모션은 "프레임 내 움직임 프리미티브", 밈은 "포맷/내러티브"다. 한 실험은 motion_template + meme_template 각각 0~1개를 가질 수 있음.
+
+| # | meme_template | 입력 | 포맷 설명 | 생성 방식 | 참고 |
+|---|---|---|---|---|---|
+| 1 | `meme_ai_character` | 제품/환경 사진 | 사진 속에 AI 캐릭터(사람·마스코트)가 등장해 제품과 상호작용 | **프롬프트만으로 가능** (i2v + text) | [reel 1](https://www.instagram.com/reels/DWnY1wGEurB/) · [reel 2](https://www.instagram.com/reels/DW0T0Qfk1Mr/) |
+| 2 | `meme_dance_ref` | 인물 사진 + **레퍼런스 춤 영상** | 사진 속 인물이 유행 춤(예: 붐샤카라카)을 따라함 | **레퍼런스 영상 필요 — 표준 API 미지원**. PoC 트랙 (아래 참고) | [short](https://www.youtube.com/shorts/0qKKrIXT1Lo) |
+| 3 | `meme_ai_animal` | 제품/음식 사진 | 사진 속에 AI 동물이 등장해 제품에 반응/상호작용 | **프롬프트만으로 가능** (i2v + text) | [short](https://www.youtube.com/shorts/Ib766UdgKtc) |
+
+### ❗ 레퍼런스-영상 필요 케이스 처리 방안 (meme_dance_ref)
+
+"image + reference video → video" 는 Wan VACE 표준 i2v 파이프라인에 없음. 세 가지 PoC 후보 (별도 트랙):
+
+| 대안 | 방식 | 리스크 | 영상 길이 확장 |
+|---|---|---|---|
+| **A. Control conditioning** | 레퍼런스에서 pose/depth/optical-flow 추출 → conditioning 주입 (ControlNet 계열) | VACE가 실제로 control video 입력 지원하는지 확인 필요 (문서상 "all-in-one" 주장 있음) | 자연스러움 |
+| **B. 키프레임 체이닝** | 레퍼런스에서 키프레임 추출 → 키프레임 간 i2v + 프레임 보간 | 보간 품질, 연결부 끊김 | 길이 확장 같이 해결 |
+| **C. 클립 연결** | 짧은 5s 클립 여러 개 생성 → last-frame→first-frame 체이닝 | 샷 간 identity 유지 | 단순 연장만 |
+
+**현재 상태:** A/B/C 중 1개 PoC 착수 필요. 배치 실험 범위에서 제외.
+
+### Meme 프롬프트 템플릿 (슬롯 DSL)
+
+`meme_ai_character`, `meme_ai_animal` 처럼 프롬프트로 해결되는 케이스는 `src/i2v/prompts/` 아래 슬롯 빌더를 둘 예정:
+
+```
+{appear_from} 에서 {subject}({style}) 가 나타나
+{target} 을/에 {interaction_verb},
+camera: {camera_motion}, lighting: {light}
+```
+
+슬롯:
+- `appear_from` — behind the glass / top of frame / side
+- `subject` + `style` — a small 3D pixar-style mascot / a cartoon squirrel / a chibi anime girl
+- `target` — 제품/음식
+- `interaction_verb` — sniff / lick / reach / dance / taste
+- `camera_motion` — static / dolly-in / orbit-pan
+
+---
+
+## 📌 기존 config → 6개 템플릿 맵핑
+
+아래 config들은 **삭제하지 않음**. 자산(프롬프트·이미지)은 라이브러리로 보존하고, 여기서 활성 6개 중 어디로 귀속되는지만 선언한다. `archived` 표시된 건 신규 실험에서 사용하지 않음 (기존 결과물·자산은 보존).
+
+| 기존 config | motion_template | 메모 |
+|---|---|---|
+| wan_vace_beer_drink_ripple | `surface_shimmer` | |
+| wan_vace_beer_food_glaze | `surface_shimmer` | sauce_pour → shimmer 계열로 통합 |
+| wan_vace_beer_food_steam | `steam_rise` | |
+| wan_vace_beer_man_topview_face_reveal | `archived` | face_reveal 품질 실패 — 폐기 |
+| wan_vace_beer_man_topview_lift | `lift_to_camera` | |
+| wan_vace_beer_man_topview_steam | `steam_rise` | |
+| wan_vace_beer_menu_hero | `dolly_in` | hero_push_in = dolly_in 변형 |
+| wan_vace_coffee_man_dolly_in | `dolly_in` | |
+| wan_vace_coffee_man_dolly_pan | `orbit_pan` | |
+| wan_vace_coffee_man_offer_drink | `lift_to_camera` | offer_drink는 lift 계열 |
+| wan_vace_coffee_man_rim_light | `archived` | 조명 프리셋 — motion 아님 |
+| wan_vace_coffee_man_silhouette | `archived` | 조명 프리셋 |
+| wan_vace_man_box_face_reveal | `archived` | face_reveal 폐기 |
+| wan_vace_man_box_gesture_point | `lift_to_camera` | 제품 제시 제스처로 통합 |
+| wan_vace_man_box_lift_to_camera | `lift_to_camera` | |
+| wan_vace_sample_ambiance_bokeh | `archived` | ambiance — motion 아님 |
+| wan_vace_sample_drink_ripple | `surface_shimmer` | |
+| wan_vace_sample_focus_shift | `archived` | lens/focus — motion 아님 |
+| wan_vace_sample_gesture_point | `lift_to_camera` | |
+| wan_vace_sample_golden_hour | `archived` | 조명 프리셋 |
+| wan_vace_sample_offer_drink | `lift_to_camera` | |
+
+**카운트:** lift_to_camera 6 / surface_shimmer 3 / steam_rise 2 / dolly_in 2 / orbit_pan 1 / consume_product 0(신규, 미존재) / archived 7.
+
+**TODO:** `consume_product` 샘플 config 1건 신규 작성해 L4 품질 검증.
+
+---
+
+## 📚 Archived taxonomy (legacy reference)
+
+아래 category/subcategory 체계는 v1 시기(2026-04-15까지) 실험 YAML 작성에 쓰였다. **신규 실험에는 더 이상 쓰지 않음**. 기존 meta.json / index.jsonl 의 `template.category`, `template.subcategory` 필드는 이 표를 근거로 해석한다.
+
+### (legacy) Category / Subcategory
 
 실험 및 템플릿을 **2단계 taxonomy** 로 분류한다. Gallery 필터 + 템플릿 추천 알고리즘 기준.
 
@@ -24,10 +126,12 @@
 - `silhouette` — 강한 역광으로 피사체가 검은 실루엣. 광고 임팩트 강함
 - (broad/short lighting 등 인물 사진 전문 용어는 제외 — 차이가 미묘하고 일관된 결과 나오기 어려움)
 
-**규칙:**
-- 새 subcategory 는 **실험 3건 이상 안정적으로 나오면** 추가
-- category 추가는 PR 논의 후 (Gallery UI 필터 영향)
-- category/subcategory 는 `configs/experiments/*.yaml` 의 `template:` 블록에 필수
+**규칙 (legacy — 신규 실험에 적용 안 함):**
+- ~~새 subcategory 는 실험 3건 이상 안정적으로 나오면 추가~~
+- ~~category 추가는 PR 논의 후~~
+- ~~category/subcategory 는 template: 블록에 필수~~
+
+신규 실험 규칙은 본 문서 상단 **Active Motion Templates (6)** 참조.
 
 ---
 

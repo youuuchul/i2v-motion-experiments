@@ -17,7 +17,7 @@ import time
 import traceback
 from pathlib import Path
 
-from PIL import Image
+from PIL import Image, ImageOps
 
 import i2v.models  # noqa: F401
 from i2v.core.registry import registry
@@ -84,10 +84,13 @@ def run_one(pipe, cfg_path: Path, cfg: dict, model_cfg: dict, outputs_root: Path
             if seed is not None:
                 seed_everything(seed)
             spec = VideoSpec(**preset)
-            image = Image.open(inp["image"]).convert("RGB")
+            image = ImageOps.exif_transpose(Image.open(inp["image"])).convert("RGB")
             image = center_crop_to_aspect(image, spec.width, spec.height)
             reference_images = [
-                center_crop_to_aspect(Image.open(p).convert("RGB"), spec.width, spec.height)
+                center_crop_to_aspect(
+                    ImageOps.exif_transpose(Image.open(p)).convert("RGB"),
+                    spec.width, spec.height,
+                )
                 for p in inp.get("reference_images", [])
             ]
             request = GenerationRequest(

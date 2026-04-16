@@ -1,0 +1,25 @@
+experiment: wan_vace_man_box_lift_to_camera
+notes: "남자+박스 → 박스를 카메라 쪽으로 들어올리기. 들고있는 오브젝트 모양 유지/변형 테스트 (topview lift 에서 물체 흔들림 있었음)"
+tags: ["baseline", "v2", "new_image", "object_stability"]
+
+template:
+  category: person_action
+  subcategory: lift_to_camera
+  intent: product_showcase
+  secondary:
+    - {category: camera_move, subcategory: dolly_in}
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/smoke_test.yaml
+
+input:
+  mode: i2v
+  image: assets/samples/man_box.JPG
+  prompt: "the man lifts the box upward toward the camera with both hands, the box kept rigid and stable in shape, straight edges preserved, object center traveling smoothly forward and upward, subtle natural body shift, cinematic product reveal motion"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, glitchy, text, logo, box deformation, warped edges, shaky object, morphing shape, extra fingers"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_man_box_lift_to_camera

@@ -1,0 +1,23 @@
+experiment: wan_vace_man_box_gesture_point
+notes: "남자+박스 → 한손으로 박스를 가리키며 보여주는 제스처. 미세 움직임 상태에서 박스 형태 보존 (object stability under low-motion)"
+tags: ["baseline", "v2", "new_image", "object_stability"]
+
+template:
+  category: person_action
+  subcategory: gesture_point
+  intent: product_showcase
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/smoke_test.yaml
+
+input:
+  mode: i2v
+  image: assets/samples/man_box.JPG
+  prompt: "the man gently gestures toward the box with his free hand, a subtle presenting motion, minimal overall body movement, the box remaining perfectly still with sharp straight edges, warm cinematic lighting, confident subtle recommendation gesture"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, glitchy, text, logo, box deformation, warped lines, shaky object, fast motion, camera shake, extra fingers"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_man_box_gesture_point

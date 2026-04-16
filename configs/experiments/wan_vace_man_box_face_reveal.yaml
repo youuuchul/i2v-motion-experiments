@@ -1,0 +1,25 @@
+experiment: wan_vace_man_box_face_reveal
+notes: "남자+박스 → 얼굴 일부 가려진 상태에서 고개를 들어 얼굴이 드러나는 reveal. 얼굴 일관성 테스트 (topview face_reveal 결과보다 덜 왜곡되는지)"
+tags: ["baseline", "v2", "new_image", "face_consistency"]
+
+template:
+  category: person_action
+  subcategory: face_reveal
+  intent: portrait
+  secondary:
+    - {category: camera_move, subcategory: dolly_in}
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/smoke_test.yaml
+
+input:
+  mode: i2v
+  image: assets/samples/man_box.JPG
+  prompt: "the man slowly raises his head, the previously obscured portion of his face gradually becoming fully visible to the camera, natural neck motion, stable shoulders, calm expression settling into view, identity preserved throughout, smooth gentle reveal"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, glitchy, text, logo, face distortion, identity shift, deformed features, fast motion"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_man_box_face_reveal

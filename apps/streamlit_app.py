@@ -10,12 +10,41 @@ Run:
 from __future__ import annotations
 
 import json
+from datetime import datetime, timedelta, timezone
 from io import BytesIO
 from pathlib import Path
 
 import pandas as pd
 import streamlit as st
-from PIL import Image
+from PIL import Image, ImageOps
+
+# 저장은 VM UTC, 표시는 KST. 배치 끝나고 저장 포맷도 TZ 명시로 바꿀 예정.
+DISPLAY_TZ = timezone(timedelta(hours=9), name="KST")
+
+
+def _parse_ts(ts: str | None) -> datetime | None:
+    """ISO 8601 + legacy "YYYYMMDD-HHMMSS" 양쪽 지원. UTC 가정."""
+    if not ts or not isinstance(ts, str):
+        return None
+    # legacy: "20260414-031829" → "2026-04-14T03:18:29"
+    s = ts.replace("Z", "")
+    if len(s) == 15 and s[8] == "-" and s[:8].isdigit() and s[9:].isdigit():
+        s = f"{s[:4]}-{s[4:6]}-{s[6:8]}T{s[9:11]}:{s[11:13]}:{s[13:15]}"
+    try:
+        dt = datetime.fromisoformat(s)
+    except Exception:
+        return None
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=timezone.utc)
+    return dt
+
+
+def utc_naive_to_kst(ts: str | None) -> str | None:
+    """naive ISO8601 (UTC 가정) → KST 표시 문자열."""
+    dt = _parse_ts(ts)
+    if dt is None:
+        return ts
+    return dt.astimezone(DISPLAY_TZ).strftime("%Y-%m-%d %H:%M:%S")
 
 import i2v.models  # noqa: F401  (triggers registry)
 from i2v.core.registry import registry
@@ -52,9 +81,35 @@ def load_index(path: Path) -> pd.DataFrame:
         df["tags_str"] = df["tags"].apply(
             lambda v: ",".join(v) if isinstance(v, list) else (v or "")
         )
-    # 최신 우선
+    # 정렬 키 = parse 된 datetime (legacy 포맷 + ISO 둘 다 수용)
     if "started_at" in df.columns:
-        df = df.sort_values("started_at", ascending=False).reset_index(drop=True)
+        df["_started_dt"] = df["started_at"].apply(_parse_ts)
+        # 시간 오름차순으로 한 번 정렬 → run_num 부여 → 다시 내림차순 (표시)
+        df = df.sort_values("_started_dt", ascending=True, na_position="last").reset_index(drop=True)
+        df["run_num"] = range(1, len(df) + 1)
+
+        # version: (experiment, config_hash) 그룹 내 first-seen 순서
+        if "config_hash" in df.columns:
+            df["version"] = (
+                df.groupby(["experiment", "config_hash"], dropna=False)["run_num"]
+                .rank(method="dense").astype("Int64")
+            )
+            # 각 (experiment, config_hash) 의 첫 등장 시점 기준 version 부여
+            order = (
+                df.groupby("experiment")["config_hash"]
+                .transform(lambda s: pd.factorize(s)[0] + 1)
+            )
+            df["version"] = order.astype("Int64")
+        else:
+            df["version"] = pd.NA
+
+        df = df.sort_values(
+            "_started_dt", ascending=False, na_position="last"
+        ).drop(columns=["_started_dt"]).reset_index(drop=True)
+    # 표시용 KST 컬럼 추가
+    for col in ("started_at", "finished_at"):
+        if col in df.columns:
+            df[f"{col}_kst"] = df[col].apply(utc_naive_to_kst)
     return df
 
 
@@ -70,7 +125,9 @@ def load_meta(run_dir: str) -> dict:
 
 
 TABLE_COLUMNS = [
-    "started_at",
+    "run_num",
+    "version",
+    "started_at_kst",
     "experiment",
     "template_category",
     "template_subcategory",
@@ -142,11 +199,15 @@ def render_detail(entry: dict) -> None:
         st.write(
             {
                 "experiment": entry.get("experiment"),
+                "run_num": entry.get("run_num"),
+                "version": entry.get("version"),
+                "config_hash": entry.get("config_hash"),
                 "template": f"{entry.get('template_category')}/{entry.get('template_subcategory')}",
                 "secondary": entry.get("template_secondary"),
                 "intent": entry.get("intent"),
                 "tags": entry.get("tags"),
-                "started_at": entry.get("started_at"),
+                "started_at (KST)": utc_naive_to_kst(entry.get("started_at")),
+                "finished_at (KST)": utc_naive_to_kst(entry.get("finished_at")),
                 "mode": entry.get("mode"),
                 "model": entry.get("model"),
                 "quant_transformer": quant_blk.get("transformer"),
@@ -200,7 +261,7 @@ def _compare_card(entry: dict) -> None:
     st.caption(
         f"{entry.get('experiment')} · "
         f"{entry.get('template_category')}/{entry.get('template_subcategory')} · "
-        f"{entry.get('started_at')}"
+        f"{utc_naive_to_kst(entry.get('started_at'))} KST"
     )
     vp = entry.get("video_path")
     if vp and Path(vp).exists():
@@ -324,7 +385,9 @@ def gallery_tab() -> None:
         use_container_width=True,
         hide_index=False,
         column_config={
-            "started_at": st.column_config.TextColumn("started", width="small"),
+            "run_num": st.column_config.NumberColumn("#", width="small", help="전역 실행 일련번호 (시간순 1..N)"),
+            "version": st.column_config.NumberColumn("v", width="small", help="experiment 내 설정(config_hash) 버전"),
+            "started_at_kst": st.column_config.TextColumn("started (KST)", width="medium"),
             "wall_sec": st.column_config.NumberColumn("wall_s", format="%.0f"),
             "vram_peak_mib": st.column_config.NumberColumn("vram_MiB", format="%.0f"),
             "archived": st.column_config.CheckboxColumn("archived"),
@@ -338,9 +401,14 @@ def gallery_tab() -> None:
     def _label(i: int, r: dict) -> str:
         cat = r.get("template_category") or "-"
         sub = r.get("template_subcategory") or "-"
+        rn = r.get("run_num")
+        ver = r.get("version")
+        tag = f"#{rn}"
+        if ver and not pd.isna(ver):
+            tag += f" v{int(ver)}"
         return (
-            f"{i}: {r.get('experiment')} · {cat}/{sub} · "
-            f"seed={r.get('seed')} · {r.get('started_at')}"
+            f"{i} [{tag}]: {r.get('experiment')} · {cat}/{sub} · "
+            f"seed={r.get('seed')} · {r.get('started_at_kst') or r.get('started_at')}"
         )
 
     fr = f.reset_index(drop=True)
@@ -350,7 +418,7 @@ def gallery_tab() -> None:
         st.info("위에서 하나 이상 선택. 2개 이상 고르면 프롬프트까지 나란히 비교.")
         return
 
-    picked_idx = [int(s.split(":", 1)[0]) for s in picked]
+    picked_idx = [int(s.split(" ", 1)[0]) for s in picked]
     entries = [fr.iloc[i].to_dict() for i in picked_idx]
 
     if len(entries) == 1:
@@ -384,7 +452,7 @@ def generate_tab() -> None:
         up = st.file_uploader("image", type=["jpg", "jpeg", "png", "webp"])
         image: Image.Image | None = None
         if up is not None:
-            image = Image.open(BytesIO(up.read())).convert("RGB")
+            image = ImageOps.exif_transpose(Image.open(BytesIO(up.read()))).convert("RGB")
             st.image(image, caption="original", use_column_width=True)
 
         st.subheader("Prompt")

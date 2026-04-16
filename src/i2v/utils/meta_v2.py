@@ -14,6 +14,7 @@
 from __future__ import annotations
 
 import hashlib
+import json
 import os
 import shutil
 import subprocess
@@ -141,6 +142,38 @@ def _infer_offload(model_cfg: dict) -> str:
     return "none"
 
 
+def compute_config_hash(meta: dict) -> str:
+    """실험 재현성 기준 필드로 sha1 짧은 해시.
+
+    같은 해시 = 같은 version (prompt/seed/steps/cfg/model/quant/image 동일).
+    run_id / 시간 / 경로 / 결과는 제외.
+    """
+    inp = meta.get("input") or {}
+    gen = meta.get("generation") or {}
+    mdl = meta.get("model") or {}
+    qnt = mdl.get("quantization") or {}
+    payload = {
+        "mode": inp.get("mode"),
+        "image_path": inp.get("image_path"),
+        "prompt": (inp.get("prompt") or "").strip(),
+        "negative_prompt": (inp.get("negative_prompt") or "").strip(),
+        "seed": gen.get("seed"),
+        "steps": gen.get("num_inference_steps"),
+        "cfg": gen.get("guidance_scale"),
+        "width": gen.get("width"),
+        "height": gen.get("height"),
+        "fps": gen.get("fps"),
+        "duration_s": gen.get("duration_s"),
+        "model_name": mdl.get("name"),
+        "quant_transformer": qnt.get("transformer"),
+        "quant_text_encoder": qnt.get("text_encoder"),
+        "offload": mdl.get("offload"),
+        "lora": mdl.get("lora") or [],
+    }
+    s = json.dumps(payload, sort_keys=True, ensure_ascii=False, default=str)
+    return "sha1:" + hashlib.sha1(s.encode("utf-8")).hexdigest()[:12]
+
+
 def build_meta_v2(
     *,
     run_id: str,
@@ -259,6 +292,7 @@ def build_meta_v2(
             "diffusers": libs["diffusers"],
         },
     }
+    meta["run"]["config_hash"] = compute_config_hash(meta)
     return meta
 
 
@@ -275,6 +309,7 @@ def to_index_entry(meta: dict) -> dict:
     return {
         "schema_version": meta.get("schema_version"),
         "run_id": run.get("run_id"),
+        "config_hash": run.get("config_hash"),
         "experiment": exp.get("name"),
         "tags": exp.get("tags", []),
         "template_id": tmpl.get("template_id"),

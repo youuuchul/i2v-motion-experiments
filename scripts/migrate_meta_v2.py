@@ -29,6 +29,7 @@ from i2v.utils.meta_v2 import (
     _infer_quantization,
     _resolution_tier,
     _video_size_mb,
+    compute_config_hash,
     to_index_entry,
 )
 
@@ -87,7 +88,7 @@ def convert_v1_to_v2(v1: dict, meta_path: Path) -> dict:
     image_path = v1.get("image_path")
     video_path = v1.get("video_path")
 
-    return {
+    out = {
         "schema_version": SCHEMA_VERSION,
         "legacy": True,
         "run": {
@@ -164,6 +165,22 @@ def convert_v1_to_v2(v1: dict, meta_path: Path) -> dict:
             "diffusers": None,
         },
     }
+    out["run"]["config_hash"] = compute_config_hash(out)
+    return out
+
+
+def backfill_v2(meta: dict) -> bool:
+    """이미 v2 인 meta 에 누락된 필드 채움. True 반환 시 변경됨."""
+    changed = False
+    run = meta.setdefault("run", {})
+    if not run.get("config_hash"):
+        run["config_hash"] = compute_config_hash(meta)
+        changed = True
+    tmpl = meta.setdefault("template", {})
+    if "secondary" not in tmpl:
+        tmpl["secondary"] = []
+        changed = True
+    return changed
 
 
 def main() -> None:
@@ -193,8 +210,12 @@ def main() -> None:
 
         sv = data.get("schema_version")
         if sv and sv >= SCHEMA_VERSION:
+            # 이미 v2 — 누락 필드 (config_hash, secondary 등) backfill
+            if backfill_v2(data):
+                if not args.dry_run:
+                    mp.write_text(json.dumps(data, indent=2, ensure_ascii=False, default=str))
             skipped_v2 += 1
-            new_metas.append(data)  # 그대로 index 재집계 대상
+            new_metas.append(data)
             continue
 
         try:

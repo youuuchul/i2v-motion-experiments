@@ -1,0 +1,25 @@
+experiment: wan_vace_man_object_surface_shimmer
+notes: "남자+레트로 스피커(man_object.png) → 스피커 표면(금속 그릴·금색 로고)에 빛 반사 미세 이동. motion_template=surface_shimmer 검증"
+tags: ["v2", "motion_validation", "surface_shimmer", "man_object_batch"]
+
+template:
+  motion_template: surface_shimmer
+  meme_template: null
+  category: product_motion
+  subcategory: surface_shimmer
+  intent: product_showcase
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/smoke_test.yaml
+
+input:
+  mode: i2v
+  image: assets/samples/man_object.png
+  prompt: "soft warm highlights slowly traveling across the textured metal grille and the golden embossed logo plate of the small retro-style portable speaker, subtle light reflections shimmering on its surface as if lit by a moving window light, the young man holding it perfectly still, macro focus on the product details, 9:16 vertical composition"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, glitchy, text artifacts, product deformation, speaker warping, logo morph, harsh flicker, color fringing"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_man_object_surface_shimmer

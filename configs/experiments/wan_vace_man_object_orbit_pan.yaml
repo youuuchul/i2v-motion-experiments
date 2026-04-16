@@ -1,0 +1,25 @@
+experiment: wan_vace_man_object_orbit_pan
+notes: "남자+레트로 스피커(man_object.png) → 카메라가 인물 주위를 좌→우로 부드럽게 패닝. motion_template=orbit_pan 검증"
+tags: ["v2", "motion_validation", "orbit_pan", "man_object_batch"]
+
+template:
+  motion_template: orbit_pan
+  meme_template: null
+  category: camera_move
+  subcategory: orbit_pan
+  intent: product_showcase
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/smoke_test.yaml
+
+input:
+  mode: i2v
+  image: assets/samples/man_object.png
+  prompt: "smooth cinematic horizontal camera pan moving slightly around a young man holding a retro portable speaker, subtle parallax revealing depth of the indoor curtain background, subject stays centered while perspective shifts, soft warm natural light, 9:16 vertical composition"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, glitchy, text, face morphing, subject walking, abrupt motion, vertical bouncing, wide angle warping"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_man_object_orbit_pan

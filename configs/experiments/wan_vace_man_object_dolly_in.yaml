@@ -1,0 +1,25 @@
+experiment: wan_vace_man_object_dolly_in
+notes: "남자+레트로 스피커(man_object.png) → 카메라 천천히 푸시인. motion_template=dolly_in 검증"
+tags: ["v2", "motion_validation", "dolly_in", "man_object_batch"]
+
+template:
+  motion_template: dolly_in
+  meme_template: null
+  category: camera_move
+  subcategory: dolly_in
+  intent: product_showcase
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/smoke_test.yaml
+
+input:
+  mode: i2v
+  image: assets/samples/man_object.png
+  prompt: "slow cinematic camera dolly push-in on a young man holding a retro-style portable speaker, gentle continuous forward motion bringing the subject closer while he stays relaxed and still, warm natural indoor lighting with curtain background, shallow depth of field, tight 9:16 framing"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, glitchy, text, face morphing, subject walking, subject moving, abrupt motion, zoom wobble"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_man_object_dolly_in

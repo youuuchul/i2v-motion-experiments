@@ -1,0 +1,25 @@
+experiment: wan_vace_man_object_gesture_point
+notes: "남자+레트로 스피커 → 스피커를 검지로 가리키는 제스처. motion_template=gesture_point · man_object 이미지에서 손가락 품질 검증"
+tags: ["v2", "motion_validation", "gesture_point", "man_object_batch"]
+
+template:
+  motion_template: gesture_point
+  meme_template: null
+  category: person_action
+  subcategory: gesture_point
+  intent: product_showcase
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/smoke_test.yaml
+
+input:
+  mode: i2v
+  image: assets/samples/man_object.png
+  prompt: "young man in a beige puffer jacket naturally lifting his free hand and pointing at the small retro portable speaker he is holding, index finger clearly extended, subtle glance toward the product, engaging casual gesture, confident relaxed smile, soft warm indoor light, 9:16 vertical composition"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, glitchy, text, logo, extra fingers, fused fingers, hand deformation, product deformation, face distortion, identity shift"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_man_object_gesture_point

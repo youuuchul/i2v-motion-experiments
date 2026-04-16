@@ -1,0 +1,25 @@
+experiment: wan_vace_man_object_face_reveal
+notes: "남자+레트로 스피커(man_object.png) → 고개를 들어 표정이 드러나는 리빌. motion_template=face_reveal · man_object 이미지로 얼굴 일관성 재검증"
+tags: ["v2", "motion_validation", "face_reveal", "man_object_batch"]
+
+template:
+  motion_template: face_reveal
+  meme_template: null
+  category: person_action
+  subcategory: face_reveal
+  intent: portrait
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/smoke_test.yaml
+
+input:
+  mode: i2v
+  image: assets/samples/man_object.png
+  prompt: "young man in a beige puffer jacket slowly lifting his gaze up toward the camera, his face gradually becoming fully visible, subtle relaxed smile settling in, identity preserved throughout, stable shoulders holding the small retro portable speaker, soft warm indoor light, smooth gentle reveal, 9:16 vertical composition"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, glitchy, text, logo, face distortion, identity shift, deformed features, fast motion, hand deformation, product deformation"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_man_object_face_reveal

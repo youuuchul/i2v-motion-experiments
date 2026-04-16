@@ -47,6 +47,19 @@ CANDIDATES=(
   wan_vace_man_box_face_reveal
   wan_vace_man_box_lift_to_camera
   wan_vace_man_box_gesture_point
+  # 6차 - man_object (레트로 스피커, 제품 showcase 축)
+  wan_vace_man_object_dolly_in
+  wan_vace_man_object_lift_to_camera
+  wan_vace_man_object_orbit_pan
+  wan_vace_man_object_surface_shimmer
+  # 7차 - 모션 템플릿 크로스 검증 (같은 이미지 다른 모션)
+  wan_vace_man_object_face_reveal
+  wan_vace_man_object_gesture_point
+  wan_vace_coffee_man_lift_to_camera
+  wan_vace_coffee_consume_drink
+  # 8차 - meme template 검증 (AI 캐릭터 / 동물 삽입)
+  wan_vace_beer_meme_ai_animal
+  wan_vace_beer_meme_ai_character
 )
 
 # index.jsonl 에서 완료된 experiment 추출

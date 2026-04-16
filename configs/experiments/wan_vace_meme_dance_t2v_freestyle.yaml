@@ -1,0 +1,26 @@
+experiment: wan_vace_meme_dance_t2v_freestyle
+notes: |
+  meme_dance_ref PoC — t2v 로 처음부터 춤 영상 생성(placeholder 이미지).
+tags: ["v2", "meme_round5", "meme_dance_ref", "poc_baseline", "t2v_experiment"]
+
+template:
+  motion_template: null
+  meme_template: meme_dance_ref
+  category: meme
+  subcategory: meme_dance_ref
+  intent: meme
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/smoke_test.yaml
+
+input:
+  mode: t2v
+  image: assets/samples/sample.png
+  prompt: "a young Korean woman with long dark hair wearing a striped black and white long-sleeve shirt and cream wide pants with black cross-body bag, dancing an energetic trending viral TikTok dance on a wooden outdoor deck surrounded by autumn garden, rhythmic hip sways, arms raising alternately above her head, playful fist pump, confident natural smile, handheld phone camera feel, full body framing, warm soft afternoon light, 9:16 vertical"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, face morphing, extra limbs, deformed body, text overlay, horror, NSFW, static still pose"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_meme_dance_t2v_freestyle

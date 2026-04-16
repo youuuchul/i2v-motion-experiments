@@ -1,0 +1,26 @@
+experiment: wan_vace_meme_animal_cat_cafe_t2v
+notes: |
+  meme_ai_animal 확장 — 카페 바리스타 고양이 버전 (t2v). placeholder 이미지 사용.
+tags: ["v2", "meme_round5", "meme_ai_animal", "cafe_vendor_cat", "t2v_experiment"]
+
+template:
+  motion_template: null
+  meme_template: meme_ai_animal
+  category: meme
+  subcategory: meme_ai_animal
+  intent: meme
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/smoke_test.yaml
+
+input:
+  mode: t2v
+  image: assets/samples/sample.png
+  prompt: "a small orange tabby cat wearing a tiny black barista apron and a miniature barista cap, stands upright behind a wooden cafe counter with a small espresso machine, one paw resting on a small porcelain coffee cup, ears tilted forward with focus, soft warm cafe bokeh lights in blurred background, photorealistic cinematic medium shot, subtle natural head turn and tail twitch, warm cozy morning light, 9:16 vertical"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, text overlay, deformed cat, human face, realistic human, cartoon style, anime, scary"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_meme_animal_cat_cafe_t2v

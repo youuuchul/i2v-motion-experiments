@@ -1,0 +1,27 @@
+experiment: wan_vace_meme_char_refB_potato
+notes: |
+  meme_ai_character / ai_character_2 스타일 클레이메이션. 감자 캐릭터 variant.
+  베이스: assets/memes/ai_character_2/frames/frame_75.jpg (투명 봉지 안 클레이 감자).
+tags: ["v2", "meme_round5", "meme_ai_character", "claymation_character", "i2v_ref_start"]
+
+template:
+  motion_template: null
+  meme_template: meme_ai_character
+  category: meme
+  subcategory: meme_ai_character
+  intent: meme
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/smoke_test.yaml
+
+input:
+  mode: i2v
+  image: assets/memes/ai_character_2/frames/frame_75.jpg
+  prompt: "cute claymation stop-motion style preserved, the small clay potato character with rosy cheeks and closed-eye smile gently breathes and subtly rocks from side to side inside its transparent wrapper, tiny blink motion, clay textured fridge interior background stays still, soft cool diffused fridge lighting, minimal camera drift, 9:16 vertical, stop-motion animation feel"
+  negative_prompt: "low quality, blurry, watermark, distorted, photorealistic skin, real human, dramatic motion, wrapper tearing, text overlay change, cartoon 2D, CGI smooth"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_meme_char_refB_potato

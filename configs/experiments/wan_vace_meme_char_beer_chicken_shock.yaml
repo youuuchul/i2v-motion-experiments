@@ -1,0 +1,27 @@
+experiment: wan_vace_meme_char_beer_chicken_shock
+notes: |
+  meme_ai_character / ai_character_1 스타일. 이번엔 치킨 조각이 의인화.
+  베이스: beer.png. 치킨이 놀란 눈과 작은 팔이 자라는 전환.
+tags: ["v2", "meme_round5", "meme_ai_character", "realistic_anthropomorph", "i2v_hard"]
+
+template:
+  motion_template: null
+  meme_template: meme_ai_character
+  category: meme
+  subcategory: meme_ai_character
+  intent: meme
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/smoke_test.yaml
+
+input:
+  mode: i2v
+  image: assets/samples/beer.png
+  prompt: "a piece of the crispy fried chicken slowly grows a shocked cartoon face with wide surprised circular eyes, raised eyebrows, and a small round open mouth, while two tiny animated cartoon arms with outstretched hands extend from its sides in startled surprise, the surrounding beer bottle and other food stays photorealistic, warm moody pub lighting, close-up macro shot with shallow depth of field, 9:16 vertical"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, realistic human face, beak, realistic chicken body, flat 2D cartoon, clay texture, text overlay, food deformation, face on wrong object"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_meme_char_beer_chicken_shock

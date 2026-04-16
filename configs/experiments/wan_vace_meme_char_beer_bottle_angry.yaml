@@ -1,0 +1,28 @@
+experiment: wan_vace_meme_char_beer_bottle_angry
+notes: |
+  meme_ai_character / ai_character_1 스타일 (할말은한다) — 사실적 식품 위에 극적 만화 얼굴/팔 등장.
+  베이스: beer.png (치킨+맥주). 맥주병이 분노한 얼굴+팔 만들어내는 전환 연출.
+  레퍼런스: assets/memes/ai_character_1/frames/frame_{0,50,95}.jpg.
+tags: ["v2", "meme_round5", "meme_ai_character", "realistic_anthropomorph", "i2v_hard"]
+
+template:
+  motion_template: null
+  meme_template: meme_ai_character
+  category: meme
+  subcategory: meme_ai_character
+  intent: meme
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/smoke_test.yaml
+
+input:
+  mode: i2v
+  image: assets/samples/beer.png
+  prompt: "the dark olive-green beer bottle slowly transforms into an expressive cartoon character: thick furrowed eyebrows, wide angry eyes, and an open shouting mouth emerge naturally on the glass body, two thin animated cartoon arms with clenched fists extend outward gesturing dramatically in protest, the surrounding crispy fried chicken remains photorealistic, warm moody pub lighting preserved, 3D render of real product with exaggerated emerging cartoon facial features, shallow depth of field close-up, 9:16 vertical"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, realistic human face, mouth deformation, missing arms, flat 2D cartoon, clay texture, cute kawaii, text overlay, bottle breaking, label deformation"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_meme_char_beer_bottle_angry

@@ -153,15 +153,15 @@ v1 → v2 migration 으로 만들어진 엔트리면 `true`. 누락 필드는 nu
 | template_id | str / null | 템플릿으로 승격된 실험만 채워짐 (예: `"tpl_drink_ripple_001"`) |
 | **motion_template** | str / null | **신규 (2026-04-16)**. 활성 6개 모션 프리미티브 중 하나: `consume_product`, `lift_to_camera`, `dolly_in`, `orbit_pan`, `steam_rise`, `surface_shimmer`. 신규 실험 필수. 정의/맵핑은 `docs/TEMPLATES.md` |
 | **meme_template** | str / null | **신규 (2026-04-16)**. 밈 포맷 (motion_template 과 직교). 활성: `meme_ai_character`, `meme_dance_ref`, `meme_ai_animal`. 일반 실험은 null |
-| category | str | (legacy) 최상위 카테고리 — v1 분류 체계. 신규 실험 필수 아님 |
-| subcategory | str | (legacy) 세부 카테고리 |
-| intent | str / null | `product_showcase`, `meme`, `tutorial`, `ambiance`, `portrait` |
+| category | str | **v2 정규값**: `motion` 또는 `meme`. v1 legacy 값(person_action/camera_move 등)은 기존 meta 에만 존재 |
+| subcategory | str | **v2 정규값** (9개): `consume_product`, `lift_to_camera`, `dolly_in`, `orbit_pan`, `steam_rise`, `surface_shimmer`, `meme_ai_character`, `meme_ai_animal`, `meme_dance_ref`. motion_template/meme_template 값과 일치시켜야 함 |
+| intent | str / null | `product_showcase`, `meme`, `portrait`, `ambiance`, `tutorial` |
 | secondary | list[{category, subcategory}] | (legacy) 복합 실험 시 보조 축들. 필터는 any-match |
 | promoted_at | ISO8601 / null | 템플릿 승격 타임스탬프 |
 
 일반 탐색 실험은 `template_id=null`, `promoted_at=null`.
-**motion_template** 은 신규 실험에서 채워야 Gallery/배치 필터 가능.
-legacy `category`/`subcategory` 는 v1 meta 해석 용도로만 유지.
+신규 실험은 `category`/`subcategory` 모두 v2 정규값 사용.
+`motion_template`/`meme_template` 와 `subcategory` 는 **같은 값을 중복 저장** (motion_template은 machine-queryable, subcategory는 human-readable). 값 불일치는 버그.
 
 #### `input.*`
 | 필드 | 타입 | 설명 |

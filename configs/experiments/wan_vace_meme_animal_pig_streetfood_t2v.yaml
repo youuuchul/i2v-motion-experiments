@@ -1,0 +1,26 @@
+experiment: wan_vace_meme_animal_pig_streetfood_t2v
+notes: |
+  meme_ai_animal 확장 — 길거리 음식 판매 돼지 (t2v).
+tags: ["v2", "meme_round5", "meme_ai_animal", "streetfood_vendor_pig", "t2v_experiment"]
+
+template:
+  motion_template: null
+  meme_template: meme_ai_animal
+  category: meme
+  subcategory: meme_ai_animal
+  intent: meme
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/smoke_test.yaml
+
+input:
+  mode: t2v
+  image: assets/samples/sample.png
+  prompt: "a small pink piglet wearing a tiny red bandana and a yellow plastic apron, standing upright behind a Korean street food cart stacked with skewered fishcakes and tteokbokki, one trotter holding a pair of long cooking chopsticks, steam gently rising from the tteokbokki pot, background night street market with red banner signs and warm light bulbs blurred, photorealistic cinematic medium shot, subtle head tilt and ear flick, warm evening tone, 9:16 vertical"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, text overlay, deformed pig, realistic human, cartoon style, anime, scary, muddy, aggressive"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_meme_animal_pig_streetfood_t2v

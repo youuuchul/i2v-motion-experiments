@@ -64,6 +64,10 @@ assets/samples/*.JPEG
 assets/samples/*.webp
 !assets/samples/.gitkeep
 
+# Meme reference videos/frames — 저작권(외부 크리에이터 원본) + 용량 이슈.
+# 로컬 프롬프트 설계 참고용으로만 보관. 재현 시 scripts/fetch_memes.py 등으로 각자 받기.
+assets/memes/
+
 # Streamlit
 .streamlit/secrets.toml
 

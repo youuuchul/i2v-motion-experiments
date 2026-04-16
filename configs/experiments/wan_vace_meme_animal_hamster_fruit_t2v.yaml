@@ -1,0 +1,26 @@
+experiment: wan_vace_meme_animal_hamster_fruit_t2v
+notes: |
+  meme_ai_animal 확장 — 시장 과일 장수 햄스터 (t2v).
+tags: ["v2", "meme_round5", "meme_ai_animal", "market_vendor_hamster", "t2v_experiment"]
+
+template:
+  motion_template: null
+  meme_template: meme_ai_animal
+  category: meme
+  subcategory: meme_ai_animal
+  intent: meme
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/smoke_test.yaml
+
+input:
+  mode: t2v
+  image: assets/samples/sample.png
+  prompt: "a tiny fluffy golden Syrian hamster wearing a small straw farmer hat and a red bandana around its neck, sitting upright behind a wooden fruit stand piled with ripe strawberries and blueberries at a sunny outdoor market, tiny paws holding a small wooden sign, cheeks puffed slightly, subtle sniffing motion and occasional blink, warm golden hour lighting, photorealistic cinematic close-up shot, 9:16 vertical"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, text overlay, deformed hamster, realistic human, scary rat, horror, cartoon style, anime, oversized scale"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_meme_animal_hamster_fruit_t2v

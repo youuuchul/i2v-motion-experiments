@@ -1,0 +1,27 @@
+experiment: wan_vace_meme_dance_coffee_man_subtle
+notes: |
+  meme_dance_ref PoC 적응형 — 우리 자체 샘플(coffee_man)에 "가벼운 리듬 동작" 프롬프트로 적용.
+  실제 춤 안무 재현이 아닌, 밈 포맷 적용 가능성 탐색.
+tags: ["v2", "meme_round5", "meme_dance_ref", "poc_baseline", "i2v_adaptation"]
+
+template:
+  motion_template: null
+  meme_template: meme_dance_ref
+  category: meme
+  subcategory: meme_dance_ref
+  intent: meme
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/smoke_test.yaml
+
+input:
+  mode: i2v
+  image: assets/samples/coffee_man.png
+  prompt: "the young man with iced coffee bobs his head and shoulders gently to a music beat, free hand tapping the air rhythmically, playful confident smile, subtle upper-body dance groove, warm rooftop cafe background with string lights stays fixed, handheld phone camera feel, 9:16 vertical"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, face morphing, extra arms, coffee cup spilling, text overlay, full body dance moves, leg motion, camera shake"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_meme_dance_coffee_man_subtle

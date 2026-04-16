@@ -1,0 +1,26 @@
+experiment: wan_vace_meme_animal_dog_bakery_t2v
+notes: |
+  meme_ai_animal 확장 — 제과점 코기 제빵사 (t2v).
+tags: ["v2", "meme_round5", "meme_ai_animal", "bakery_vendor_dog", "t2v_experiment"]
+
+template:
+  motion_template: null
+  meme_template: meme_ai_animal
+  category: meme
+  subcategory: meme_ai_animal
+  intent: meme
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/smoke_test.yaml
+
+input:
+  mode: t2v
+  image: assets/samples/sample.png
+  prompt: "a cute Pembroke Welsh corgi dog wearing a tiny white baker's apron and a small chef's toque, standing upright behind a wooden bakery counter filled with fresh croissants and baguettes, one paw holding a small wooden rolling pin, flour dust faintly in the air, warm bakery bokeh lights and wooden shelves of bread in background, photorealistic cinematic medium shot, subtle head turn and ear twitch, warm morning bakery glow, 9:16 vertical"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, text overlay, deformed dog, realistic human chef, cartoon style, anime, scary, burnt bread, teeth showing aggressively"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_meme_animal_dog_bakery_t2v

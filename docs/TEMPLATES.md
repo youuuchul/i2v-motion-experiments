@@ -68,6 +68,53 @@ camera: {camera_motion}, lighting: {light}
 
 ---
 
+## 🏷 Canonical category / subcategory / intent (v2)
+
+신규 실험 config의 `template` 블록은 아래 정규화 값만 사용한다 (2026-04-16~).
+
+### category (2개)
+| value | 의미 |
+|---|---|
+| `motion` | 활성 6개 모션 프리미티브 중 하나 사용 |
+| `meme` | 활성 3개 밈 포맷 중 하나 사용 |
+
+### subcategory (9개 = motion 6 + meme 3)
+| value | category | 비고 |
+|---|---|---|
+| `consume_product` | motion | |
+| `lift_to_camera` | motion | |
+| `dolly_in` | motion | |
+| `orbit_pan` | motion | |
+| `steam_rise` | motion | |
+| `surface_shimmer` | motion | |
+| `meme_ai_character` | meme | 1차 하위: `realistic_food_anthropomorph` / `claymation_character` (선택, 자유 태그) |
+| `meme_ai_animal` | meme | |
+| `meme_dance_ref` | meme | 레퍼런스 영상 요구 — PoC 트랙 |
+
+### intent (5개)
+| value | 쓰임 |
+|---|---|
+| `product_showcase` | 제품/메뉴 어필 (motion 기본) |
+| `meme` | 바이럴/밈 포맷 (meme 기본) |
+| `portrait` | 인물 중심 |
+| `ambiance` | 분위기/배경 |
+| `tutorial` | 정보/가이드 |
+
+### 배치 블록 예시
+```yaml
+template:
+  motion_template: null                   # motion 실험이면 값 채움
+  meme_template: meme_ai_character        # meme 실험이면 값 채움
+  category: meme                          # subcategory 가 meme_* 이면 meme
+  subcategory: meme_ai_character          # = meme_template 값과 일치
+  intent: meme
+```
+
+`motion_template` / `meme_template` 는 기계 쿼리용 전용 필드, `category` / `subcategory` 는 human-readable. 값은 반드시 일치.
+legacy v1 taxonomy 는 문서 하단 **Archived taxonomy** 에 보존.
+
+---
+
 ## 📌 기존 config → 6개 템플릿 맵핑
 
 아래 config들은 **삭제하지 않음**. 자산(프롬프트·이미지)은 라이브러리로 보존하고, 여기서 활성 6개 중 어디로 귀속되는지만 선언한다. `archived` 표시된 건 신규 실험에서 사용하지 않음 (기존 결과물·자산은 보존).

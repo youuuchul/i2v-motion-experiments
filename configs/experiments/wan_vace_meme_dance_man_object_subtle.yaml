@@ -1,0 +1,26 @@
+experiment: wan_vace_meme_dance_man_object_subtle
+notes: |
+  meme_dance_ref PoC 적응형 — man_object 에 가벼운 리듬 동작.
+tags: ["v2", "meme_round5", "meme_dance_ref", "poc_baseline", "i2v_adaptation"]
+
+template:
+  motion_template: null
+  meme_template: meme_dance_ref
+  category: meme
+  subcategory: meme_dance_ref
+  intent: meme
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/smoke_test.yaml
+
+input:
+  mode: i2v
+  image: assets/samples/man_object.png
+  prompt: "the young man holding the retro portable speaker bobs his head and shoulders to a beat as if the speaker is playing music, the speaker slightly tilts with his rhythm, playful subtle upper-body groove, confident casual smile, indoor curtain background stays fixed, handheld phone camera feel, 9:16 vertical"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, face morphing, extra arms, speaker deformation, text overlay, full body dance, leg motion, camera shake"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_meme_dance_man_object_subtle

@@ -1,0 +1,27 @@
+experiment: wan_vace_meme_animal_ref_bichon_market
+notes: |
+  meme_ai_animal / ai_animal 스타일(장사잘하는법). 레퍼런스 첫 프레임에서 시작 — 가장 쉬운 케이스.
+  베이스: assets/memes/ai_animal/frames/frame_0.jpg (비숑 + 고구마 드럼 + 집게, 마이크 없이 시작).
+tags: ["v2", "meme_round5", "meme_ai_animal", "market_vendor_dog", "i2v_ref_start"]
+
+template:
+  motion_template: null
+  meme_template: meme_ai_animal
+  category: meme
+  subcategory: meme_ai_animal
+  intent: meme
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/smoke_test.yaml
+
+input:
+  mode: i2v
+  image: assets/memes/ai_animal/frames/frame_0.jpg
+  prompt: "the fluffy white Bichon Frise puppy wearing a brown newsboy cap and oversized winter coat turns its head slightly toward the right as if noticing someone, ears twitching, one paw holding the metal tongs over the drum of steaming roasted sweet potatoes, gentle steam rising from the drum, background Korean street market stays blurry with warm hanging lights, photorealistic cinematic medium shot, subtle natural motion, 9:16 vertical"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, glitchy, text overlay appearing, subject walking away, deformed paws, melting dog features, cartoon style, anime, daytime"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_meme_animal_ref_bichon_market

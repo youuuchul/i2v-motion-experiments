@@ -25,8 +25,10 @@ echo "UID=$(id -u)"  >> .env
 echo "GID=$(id -g)"  >> .env
 
 # 3) 샘플 이미지 (assets/samples/* 는 .gitignore — 개인 사진 노출 방지)
-#    smoke 실험은 sample.png 하나만 있으면 동작.
-cp <본인이 쓸 사진>.png assets/samples/sample.png
+#    (a) 기존 팀 Drive 에서 당겨오기 (rclone 의 gdrive remote 필요):
+python3 scripts/sync_samples.py pull
+#    (b) 또는 본인 이미지를 직접 넣기 — smoke 실험은 sample.png 하나면 OK:
+# cp <본인이 쓸 사진>.png assets/samples/sample.png
 
 # 4) (권장) 추론 로딩 피크 흡수용 16GB swap
 sudo fallocate -l 16G /swapfile && sudo chmod 600 /swapfile \
@@ -179,6 +181,16 @@ python3 scripts/sync_to_drive.py --experiment smoke_wan2_1_vace_14b
 - Drive 경로: `gdrive:i2v-experiments/<experiment>/<run_dir>/`
 - 인덱스에 `archived: true`, `drive_path`, `archived_at` 기록 (meta/config/log는 로컬 유지)
 - 복원: `rclone copy gdrive:i2v-experiments/<exp>/<run_dir> outputs/<exp>/<run_dir>`
+
+### 샘플 이미지 동기화 (assets/samples/)
+`assets/samples/*` 는 .gitignore (개인 사진 보호) — 대신 Drive 로 백업.
+```bash
+python3 scripts/sync_samples.py push          # 로컬 → Drive
+python3 scripts/sync_samples.py pull          # Drive → 로컬 (클론 직후)
+python3 scripts/sync_samples.py list          # Drive 에 있는 것 확인
+python3 scripts/sync_samples.py push --dry-run
+```
+Drive 경로: `gdrive:i2v-experiments/assets/samples/`.
 
 ### 파인튜닝
 **아직 미구현**. `run_finetune.py` 는 `NotImplementedError` 스캐폴드.

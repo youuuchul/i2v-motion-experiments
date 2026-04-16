@@ -33,9 +33,14 @@
 
 | # | meme_template | 입력 | 포맷 설명 | 생성 방식 | 참고 |
 |---|---|---|---|---|---|
-| 1 | `meme_ai_character` | 제품/환경 사진 | 사진 속에 AI 캐릭터(사람·마스코트)가 등장해 제품과 상호작용 | **프롬프트만으로 가능** (i2v + text) | [reel 1](https://www.instagram.com/reels/DWnY1wGEurB/) · [reel 2](https://www.instagram.com/reels/DW0T0Qfk1Mr/) |
+| 1 | `meme_ai_character` | 제품 사진 | **제품 자체가 캐릭터가 되는 밈**. (a) 제품이 일어나/변형돼 캐릭터화되거나, (b) 처음부터 캐릭터 형태. 외부 캐릭터가 **아니라** 제품 그 자체의 의인화/캐릭터화 | **프롬프트만으로 가능** (i2v + text). 얼굴·팔이 제품 위에 자라는 "feature emergence" 필요 | [reel 1 (올리브오일 병 의인화)](https://www.instagram.com/reels/DWnY1wGEurB/) · [reel 2 (클레이 바나나/감자/냉장고)](https://www.instagram.com/reels/DW0T0Qfk1Mr/) |
 | 2 | `meme_dance_ref` | 인물 사진 + **레퍼런스 춤 영상** | 사진 속 인물이 유행 춤(예: 붐샤카라카)을 따라함 | **레퍼런스 영상 필요 — 표준 API 미지원**. PoC 트랙 (아래 참고) | [short](https://www.youtube.com/shorts/0qKKrIXT1Lo) |
-| 3 | `meme_ai_animal` | 제품/음식 사진 | 사진 속에 AI 동물이 등장해 제품에 반응/상호작용 | **프롬프트만으로 가능** (i2v + text) | [short](https://www.youtube.com/shorts/Ib766UdgKtc) |
+| 3 | `meme_ai_animal` | 제품/환경 사진 | **외부 캐릭터 또는 동물이 씬에 등장해 제품과 상호작용**. 사람형 3D 마스코트·픽사풍 캐릭터·귀여운 동물 등이 프레임에 들어와서 반응. (이전 #1의 "AI 캐릭터 등장" 밈은 이 #3에 속함 — 제품은 그대로 있고 외부 엔티티가 추가되는 구조) | **프롬프트만으로 가능** (i2v + text, 또는 t2v) | [short (시장 고구마 파는 비숑)](https://www.youtube.com/shorts/Ib766UdgKtc) |
+
+> **중요 구분 — #1 vs #3:**
+> - `meme_ai_character` (#1) = **제품 그 자체가 캐릭터**. 맥주병 위에 얼굴이 자람, 클레이 바나나 캐릭터 등. 프레임의 주인공이 제품=캐릭터.
+> - `meme_ai_animal` (#3) = **외부 캐릭터/동물이 방문**. 치킨 옆에 다람쥐가 등장, 맥주잔 뒤에서 픽사 마스코트가 튀어나옴. 제품은 배경으로 유지되고 외부 엔티티가 추가됨.
+> - 이름 `meme_ai_animal` 은 유지하지만 **범위는 character+animal 양쪽**. 향후 빈번하면 `meme_ai_guest` 로 rename 검토.
 
 ### ❗ 레퍼런스-영상 필요 케이스 처리 방안 (meme_dance_ref)
 
@@ -87,8 +92,8 @@ camera: {camera_motion}, lighting: {light}
 | `orbit_pan` | motion | |
 | `steam_rise` | motion | |
 | `surface_shimmer` | motion | |
-| `meme_ai_character` | meme | 1차 하위: `realistic_food_anthropomorph` / `claymation_character` (선택, 자유 태그) |
-| `meme_ai_animal` | meme | |
+| `meme_ai_character` | meme | **제품 자체 캐릭터화**. 하위 태그(선택): `realistic_food_anthropomorph` / `claymation_character` / `product_transform` |
+| `meme_ai_animal` | meme | **외부 캐릭터/동물 등장** (범위 확장). 하위 태그(선택): `external_animal` / `external_mascot` / `external_character` |
 | `meme_dance_ref` | meme | 레퍼런스 영상 요구 — PoC 트랙 |
 
 ### intent (5개)

@@ -1,12 +1,12 @@
 experiment: wan_vace_beer_meme_ai_character
-notes: "치킨+맥주 → AI 캐릭터(3D 마스코트)가 등장해 치킨에 반응. meme_template=meme_ai_character 첫 검증"
-tags: ["v2", "meme_validation", "meme_ai_character"]
+notes: "치킨+맥주 → 외부 픽사풍 AI 마스코트가 등장해 치킨에 반응. 원래 meme_ai_character 로 태그됐으나, taxonomy 재정의(2026-04-16)로 외부 캐릭터는 meme_ai_animal(확장 범위)에 속함 → 재분류."
+tags: ["v2", "meme_validation", "meme_ai_animal", "external_mascot", "legacy_retag"]
 
 template:
   motion_template: null
-  meme_template: meme_ai_character
-  category: person_action
-  subcategory: character_appear
+  meme_template: meme_ai_animal
+  category: meme
+  subcategory: meme_ai_animal
   intent: meme
 
 model_config: configs/models/wan2_1_vace_14b.yaml

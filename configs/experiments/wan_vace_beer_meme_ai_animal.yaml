@@ -5,8 +5,8 @@ tags: ["v2", "meme_validation", "meme_ai_animal"]
 template:
   motion_template: null
   meme_template: meme_ai_animal
-  category: food_motion
-  subcategory: animal_appear
+  category: meme
+  subcategory: meme_ai_animal
   intent: meme
 
 model_config: configs/models/wan2_1_vace_14b.yaml

@@ -1,0 +1,28 @@
+experiment: wan_vace_meme_guest_pixar_mascot_beer
+notes: |
+  meme_ai_animal (확장 범위) — 외부 픽사풍 3D 마스코트 캐릭터가 씬에 등장.
+  베이스: beer.png (치킨+맥주 씬). 마스코트가 프레임에 나타나 음식에 반응.
+  #3 에 동물 편중 해결 위한 external_mascot 변형.
+tags: ["v2", "meme_round5", "meme_ai_animal", "external_mascot", "i2v_scene_guest"]
+
+template:
+  motion_template: null
+  meme_template: meme_ai_animal
+  category: meme
+  subcategory: meme_ai_animal
+  intent: meme
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/smoke_test.yaml
+
+input:
+  mode: i2v
+  image: assets/samples/beer.png
+  prompt: "a small cute 3D pixar-style cartoon mascot character with big round eyes and a tiny waving hand suddenly pops up from behind the tall beer glass in the foreground, peeks curiously at the crispy fried chicken on the table, tilts its head with an excited expression, the realistic food and pub scene stays perfectly still, warm moody pub lighting preserved, 9:16 vertical, seamless integration of stylized character with photorealistic food scene"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, glitchy, text overlay, scary, uncanny, deformed character, extra limbs, flickering, mascot replacing the food, food changing, beer spilling, realistic human face"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_meme_guest_pixar_mascot_beer

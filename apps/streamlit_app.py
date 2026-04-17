@@ -110,6 +110,25 @@ def load_index(path: Path) -> pd.DataFrame:
     for col in ("started_at", "finished_at"):
         if col in df.columns:
             df[f"{col}_kst"] = df[col].apply(utc_naive_to_kst)
+
+    # input_type: mode + 이미지 소스를 한눈에 보이는 컬럼
+    # t2v → "텍스트 생성", i2v → 이미지 파일명, r2v → "레퍼런스"
+    def _input_type(row):
+        mode = row.get("mode") or ""
+        img = row.get("image_path") or ""
+        ref_url = row.get("source_ref_url") or ""
+        if mode == "t2v":
+            return "텍스트 생성"
+        elif mode == "r2v":
+            return "레퍼런스"
+        elif img:
+            name = Path(img).name
+            if ref_url:
+                return f"{name} (ref)"
+            return name
+        return mode or "?"
+    df["input_type"] = df.apply(_input_type, axis=1)
+
     return df
 
 
@@ -135,8 +154,7 @@ TABLE_COLUMNS = [
     "intent",
     "tags_str",
     "mode",
-    "image_path",
-    "source_ref_url",
+    "input_type",
     "model",
     "quant",
     "resolution_tier",

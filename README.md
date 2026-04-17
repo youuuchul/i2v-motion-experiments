@@ -258,6 +258,7 @@ run:
 5. Streamlit Gallery 에서 비교
 
 ### 관련 문서
+- [`docs/EXPERIMENT_LOG.md`](docs/EXPERIMENT_LOG.md) — **실험 기록 타임라인** (배치별 원본 소스 · 템플릿 · duration · latency · 의도/관찰)
 - [`docs/ROADMAP.md`](docs/ROADMAP.md) — Phase 0~6 계획 / 결정 로그
 - [`docs/SCHEMA.md`](docs/SCHEMA.md) — meta.json v2 / index.jsonl 필드 사양
 - [`docs/TEMPLATES.md`](docs/TEMPLATES.md) — 활성 **Motion 6개 + Meme 3개** 정책 / 기존 config 맵핑 / legacy taxonomy / 승격 플로우

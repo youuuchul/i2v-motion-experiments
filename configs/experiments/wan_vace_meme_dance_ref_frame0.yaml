@@ -17,6 +17,11 @@ preset: configs/presets/meme_5s.yaml
 input:
   mode: i2v
   image: assets/memes/dance_ref/frames/frame_0.jpg
+  source_reference:
+    url: https://www.youtube.com/shorts/0qKKrIXT1Lo
+    video_file: assets/memes/dance_ref/src.mp4
+    frame_pct: 0
+    description: "붐샤카라카 댄스 — 프레임 0% (레퍼런스 프레임 직접 사용 — 향후 우리 샘플로 교체 필요)"
   prompt: "the young woman with long dark hair in striped long-sleeve shirt and cream wide pants begins an energetic trending dance routine, rhythmic hip sway, arms raising up and alternating side-to-side, playful fist pump gesture, natural smile, outdoor wooden deck with autumn garden background stays fixed, full body framing, handheld phone camera feel, 9:16 vertical"
   negative_prompt: "low quality, blurry, watermark, distorted, jittery glitches, face morph, subject walking off-frame, extra arms, clothing deformation, text overlay, camera zoom swings, horror, NSFW"
 

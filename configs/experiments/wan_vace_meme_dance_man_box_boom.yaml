@@ -1,0 +1,30 @@
+experiment: wan_vace_meme_dance_man_box_boom
+notes: |
+  meme_dance_ref — 붐샤카라카 스타일, 박스 든 남자가 춤.
+  베이스: 자체 샘플 man_box.JPG (다크 후드 + 작은 상자 들고 웃는 남자).
+tags: ["v2", "meme_dance_v2", "meme_dance_ref", "high_energy", "own_sample_only", "5s"]
+
+template:
+  motion_template: null
+  meme_template: meme_dance_ref
+  category: meme
+  subcategory: meme_dance_ref
+  intent: meme
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/meme_5s.yaml
+
+input:
+  mode: i2v
+  image: assets/samples/man_box.JPG
+  source_reference:
+    url: https://www.youtube.com/shorts/0qKKrIXT1Lo
+    description: "붐샤카라카 댄스 안무 참조 (프롬프트로만 전달). 이미지는 자체 샘플 man_box.JPG."
+  prompt: "the young man in dark gray oversized hoodie starts an energetic viral dance while holding the small gift box, he rhythmically sways his hips and shoulders side to side, raises his free arm up in a fist pump and brings it back down in beat, slightly hops in place with bouncy energy, his big natural smile widens as he gets into the groove, bright kitchen background stays fixed, upper body framing, handheld phone camera feel, 9:16 vertical"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, face morphing, extra arms, box disappearing, box deformation, text overlay, static still pose, only head moving, camera shake, horror"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_meme_dance_man_box_boom

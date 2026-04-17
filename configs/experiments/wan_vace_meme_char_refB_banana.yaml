@@ -16,6 +16,11 @@ preset: configs/presets/meme_5s.yaml
 input:
   mode: i2v
   image: assets/memes/ai_character_2/frames/frame_25.jpg
+  source_reference:
+    url: https://www.instagram.com/reels/DW0T0Qfk1Mr/
+    video_file: assets/memes/ai_character_2/src.mp4
+    frame_pct: 25
+    description: "쭈방 꿀팁/배민아카데미 — 클레이 바나나 캐릭터 (claymation)"
   prompt: "cute claymation stop-motion style preserved, the small yellow clay banana bunch character leaps down off the silver clay hook and hops forward toward the camera with cheerful energy, tiny clay arms wave enthusiastically left and right with each hop, its clay mouth opens and closes rapidly as if happily chattering syllables, its simple smile expression changes between speaking and laughing, whole body bounces and tilts with each hop landing, pixar-style claymation full-body animation, warm pastel clay kitchen background stays still, soft diffused lighting, 9:16 vertical"
   negative_prompt: "low quality, blurry, watermark, distorted, photorealistic texture, sharp edges, real fruit, real human, gritty, horror, only subtle blink, static body, banana staying on hook, mouth closed, silent still, text overlay change, cartoon 2D style, CGI smooth"
 

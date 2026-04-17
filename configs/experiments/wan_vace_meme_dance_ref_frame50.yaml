@@ -17,6 +17,11 @@ preset: configs/presets/meme_5s.yaml
 input:
   mode: i2v
   image: assets/memes/dance_ref/frames/frame_50.jpg
+  source_reference:
+    url: https://www.youtube.com/shorts/0qKKrIXT1Lo
+    video_file: assets/memes/dance_ref/src.mp4
+    frame_pct: 50
+    description: "붐샤카라카 댄스 — 프레임 50% (레퍼런스 프레임 직접 사용 — 향후 우리 샘플로 교체 필요)"
   prompt: "the young woman continues her energetic trending dance routine, arms lowering and raising in rhythmic beat pattern, hip sway, natural motion continuing the current pose, outdoor deck and garden background stays fixed, handheld phone camera feel, full body framing, 9:16 vertical"
   negative_prompt: "low quality, blurry, watermark, distorted, jittery glitches, face morph, losing body, extra arms, clothing deformation, text overlay, camera zoom, horror"
 

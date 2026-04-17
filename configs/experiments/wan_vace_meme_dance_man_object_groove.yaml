@@ -1,0 +1,30 @@
+experiment: wan_vace_meme_dance_man_object_groove
+notes: |
+  meme_dance_ref — 서틀 그루브, 스피커에서 노래 나오는 느낌.
+  베이스: 자체 샘플 man_object.png. 스피커를 귀에 가까이 대고 미세 리듬.
+tags: ["v2", "meme_dance_v2", "meme_dance_ref", "subtle_groove", "own_sample_only", "5s"]
+
+template:
+  motion_template: null
+  meme_template: meme_dance_ref
+  category: meme
+  subcategory: meme_dance_ref
+  intent: meme
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/meme_5s.yaml
+
+input:
+  mode: i2v
+  image: assets/samples/man_object.png
+  source_reference:
+    url: https://www.youtube.com/shorts/0qKKrIXT1Lo
+    description: "댄스 리듬 참조 (절제된 상체 그루브). 이미지는 자체 샘플 man_object.png."
+  prompt: "the young man holding the retro speaker gently bobs his head to the beat as if the speaker is playing a catchy song, subtle shoulder roll and upper body sway, the speaker slightly tilts left and right with his rhythm, relaxed happy expression, indoor curtain background stays fixed, selfie framing, 9:16 vertical"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, face morphing, extra arms, speaker deformation, text overlay, wild full-body dance, jumping, camera shake"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_meme_dance_man_object_groove

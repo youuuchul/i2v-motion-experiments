@@ -16,6 +16,11 @@ preset: configs/presets/meme_5s.yaml
 input:
   mode: i2v
   image: assets/memes/ai_character_2/frames/frame_75.jpg
+  source_reference:
+    url: https://www.instagram.com/reels/DW0T0Qfk1Mr/
+    video_file: assets/memes/ai_character_2/src.mp4
+    frame_pct: 75
+    description: "쭈방 꿀팁/배민아카데미 — 클레이 감자 캐릭터 봉지 안 (claymation)"
   prompt: "cute claymation stop-motion style preserved, the small clay potato character with rosy cheeks opens its transparent wrapper and steps out fully revealing tiny clay arms and stubby legs, walks slowly forward toward the camera with bouncy steps, waving both arms enthusiastically, its mouth opens and closes repeatedly as if happily narrating something with visible syllables, eyes open wider expressively, whole body sways and tilts with each step, pixar-style claymation full-body animation, clay textured fridge background stays still, soft cool fridge lighting, 9:16 vertical"
   negative_prompt: "low quality, blurry, watermark, distorted, photorealistic skin, real human, only subtle blink, static body, potato staying in wrapper, wrapper tearing violently, mouth closed, silent still, text overlay change, cartoon 2D, CGI smooth"
 

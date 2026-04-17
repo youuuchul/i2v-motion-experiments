@@ -17,6 +17,11 @@ preset: configs/presets/meme_5s.yaml
 input:
   mode: i2v
   image: assets/memes/ai_animal/frames/frame_0.jpg
+  source_reference:
+    url: https://www.youtube.com/shorts/Ib766UdgKtc
+    video_file: assets/memes/ai_animal/src.mp4
+    frame_pct: 0
+    description: "장사잘하는법 — 시장 고구마 파는 비숑 프리제"
   prompt: "the fluffy white Bichon Frise puppy wearing a brown newsboy cap and oversized winter coat turns its head slightly toward the right as if noticing someone, ears twitching, one paw holding the metal tongs over the drum of steaming roasted sweet potatoes, gentle steam rising from the drum, background Korean street market stays blurry with warm hanging lights, photorealistic cinematic medium shot, subtle natural motion, 9:16 vertical"
   negative_prompt: "low quality, blurry, watermark, distorted, jittery, glitchy, text overlay appearing, subject walking away, deformed paws, melting dog features, cartoon style, anime, daytime"
 

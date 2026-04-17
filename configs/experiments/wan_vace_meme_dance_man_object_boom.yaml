@@ -1,0 +1,30 @@
+experiment: wan_vace_meme_dance_man_object_boom
+notes: |
+  meme_dance_ref — 붐샤카라카 스타일, 스피커를 프롭으로 활용한 하이에너지 댄스.
+  베이스: 자체 샘플 man_object.png (Marshall 스피커 들고 있는 남자).
+tags: ["v2", "meme_dance_v2", "meme_dance_ref", "high_energy", "own_sample_only", "5s"]
+
+template:
+  motion_template: null
+  meme_template: meme_dance_ref
+  category: meme
+  subcategory: meme_dance_ref
+  intent: meme
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/meme_5s.yaml
+
+input:
+  mode: i2v
+  image: assets/samples/man_object.png
+  source_reference:
+    url: https://www.youtube.com/shorts/0qKKrIXT1Lo
+    description: "붐샤카라카 댄스 안무 참조 (프롬프트로만 전달). 이미지는 자체 샘플 man_object.png."
+  prompt: "the young man in beige puffer jacket starts an energetic viral dance holding the retro speaker up like a boombox, he rhythmically bobs his head and sways his whole upper body left and right to the beat, his free arm pumps up and alternates fist pumps, slight hop in place, speaker tilts with his groove as if playing the dance music, big playful smile, indoor curtain background stays fixed, selfie framing, handheld phone camera feel, 9:16 vertical"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, face morphing, extra arms, speaker deformation, speaker disappearing, text overlay, static still pose, only head moving, camera shake, horror"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_meme_dance_man_object_boom

@@ -1,0 +1,32 @@
+experiment: wan_vace_meme_dance_ref_frame0_test
+notes: |
+  meme_dance_ref PoC 비교용 — 레퍼런스 프레임 직접 사용 (1회성 테스트).
+  일반 밈 생성에서는 자체 샘플만 base로 써야 함. 이 config은 비교 기준 수립 목적.
+tags: ["v2", "meme_dance_v2", "meme_dance_ref", "poc_ref_frame_test", "5s"]
+
+template:
+  motion_template: null
+  meme_template: meme_dance_ref
+  category: meme
+  subcategory: meme_dance_ref
+  intent: meme
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/meme_5s.yaml
+
+input:
+  mode: i2v
+  image: assets/memes/dance_ref/frames/frame_0.jpg
+  source_reference:
+    url: https://www.youtube.com/shorts/0qKKrIXT1Lo
+    video_file: assets/memes/dance_ref/src.mp4
+    frame_pct: 0
+    description: "붐샤카라카 댄스 프레임 0% — 비교 테스트용 (자체 샘플 아님! 레퍼런스 직접 사용)"
+  prompt: "the young woman with long dark hair begins an energetic viral dance, rhythmic hip sway side to side, arms raising up alternately above her head, playful fist pump gesture, natural confident smile, outdoor wooden deck with autumn garden background stays fixed, full body framing, handheld phone camera feel, 9:16 vertical"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, face morphing, extra limbs, clothing deformation, text overlay, camera zoom, horror, NSFW, static still pose"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_meme_dance_ref_frame0_test

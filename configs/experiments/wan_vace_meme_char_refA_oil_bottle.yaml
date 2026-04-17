@@ -17,6 +17,11 @@ preset: configs/presets/meme_5s.yaml
 input:
   mode: i2v
   image: assets/memes/ai_character_1/frames/frame_0.jpg
+  source_reference:
+    url: https://www.instagram.com/reels/DWnY1wGEurB/
+    video_file: assets/memes/ai_character_1/src.mp4
+    frame_pct: 0
+    description: "할말은한다 — 올리브오일 병 의인화 (3D realistic)"
   prompt: "the anthropomorphized olive oil bottle character takes dramatic steps forward growing larger as it moves closer to the camera, its green glass body leans forward and sways expressively, both cartoon arms gesture emphatically above its head and return back, its dramatic worried eyes widen further and its open mouth rapidly opens and closes as if delivering a passionate rant with syllables, whole body rocks and tilts with every step, pixar-style full-body character animation, rustic kitchen background stays still, warm kitchen lighting preserved, 9:16 vertical"
   negative_prompt: "low quality, blurry, watermark, distorted, jittery, face morphing, losing the face or arms, only face animated, bottle static while face moves, bottle falling over, mouth frozen, silent still, label deformation, scene swap"
 

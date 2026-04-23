@@ -1,0 +1,30 @@
+experiment: wan_vace_meme_dance_boat_man_object_a
+notes: |
+  boat_dance round1 — 자체 샘플 man_object.png (남자가 제품 들고 있는 풀바디/반신) 베이스.
+  A 변주: beat-matched full-script prompt. 들고 있는 오브젝트가 dance 중에도 유지되는지 체크.
+tags: ["v2", "meme_boat_dance_round1", "meme_dance_ref", "boat_dance", "own_sample_only", "beat_matched_prompt", "5s"]
+
+template:
+  motion_template: null
+  meme_template: meme_dance_ref
+  category: meme
+  subcategory: meme_dance_ref
+  intent: meme
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/meme_5s.yaml
+
+input:
+  mode: i2v
+  image: assets/samples/man_object.png
+  source_reference:
+    url: https://www.youtube.com/shorts/Or_1yQGAjCQ
+    description: "드래곤 보트 레전드 꼬마 선장 안무. 이미지는 자체 샘플 man_object.png."
+  prompt: "the man in the photo stays in the same outfit and background while performing a 5-second conductor dance, beat-matched choreography: at 0-1s stands still facing forward and gives one gentle ready nod, at 1-2s raises his free hand palm down in front of his chest and waves it left and right twice in small rhythmic shakes, at 2-3s rotates his free hand in tight forward circles like steering a paddle, at 3-4s thrusts his free arm forward and back in a wide swimming stroke motion, at 4-5s finishes with his free arm stretched straight forward toward the camera in a confident conducting gesture, the product he holds stays in his other hand and does not change shape, background stays fixed, full body framing, handheld phone camera feel, 9:16 vertical"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, face morphing, extra arms, product disappearing, product deformation, identity change, subtitles, text overlay, static still pose, only head moving, camera shake, horror, NSFW, slow motion, freeze frame"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_meme_dance_boat_man_object_a

@@ -1,0 +1,28 @@
+experiment: wan_vace_meme_char_pizza_fold_walk
+notes: |
+  meme_ai_character round9 — pizza.png. 피자가 반으로 접혀 상체로 일어난 뒤,
+  치즈 스트링 다리로 몇 발자국 카메라 쪽으로 걸어오는 케이스. 평면 food 의인화의
+  걷기 모션을 standup_talk 와 분리해 독립 검증.
+tags: ["v2", "round9", "meme_ai_character", "realistic_food_anthropomorph", "product_transform", "walk_to_camera", "5s"]
+
+template:
+  motion_template: null
+  meme_template: meme_ai_character
+  category: meme
+  subcategory: meme_ai_character
+  intent: meme
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/meme_5s.yaml
+
+input:
+  mode: i2v
+  image: assets/samples/pizza.png
+  prompt: "the round pepperoni basil pizza slowly folds itself in half along a vertical axis so the upper half rises up like a torso, two stretchy mozzarella cheese-string legs pull out from the bottom crust onto the wooden board, cartoon eyes pop open on the cheese surface, a little mozzarella mouth curves into a surprised smile, the pizza character takes three cautious wobbly steps directly toward the camera on its stringy cheese legs, pepperoni slices jiggle like tiny expressions, basil leaves flutter slightly, wooden tabletop stays fixed in the background, centered framing, subtle push-in by the handheld phone camera, 9:16 vertical"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, pizza flying off screen, board moving, extra pizzas, scary face, horror, text overlay, violent motion, NSFW, pizza falling apart, camera shake"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_meme_char_pizza_fold_walk

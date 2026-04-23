@@ -1,0 +1,27 @@
+experiment: wan_vace_meme_char_pizza_standup_talk
+notes: |
+  meme_ai_character round8 — 피자 자체가 캐릭터가 되어 몸을 반으로 접으며 상체를 일으키고 말하는 포맷.
+  베이스: 자체 샘플 pizza.png (페퍼로니+바질 피자, 원형 나무 보드). 평면 food → 의인화 character.
+tags: ["v2", "meme_round8", "meme_ai_character", "realistic_food_anthropomorph", "product_transform", "standup_talk", "5s"]
+
+template:
+  motion_template: null
+  meme_template: meme_ai_character
+  category: meme
+  subcategory: meme_ai_character
+  intent: meme
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/meme_5s.yaml
+
+input:
+  mode: i2v
+  image: assets/samples/pizza.png
+  prompt: "the round pepperoni basil pizza slowly folds itself in half along a vertical axis so the upper half rises up like an upper body, cartoon eyes pop open on the cheese surface, a stretchy mozzarella mouth forms in the middle, two thin mozzarella cheese-string arms extend from the sides, the pizza character stands up on the wooden board and starts talking animatedly waving its cheesy arms, pepperoni slices shift slightly like little expressions, basil leaves bob like tiny eyebrows, wooden tabletop background stays fixed, single centered framing, handheld phone camera feel, 9:16 vertical"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, pizza sliding off board, board moving, extra pizzas, scary face, horror, text overlay, camera shake, NSFW, aggressive motion, pizza flying away"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_meme_char_pizza_standup_talk

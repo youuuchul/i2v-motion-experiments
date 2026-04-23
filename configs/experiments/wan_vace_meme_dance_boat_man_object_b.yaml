@@ -1,0 +1,31 @@
+experiment: wan_vace_meme_dance_boat_man_object_b
+notes: |
+  boat_dance round1 — man_object.png 베이스. B 변주: 양손 dance 버전. man_object 샘플은 한 손에 제품을
+  들고 있지만, 본 변주에서는 "제품을 한쪽 허리에 안정시키고 양손 동시 dance" 를 유도 — 양손 안무의 풀
+  시퀀스 재현 가능성 테스트.
+tags: ["v2", "meme_boat_dance_round1", "meme_dance_ref", "boat_dance", "own_sample_only", "both_hands_variant", "5s"]
+
+template:
+  motion_template: null
+  meme_template: meme_dance_ref
+  category: meme
+  subcategory: meme_dance_ref
+  intent: meme
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/meme_5s.yaml
+
+input:
+  mode: i2v
+  image: assets/samples/man_object.png
+  source_reference:
+    url: https://www.youtube.com/shorts/Or_1yQGAjCQ
+    description: "드래곤 보트 레전드 꼬마 선장 안무 — 양손 풀 시퀀스 버전. 이미지는 자체 샘플 man_object.png."
+  prompt: "the man in the photo tucks the product under one arm to free both hands and performs a 5-second two-handed conductor dance, beat-matched choreography: at 0-1s stands still facing forward with both hands lowered and gives one gentle ready nod, at 1-2s raises both hands in front of his chest with palms down and waves them left and right twice in small rhythmic shakes like counting the beat, at 2-3s rotates both hands in front of him making small forward circles like steering paddles, at 3-4s thrusts his right arm forward and left arm back in a wide lunge then alternates once in a swimming stroke motion, at 4-5s finishes with his right arm stretched straight forward toward the camera in a confident conducting gesture, product stays tucked under his arm without falling, background stays fixed, full body framing, handheld phone camera feel, 9:16 vertical"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, face morphing, extra arms, product falling, product deformation, identity change, subtitles, text overlay, static still pose, only head moving, camera shake, horror, NSFW, slow motion, freeze frame"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_meme_dance_boat_man_object_b

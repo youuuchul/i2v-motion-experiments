@@ -1,0 +1,27 @@
+experiment: wan_vace_sample_lift_to_camera
+notes: |
+  motion round7 — lift_to_camera 프리미티브 검증. sample.png 여성 샘플에서 라떼 컵 들어 카메라 쪽으로 보여주기.
+  기존 lift_to_camera 샘플은 남성 위주 → 여성 샘플에서 재현성 체크.
+tags: ["v2", "motion_round7", "lift_to_camera", "motion_primitive", "5s"]
+
+template:
+  motion_template: lift_to_camera
+  meme_template: null
+  category: motion
+  subcategory: lift_to_camera
+  intent: product_showcase
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/meme_5s.yaml
+
+input:
+  mode: i2v
+  image: assets/samples/sample.png
+  prompt: "the young Korean woman gently lifts the latte cup with both hands up toward the camera, presenting it proudly at eye level, the foam art on the surface stays stable, her warm natural smile widens as she shows off the drink, cream knit sweater and apron stay in place, warm cafe interior with string lights background stays fixed, focus stays on the cup and her face, handheld phone camera feel, 9:16 vertical"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, face morphing, cup deformation, coffee spilling, foam sliding off, text overlay, camera shake, NSFW, body proportions warping"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_sample_lift_to_camera

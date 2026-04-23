@@ -1,0 +1,27 @@
+experiment: wan_vace_japan_beer_surface_shimmer
+notes: |
+  motion template showcase — japan_beer_chicken.png + surface_shimmer. 차가운 맥주잔
+  표면의 결로수 방울이 타고 내리며 반짝거리는 liquid shimmer + condensation 연출.
+tags: ["v2", "round9", "motion_showcase", "surface_shimmer", "5s"]
+
+template:
+  motion_template: surface_shimmer
+  meme_template: null
+  category: motion
+  subcategory: surface_shimmer
+  intent: product_showcase
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/meme_5s.yaml
+
+input:
+  mode: i2v
+  image: assets/samples/japan_beer_chicken.png
+  prompt: "cold condensation water droplets slowly bead and trickle down the outer surface of the tall japanese beer mug, light catches each droplet creating tiny glistening highlights moving gently downward, golden beer inside shows subtle ripples and slow bubble rise, thin foam head remains fluffy with micro foam bubbles breathing, yakitori skewers and wooden izakaya table stay perfectly fixed, warm pub lighting with cool rim light on the glass, centered framing, shallow depth of field, no camera movement, 9:16 vertical"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, beer mug tipping, liquid spilling, foam exploding, heavy splash, skewers moving, extra mugs, text overlay, NSFW, camera shake, rain"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_japan_beer_surface_shimmer

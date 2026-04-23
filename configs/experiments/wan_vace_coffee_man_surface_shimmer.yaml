@@ -1,0 +1,26 @@
+experiment: wan_vace_coffee_man_surface_shimmer
+notes: |
+  motion round7 — surface_shimmer 프리미티브. coffee_man.png 의 아이스커피 컵 표면에 응결수 반짝임 + 잔잔한 리플.
+tags: ["v2", "motion_round7", "surface_shimmer", "motion_primitive", "5s"]
+
+template:
+  motion_template: surface_shimmer
+  meme_template: null
+  category: motion
+  subcategory: surface_shimmer
+  intent: product_showcase
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/meme_5s.yaml
+
+input:
+  mode: i2v
+  image: assets/samples/coffee_man.png
+  prompt: "tiny water condensation droplets shimmer and slowly slide down the cold plastic iced coffee cup in the young man's hand, catching the warm rooftop sunset light, the dark coffee liquid inside ripples gently with small subtle surface waves, ice cubes shift slightly, the young man remains mostly still with a soft confident smile and gentle breathing, his blazer and white shirt stay in place, warm rooftop cafe bokeh background with string lights stays fixed, close-mid framing on the cup, 9:16 vertical"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, cup deformation, cup tipping, coffee spilling, excessive waves, cartoon ripples, face morphing, text overlay, camera shake, NSFW"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_coffee_man_surface_shimmer

@@ -1,0 +1,31 @@
+experiment: wan_vace_meme_dance_boat_coffee_man_a
+notes: |
+  boat_dance round1 — 자체 샘플 coffee_man.png (카페 배경 청년) 베이스. 보트 밖 일상 피사체가 boat_dance
+  안무(지휘자 댄스)를 추는지 검증. A 변주: beat-matched full-script prompt.
+  coffee cup 유지되는지도 같이 확인.
+tags: ["v2", "meme_boat_dance_round1", "meme_dance_ref", "boat_dance", "own_sample_only", "beat_matched_prompt", "5s"]
+
+template:
+  motion_template: null
+  meme_template: meme_dance_ref
+  category: meme
+  subcategory: meme_dance_ref
+  intent: meme
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/meme_5s.yaml
+
+input:
+  mode: i2v
+  image: assets/samples/coffee_man.png
+  source_reference:
+    url: https://www.youtube.com/shorts/Or_1yQGAjCQ
+    description: "드래곤 보트 레전드 꼬마 선장 안무를 coffee_man 청년이 따라함. 이미지는 자체 샘플 coffee_man.png."
+  prompt: "the young man in black blazer holding his iced coffee stays in the same rooftop cafe background but performs a 5-second conductor dance, beat-matched choreography: at 0-1s he stands still facing forward with his free hand lowered and gives one gentle ready nod, at 1-2s he raises his free hand in front of his chest with palm down and waves it left and right twice in small rhythmic shakes like counting the beat, at 2-3s he rotates his free hand in front of him making small forward circles like steering a paddle, at 3-4s he thrusts his free arm forward and pulls it back in a swimming stroke motion twice, at 4-5s he finishes with his free arm stretched straight forward toward the camera in a confident conducting gesture, coffee cup stays in his other hand the whole time, rooftop cafe sunset bokeh background stays fixed, full upper body framing, handheld phone camera feel, 9:16 vertical"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, face morphing, extra arms, coffee cup disappearing, coffee spilling, identity change, subtitles, text overlay, static still pose, only head moving, camera shake, horror, NSFW, slow motion, freeze frame"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_meme_dance_boat_coffee_man_a

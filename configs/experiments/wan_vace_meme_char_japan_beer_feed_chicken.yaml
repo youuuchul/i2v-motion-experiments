@@ -1,0 +1,27 @@
+experiment: wan_vace_meme_char_japan_beer_feed_chicken
+notes: |
+  meme_ai_character round8 — 뒤의 맥주 1잔이 캐릭터로 일어나서 앞에 놓인 닭꼬치 하나를 집어 카메라
+  쪽으로 내밀며 "먹여주기" 하는 포맷. 두 제품(맥주+닭꼬치) 상호작용 검증.
+tags: ["v2", "meme_round8", "meme_ai_character", "realistic_food_anthropomorph", "two_product_interaction", "feed_to_camera", "5s"]
+
+template:
+  motion_template: null
+  meme_template: meme_ai_character
+  category: meme
+  subcategory: meme_ai_character
+  intent: meme
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/meme_5s.yaml
+
+input:
+  mode: i2v
+  image: assets/samples/japan_beer_chicken.png
+  prompt: "the left beer mug slowly comes to life, two stubby glass arms form from its sides and cartoon eyes pop open above the foam line, the foam shapes into a smiling mouth, the beer mug character leans forward on the tabletop, at 1-2s it reaches one glass arm down and picks up the front yakitori chicken skewer from the black plate, at 2-3s it lifts the skewer with one arm and extends it forward toward the camera in an offer gesture, at 3-4s it pushes the skewer even closer filling most of the frame as if feeding the viewer, sesame seeds and glossy tare sauce clearly visible on the chicken, at 4-5s the beer mug pulls back slightly and winks while keeping the skewer pointed at the camera, the right beer mug stays still in the background, izakaya wooden tabletop background stays fixed, single centered framing, handheld phone camera feel, 9:16 vertical"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, beer spilling, beer mug tipping over permanently, plate flying, extra beer mugs, scary face, horror, text overlay, camera shake, NSFW, aggressive motion, skewer stabbing lens"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_meme_char_japan_beer_feed_chicken

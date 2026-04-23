@@ -1,0 +1,28 @@
+experiment: wan_vace_meme_char_japan_chicken_mic_karaoke
+notes: |
+  meme_ai_character round9 — japan_beer_chicken.png. 닭꼬치 중 하나가 꼬치 막대를
+  마이크처럼 쥐고 일어서서 노래 부르는 케이스. standup_talk 대비 "물건을 들고
+  퍼포먼스" 의인화 디테일. 맥주잔·테이블 등 배경은 고정.
+tags: ["v2", "round9", "meme_ai_character", "realistic_food_anthropomorph", "product_transform", "mic_karaoke", "5s"]
+
+template:
+  motion_template: null
+  meme_template: meme_ai_character
+  category: meme
+  subcategory: meme_ai_character
+  intent: meme
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/meme_5s.yaml
+
+input:
+  mode: i2v
+  image: assets/samples/japan_beer_chicken.png
+  prompt: "one of the grilled chicken yakitori skewers in the front slowly stands upright on its own pointed skewer tip like a tiny microphone stand, cartoon eyes and a stretchy mouth form on the top chicken piece, two thin yakitori-glaze arms extend from the sides, the chicken character grips the lower half of its own skewer like holding a microphone, opens its mouth wide and sings passionately with small exaggerated head bobs and subtle glow of stage light, background japanese izakaya beer mugs and wooden table stay perfectly fixed, vapor wisps rise gently around the skewer, cinematic centered framing, slight handheld phone camera feel, 9:16 vertical"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, beer mug moving, table moving, skewer flying, extra chickens, scary face, horror, text overlay, NSFW, aggressive motion, camera shake, chicken falling off skewer"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_meme_char_japan_chicken_mic_karaoke

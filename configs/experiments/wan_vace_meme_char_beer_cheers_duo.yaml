@@ -1,0 +1,28 @@
+experiment: wan_vace_meme_char_beer_cheers_duo
+notes: |
+  meme_ai_character round9 — beer.png. 프레임 안 맥주병이 분신술처럼 둘로 늘어나
+  (또는 이웃에 하나 더 생성), 두 병 모두 캐릭터화되어 서로 건배하는 케이스.
+  단일 제품 → 멀티 캐릭터 확장 + 두 캐릭터의 동시 인터랙션 검증.
+tags: ["v2", "round9", "meme_ai_character", "product_transform", "multi_character", "cheers_interaction", "5s"]
+
+template:
+  motion_template: null
+  meme_template: meme_ai_character
+  category: meme
+  subcategory: meme_ai_character
+  intent: meme
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/meme_5s.yaml
+
+input:
+  mode: i2v
+  image: assets/samples/beer.png
+  prompt: "the beer bottle in the center shimmers and a second identical beer bottle gently slides in from the right so two bottles stand side by side on the wooden table, both bottles come alive — cartoon eyes pop open on their glass labels, small curved mouths form with happy smiles, two short arms extend from each bottle's sides, the two beer bottle characters turn to face each other, lean in slightly and clink themselves together in a cheerful 'cheers' motion, tiny foam droplets fizz up on top, label paper wrinkles like expressive eyebrows, wooden background stays fixed, warm pub lighting, centered framing, subtle camera stillness, 9:16 vertical"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, bottles breaking, extra bottles multiplying, glass shattering, scary face, horror, text overlay, NSFW, violent motion, camera shake, bottles flying"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_meme_char_beer_cheers_duo

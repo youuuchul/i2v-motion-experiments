@@ -1,0 +1,26 @@
+experiment: wan_vace_man_box_orbit_pan
+notes: |
+  motion round7 — orbit_pan 프리미티브 확장. man_box 베이스에서 약한 오빗/좌우 팬 카메라 워크.
+tags: ["v2", "motion_round7", "orbit_pan", "motion_primitive", "5s"]
+
+template:
+  motion_template: orbit_pan
+  meme_template: null
+  category: motion
+  subcategory: orbit_pan
+  intent: product_showcase
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/meme_5s.yaml
+
+input:
+  mode: i2v
+  image: assets/samples/man_box.JPG
+  prompt: "smooth slow camera orbit around the young man in dark gray hoodie holding the small gift box, camera starts centered then pans slightly left-to-right in a shallow arc, the subject stays mostly still with a natural smile and gentle breathing, the small gift box stays in his hands, bright kitchen background shifts naturally with the parallax of the pan, subtle shoulder sway only, 9:16 vertical"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, face morphing, box disappearing, subject walking, full body rotation, text overlay, sudden camera jerks, shaky handheld look, NSFW"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_man_box_orbit_pan

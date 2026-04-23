@@ -1,0 +1,31 @@
+experiment: wan_vace_meme_dance_sample_female_boom
+notes: |
+  meme_dance_ref round6 — 레퍼런스 주체(젊은 여성)와 성별·연령대 매칭되는 자체 샘플(sample.png, 카페 세팅의 한국 여성) 에 풀안무 boom 프롬프트 적용.
+  가설: 주체가 레퍼런스와 닮으면 모델이 해당 안무를 더 자연스럽게 전사할 가능성.
+  베이스: 자체 샘플 sample.png (레퍼런스 프레임 사용 금지).
+tags: ["v2", "meme_round6", "meme_dance_ref", "boom_prompt", "subject_match", "own_sample_only", "5s"]
+
+template:
+  motion_template: null
+  meme_template: meme_dance_ref
+  category: meme
+  subcategory: meme_dance_ref
+  intent: meme
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/meme_5s.yaml
+
+input:
+  mode: i2v
+  image: assets/samples/sample.png
+  source_reference:
+    url: https://www.youtube.com/shorts/0qKKrIXT1Lo
+    description: "붐샤카라카 댄스 안무 참조 (프롬프트로만 전달). 이미지는 자체 샘플 sample.png (한국 여성 카페 샷)."
+  prompt: "the young Korean woman with long dark hair in cream knit sweater and apron puts down her coffee cup and starts an energetic viral dance, she rhythmically sways her hips side to side, her arms rise up above her head and alternate left to right in rhythm, she pumps her fists up in beat, slight hops in place with bouncy energy, her natural smile widens into a playful grin as she gets into the groove, warm cafe interior background with string lights stays fixed, upper body and partial leg framing, handheld phone camera feel, 9:16 vertical"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, face morphing, extra arms, cup deformation, coffee spilling, text overlay, static still pose, only head moving, camera shake, horror, NSFW, body proportions warping"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_meme_dance_sample_female_boom

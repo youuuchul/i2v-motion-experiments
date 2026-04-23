@@ -1,0 +1,31 @@
+experiment: wan_vace_meme_dance_boat_coffee_man_b
+notes: |
+  boat_dance round1 — coffee_man.png 베이스, B 변주: "imagined dragon-boat setting" 약간 삽입.
+  프롬프트에서 배경은 유지하되 꼬마 선장 레퍼런스를 살짝 invoke ("as if conducting a dragon boat crew")
+  → identity 유지 vs. 밈 레퍼런스 강도 trade-off 체크.
+tags: ["v2", "meme_boat_dance_round1", "meme_dance_ref", "boat_dance", "own_sample_only", "reference_invoke_prompt", "5s"]
+
+template:
+  motion_template: null
+  meme_template: meme_dance_ref
+  category: meme
+  subcategory: meme_dance_ref
+  intent: meme
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/meme_5s.yaml
+
+input:
+  mode: i2v
+  image: assets/samples/coffee_man.png
+  source_reference:
+    url: https://www.youtube.com/shorts/Or_1yQGAjCQ
+    description: "드래곤 보트 레전드 꼬마 선장 안무 레퍼런스를 invoke. 이미지는 자체 샘플 coffee_man.png."
+  prompt: "the young man in black blazer holding his iced coffee acts like the legendary dragon-boat kid captain conducting a paddling crew, same rooftop cafe background stays intact, 5-second beat-matched choreography: at 0-1s stands still with a confident captain gaze and gives one ready nod, at 1-2s raises his free hand palm down in front of his chest and waves it left and right twice like counting strokes, at 2-3s rotates his free hand in tight forward circles like steering a paddle, at 3-4s alternates free arm forward and back in a wide swimming stroke like leading rowers, at 4-5s extends his free arm straight forward toward the camera in the signature finishing pose, coffee cup stays in his other hand, rooftop cafe bokeh stays fixed, full upper body framing, handheld phone camera feel, 9:16 vertical"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, face morphing, extra arms, coffee cup disappearing, coffee spilling, identity change, background replaced by water, boat appearing, subtitles, text overlay, static still pose, only head moving, camera shake, horror, NSFW, slow motion, freeze frame"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_meme_dance_boat_coffee_man_b

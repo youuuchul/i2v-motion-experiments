@@ -1,0 +1,28 @@
+experiment: wan_vace_meme_animal_bear_beer_peek
+notes: |
+  meme_ai_animal round9 — beer.png. 외부 캐릭터(3D 픽사풍 작은 갈색 곰) 이 배경에서
+  등장해 맥주병을 호기심 가득하게 쳐다보는 케이스. 제품은 그대로, 외부 엔티티 등장
+  밈 (#3) 의 전형적 상호작용 검증.
+tags: ["v2", "round9", "meme_ai_animal", "external_animal", "peek_interaction", "5s"]
+
+template:
+  motion_template: null
+  meme_template: meme_ai_animal
+  category: meme
+  subcategory: meme_ai_animal
+  intent: meme
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/meme_5s.yaml
+
+input:
+  mode: i2v
+  image: assets/samples/beer.png
+  prompt: "a small cute pixar-style 3D cartoon brown bear appears slowly from behind the right edge of the wooden table, only its round head and two tiny paws become visible as it peeks over the table surface, big curious amber eyes fix on the beer bottle, the bear sniffs the bottle neck twice with small whisker twitches, then tilts its head sideways in wonder, subtle round ears flicker, beer bottle and wooden table and background remain perfectly still, warm pub lighting, shallow depth of field, centered framing, 9:16 vertical, cinematic"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, realistic bear, scary animal, teeth showing, aggressive motion, bear knocking bottle, beer falling, extra bears, text overlay, NSFW, camera shake, horror"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_meme_animal_bear_beer_peek

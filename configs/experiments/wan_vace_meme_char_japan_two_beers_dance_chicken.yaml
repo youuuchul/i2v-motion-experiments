@@ -1,0 +1,27 @@
+experiment: wan_vace_meme_char_japan_two_beers_dance_chicken
+notes: |
+  meme_ai_character round8 — 맥주 2잔이 동시에 캐릭터가 되어 양손에 닭꼬치 하나씩 들고 춤추는 포맷.
+  mirror motion 이 양쪽에서 대칭적으로 나오는지 + 들고 있는 꼬치가 떨어지지 않는지 테스트.
+tags: ["v2", "meme_round8", "meme_ai_character", "realistic_food_anthropomorph", "multi_character", "mirror_dance", "5s"]
+
+template:
+  motion_template: null
+  meme_template: meme_ai_character
+  category: meme
+  subcategory: meme_ai_character
+  intent: meme
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/meme_5s.yaml
+
+input:
+  mode: i2v
+  image: assets/samples/japan_beer_chicken.png
+  prompt: "both beer mugs on the table slowly come to life at the same time, each grows two stubby glass arms and cartoon eyes pop open on the foam, foam mouths form smiles, at 1-2s each beer mug picks up a yakitori chicken skewer from the black plate holding one skewer in each arm, at 2-3s both beer mugs sway their upper bodies side to side in sync while waving the chicken skewers like little dance sticks, at 3-4s they raise their skewers up high above their heads and shake them rhythmically like pom-poms, at 4-5s they clink their skewers together in the middle of the frame then strike a final celebratory pose holding skewers forward toward the camera, foam jiggles with each motion, sesame seeds and tare sauce stay glossy on the skewers, izakaya wooden tabletop background stays fixed, mirror-symmetric choreography, handheld phone camera feel, 9:16 vertical"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, beer spilling, beer mug tipping over, skewer pieces flying off, extra beer mugs appearing, asymmetric character warping, scary face, horror, text overlay, camera shake, NSFW, aggressive violence, skewer stabbing lens, glass breaking"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_meme_char_japan_two_beers_dance_chicken

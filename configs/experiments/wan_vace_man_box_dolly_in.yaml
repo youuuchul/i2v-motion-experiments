@@ -1,0 +1,26 @@
+experiment: wan_vace_man_box_dolly_in
+notes: |
+  motion round7 — dolly_in 프리미티브 확장 검증. 새 베이스 (man_box.JPG) 로 push-in 카메라 워크.
+tags: ["v2", "motion_round7", "dolly_in", "motion_primitive", "5s"]
+
+template:
+  motion_template: dolly_in
+  meme_template: null
+  category: motion
+  subcategory: dolly_in
+  intent: product_showcase
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/meme_5s.yaml
+
+input:
+  mode: i2v
+  image: assets/samples/man_box.JPG
+  prompt: "slow cinematic dolly-in push toward the young man in dark gray hoodie holding the small gift box, camera smoothly glides forward closer to him, he remains still but his big natural smile slowly becomes more prominent, subtle shoulder sway, he tilts the gift box slightly toward the lens at the end, bright kitchen background slowly blurs as the camera approaches, shallow depth of field increases, 9:16 vertical"
+  negative_prompt: "low quality, blurry (not from DOF), watermark, distorted, jittery, face morphing, box deformation, box disappearing, zooming in digitally (use dolly not zoom), text overlay, camera shake, NSFW, sudden camera jerks"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_man_box_dolly_in

@@ -1,0 +1,31 @@
+experiment: wan_vace_meme_dance_sample_female_beat_matched
+notes: |
+  meme_dance_ref round6 — sample.png (레퍼런스와 성별 매치되는 한국 여성) + 시간 세그먼트 프롬프트 조합.
+  가설: 주체 매칭 + beat-matched 구조가 하나라도 없는 것보다 안무 전사가 선명해짐.
+  베이스: 자체 샘플 sample.png (레퍼런스 프레임 사용 금지).
+tags: ["v2", "meme_round6", "meme_dance_ref", "beat_matched_prompt", "subject_match", "own_sample_only", "5s"]
+
+template:
+  motion_template: null
+  meme_template: meme_dance_ref
+  category: meme
+  subcategory: meme_dance_ref
+  intent: meme
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/meme_5s.yaml
+
+input:
+  mode: i2v
+  image: assets/samples/sample.png
+  source_reference:
+    url: https://www.youtube.com/shorts/0qKKrIXT1Lo
+    description: "붐샤카라카 댄스 — 시간 세그먼트 프롬프트. 이미지는 자체 샘플 sample.png."
+  prompt: "the young Korean woman with long dark hair in cream sweater performs a short trending viral dance in 5 seconds, beat-matched choreography: at 0-1s she puts down her coffee cup and sways her hips left and right twice while bobbing her head to the beat, at 1-2s both arms rise up above her head and alternate side to side like waving in rhythm, at 2-3s she pumps her fists forward twice in sharp beat pumps, at 3-4s she does a small hop in place with shoulders rolling, at 4-5s she lands into a playful confident pose with a big smile, warm cafe interior background with string lights stays fixed, upper body framing, handheld phone camera feel, 9:16 vertical"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, face morphing, extra arms, cup deformation, text overlay, static still pose, only head moving, camera shake, horror, NSFW, slow motion, freeze frame, body proportions warping"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_meme_dance_sample_female_beat_matched

@@ -1,0 +1,27 @@
+experiment: wan_vace_pizza_dolly_in
+notes: |
+  motion template showcase — pizza.png + dolly_in. 피자 위로 천천히 들어가는 slow
+  push-in 카메라 연출. food hero shot 예시.
+tags: ["v2", "round9", "motion_showcase", "dolly_in", "5s"]
+
+template:
+  motion_template: dolly_in
+  meme_template: null
+  category: motion
+  subcategory: dolly_in
+  intent: product_showcase
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/meme_5s.yaml
+
+input:
+  mode: i2v
+  image: assets/samples/pizza.png
+  prompt: "slow smooth cinematic dolly-in camera move gradually pushing forward toward the center of the hot pepperoni basil pizza, camera glides in at a steady gentle pace, framing tightens over five seconds from full pizza view to a closer hero shot of the cheese and pepperoni, shallow depth of field subtly deepens as we approach, pizza itself remains still on the wooden board, very faint steam wisps rise, cheese shows subtle glossy shimmer, warm kitchen lighting, cinematic food advertising style, 9:16 vertical"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, fast camera zoom, shaky handheld, pan, orbit, pizza moving, board moving, camera pulling back, text overlay, NSFW, heavy motion blur"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_pizza_dolly_in

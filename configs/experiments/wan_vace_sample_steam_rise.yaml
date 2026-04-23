@@ -1,0 +1,26 @@
+experiment: wan_vace_sample_steam_rise
+notes: |
+  motion round7 — steam_rise 프리미티브. sample.png 의 따뜻한 라떼에서 자연스러운 김/증기 상승 (기존 beer 계열 steam 검증 후 드링크로 확장).
+tags: ["v2", "motion_round7", "steam_rise", "motion_primitive", "5s"]
+
+template:
+  motion_template: steam_rise
+  meme_template: null
+  category: motion
+  subcategory: steam_rise
+  intent: product_showcase
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/meme_5s.yaml
+
+input:
+  mode: i2v
+  image: assets/samples/sample.png
+  prompt: "warm delicate wisps of steam slowly rise from the surface of the latte in the young Korean woman's cup, the steam curls gently upward in soft translucent tendrils catching the warm cafe lighting, foam art on the latte stays stable, subtle heat shimmer above the cup, the woman remains almost still with only gentle natural breathing and a soft smile, cream sweater and apron stay in place, warm cafe interior with string lights background stays fixed, close-mid framing on the cup and her hands, 9:16 vertical"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, excessive smoke or fog, cartoon steam puffs, cup deformation, coffee spilling, face morphing, text overlay, camera shake, NSFW"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_sample_steam_rise

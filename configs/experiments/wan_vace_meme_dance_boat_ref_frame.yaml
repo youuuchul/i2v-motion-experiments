@@ -1,0 +1,32 @@
+experiment: wan_vace_meme_dance_boat_ref_frame
+notes: |
+  boat_dance round1 — 레퍼런스 영상 "레전드 꼬마 선장" 첫 정적 프레임을 i2v 입력으로 **1회성 예외** 사용.
+  목적: 원 레퍼런스 프레임에서 출발했을 때 안무 6단계(정적→아래흔들→회전→앞뒤뻗기→수영→쭉뻗기)가
+  프롬프트만으로 얼마나 재현되는지 벤치마크. 다른 boat_dance 실험과 품질 비교 기준선.
+  **원칙 위반 1회 예외** — user 명시 승인 (2026-04-18). 나머지 boat_dance 실험은 모두 자체 샘플.
+tags: ["v2", "meme_boat_dance_round1", "meme_dance_ref", "boat_dance", "ref_frame_exception_1shot", "5s"]
+
+template:
+  motion_template: null
+  meme_template: meme_dance_ref
+  category: meme
+  subcategory: meme_dance_ref
+  intent: meme
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/meme_5s.yaml
+
+input:
+  mode: i2v
+  image: assets/memes/dance_ref/boat_dance/start_frame_kid_standing.png
+  source_reference:
+    url: https://www.youtube.com/shorts/Or_1yQGAjCQ
+    description: "드래곤 보트 레전드 꼬마 선장 안무. 시작 프레임(아이 뱃머리 정적 서기) 1회 예외 사용. 뒤에 빨간 유니폼 노 젓는 팀 배경 유지."
+  prompt: "the little boy in black traditional robe and pointed black hat with sunglasses stands on the red dragon boat bow and performs a 5-second conductor dance leading the paddlers behind him, beat-matched choreography: at 0-1s he stands still facing forward with arms lowered and gives one gentle ready nod, at 1-2s he raises both hands in front of his chest with palms down and waves them left and right twice in small rhythmic shakes like counting the beat, at 2-3s he rotates both hands in front of him making small forward circles like steering the paddles, at 3-4s he thrusts his right arm forward and his left arm back in a wide lunge pose then alternates arms once doing a swimming stroke motion, at 4-5s he finishes with his right arm stretched straight forward toward the camera in a confident conducting gesture, the red and yellow dragon boat stays centered, red-uniformed paddlers keep paddling rhythmically in the background, water ripples gently, full body framing, handheld phone camera feel, 9:16 vertical"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, face morphing, extra arms, hat falling off, boat tipping, child falling into water, subtitles, text overlay, static still pose, only head moving, camera shake, horror, NSFW, slow motion, freeze frame"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_meme_dance_boat_ref_frame

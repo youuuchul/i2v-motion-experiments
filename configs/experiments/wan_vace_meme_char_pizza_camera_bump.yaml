@@ -1,0 +1,27 @@
+experiment: wan_vace_meme_char_pizza_camera_bump
+notes: |
+  meme_ai_character round8 — 피자 캐릭터가 일어나 카메라 렌즈에 얼굴을 박치기. 페퍼로니와 치즈가
+  렌즈에 묻고, 보이지 않는 손이 닦아주며 렌즈가 다시 깨끗해지는 연출. 렌즈 묻기/닦이기 임팩트 효과 검증.
+tags: ["v2", "meme_round8", "meme_ai_character", "realistic_food_anthropomorph", "camera_bump", "lens_smudge_wipe", "5s"]
+
+template:
+  motion_template: null
+  meme_template: meme_ai_character
+  category: meme
+  subcategory: meme_ai_character
+  intent: meme
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/meme_5s.yaml
+
+input:
+  mode: i2v
+  image: assets/samples/pizza.png
+  prompt: "the round pepperoni basil pizza grows two small cheesy arms and two little crust legs, it stands up on the wooden board with cartoon eyes popping open on its surface, at 1-2s it gets excited and leaps forward toward the camera, at 2-3s its pepperoni face collides with the camera lens leaving greasy pepperoni rounds and smears of melted mozzarella cheese and tomato sauce spattered across the entire lens in a comedic splat, at 3-4s a pov-hand wearing a white napkin wipes across the lens from left to right cleaning off the cheese and pepperoni smudges, at 4-5s the lens is fully clean again showing the pizza character sitting back on the board looking sheepish and waving one little cheesy arm at the camera, wooden tabletop background stays fixed, single centered framing, handheld phone camera feel, 9:16 vertical"
+  negative_prompt: "low quality, blurry throughout, watermark, distorted, jittery, pizza sliding off board permanently, extra pizzas, scary face, horror, text overlay, camera shake, NSFW, aggressive violence, broken lens, cracked glass"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_meme_char_pizza_camera_bump

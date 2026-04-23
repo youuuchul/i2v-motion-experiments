@@ -1,0 +1,27 @@
+experiment: wan_vace_pizza_steam_rise
+notes: |
+  motion template showcase — pizza.png + steam_rise. 피자 표면에서 따뜻한 김이 천천히
+  위로 올라오는 clean motion primitive 예시. 템플릿 라이브러리 용도.
+tags: ["v2", "round9", "motion_showcase", "steam_rise", "5s"]
+
+template:
+  motion_template: steam_rise
+  meme_template: null
+  category: motion
+  subcategory: steam_rise
+  intent: product_showcase
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/meme_5s.yaml
+
+input:
+  mode: i2v
+  image: assets/samples/pizza.png
+  prompt: "gentle thin warm steam wisps rising slowly and softly from the surface of the hot pepperoni basil pizza, steam curls upward in delicate swirling threads, cheese retains a subtle glossy shimmer, basil leaves remain perfectly still, pepperoni edges glisten, wooden board and background stay fixed, warm soft kitchen lighting with a slight back-light to make the steam catch light, centered framing, shallow depth of field, no camera movement, 9:16 vertical, cinematic"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, smoke, fire, heavy fog, dense smoke, pizza moving, cheese falling, extra pizzas, text overlay, NSFW, camera shake, strong wind, pepperoni flying"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_pizza_steam_rise

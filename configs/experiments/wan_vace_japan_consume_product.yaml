@@ -1,0 +1,28 @@
+experiment: wan_vace_japan_consume_product
+notes: |
+  motion template showcase — japan_beer_chicken.png + consume_product. 프레임 우측에서
+  손이 들어와 닭꼬치 하나를 집어 카메라 쪽으로 가져가 한 입 먹는 연출. izakaya 씬
+  실사용 F&B 모션 (consume_product) 샘플.
+tags: ["v2", "round9_ext", "motion_showcase", "consume_product", "5s"]
+
+template:
+  motion_template: consume_product
+  meme_template: null
+  category: motion
+  subcategory: consume_product
+  intent: product_showcase
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/meme_5s.yaml
+
+input:
+  mode: i2v
+  image: assets/samples/japan_beer_chicken.png
+  prompt: "a natural human hand slides in from the right side of the frame, fingers gently grip the wooden stick of one grilled chicken yakitori skewer in front, the hand smoothly lifts the skewer up and pulls it slightly toward the camera, holding it at a slight angle as if about to take a bite, warm grill glaze on the chicken catches the pub light, tiny wisps of steam rise from the just-lifted piece, japanese beer mug and remaining skewers on the wooden table stay perfectly fixed in the background, warm izakaya lighting, shallow depth of field, centered framing, handheld phone camera feel, 9:16 vertical"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, extra hands, deformed hand, hand with wrong fingers, skewer breaking, chicken falling off, beer mug tipping, table moving, whole plate moving, text overlay, NSFW, camera shake, violent bite"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_japan_consume_product

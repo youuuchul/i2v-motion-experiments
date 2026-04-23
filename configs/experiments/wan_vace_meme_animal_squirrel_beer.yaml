@@ -1,0 +1,27 @@
+experiment: wan_vace_meme_animal_squirrel_beer
+notes: |
+  meme_ai_animal round7 — 씬 오른쪽에서 작은 다람쥐가 등장해 맥주병에 킁킁대며 관심 보이는 외부 동물 등장 밈.
+  베이스: 자체 샘플 beer.png (맥주는 배경 유지, 외부 동물 추가). i2v + text only.
+tags: ["v2", "meme_round7", "meme_ai_animal", "external_animal", "5s"]
+
+template:
+  motion_template: null
+  meme_template: meme_ai_animal
+  category: meme
+  subcategory: meme_ai_animal
+  intent: meme
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/meme_5s.yaml
+
+input:
+  mode: i2v
+  image: assets/samples/beer.png
+  prompt: "a small fluffy red squirrel with a bushy tail appears from the right edge of the frame, it hops up onto the wooden table next to the amber beer bottle, stands on its hind legs and sniffs curiously at the bottle cap with its tiny pink nose, whiskers twitching, its big black eyes blink cutely, tail flicks back and forth, the beer bottle stays perfectly still in the center of the frame, warm pub tabletop background stays fixed, wood grain visible, handheld phone camera feel, 9:16 vertical"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, bottle deformation, squirrel attacking, multiple squirrels, scary animal, horror, bottle tipping, text overlay, camera shake, NSFW, gore"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_meme_animal_squirrel_beer

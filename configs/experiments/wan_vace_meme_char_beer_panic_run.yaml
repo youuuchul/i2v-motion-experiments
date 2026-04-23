@@ -1,0 +1,27 @@
+experiment: wan_vace_meme_char_beer_panic_run
+notes: |
+  meme_ai_character round7 — 맥주병이 깜짝 놀라 무서워서 프레임 밖으로 도망치는 풀바디 밈.
+  베이스: 자체 샘플 beer.png. 급격한 동작(놀람 → 뒷걸음질 → 뛰기) 생성 가능성 검증.
+tags: ["v2", "meme_round7", "meme_ai_character", "realistic_food_anthropomorph", "high_energy", "5s"]
+
+template:
+  motion_template: null
+  meme_template: meme_ai_character
+  category: meme
+  subcategory: meme_ai_character
+  intent: meme
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/meme_5s.yaml
+
+input:
+  mode: i2v
+  image: assets/samples/beer.png
+  prompt: "the amber beer bottle suddenly grows wide shocked eyes on its label, stubby cartoon arms shoot out waving frantically in the air, two little legs sprout and begin running in place like looney tunes, the bottle panics and starts backing away from the camera, then turns and sprints toward the right edge of the frame leaving a small dust cloud, cap flies off with a comic puff of air, warm pub tabletop background stays fixed, handheld phone camera feel, 9:16 vertical"
+  negative_prompt: "low quality, blurry, watermark, distorted, face morphing, bottle melting, bottle breaking, glass shattering, scary horror face, extra bottles, text overlay, camera shake, NSFW, gore"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_meme_char_beer_panic_run

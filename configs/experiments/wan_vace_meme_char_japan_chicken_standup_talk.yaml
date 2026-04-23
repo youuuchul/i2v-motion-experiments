@@ -1,0 +1,27 @@
+experiment: wan_vace_meme_char_japan_chicken_standup_talk
+notes: |
+  meme_ai_character round8 — 일본 이자카야 닭꼬치(야키토리)가 꼬치째로 일어나서 수다 떠는 포맷.
+  베이스: 자체 샘플 japan_beer_chicken.png (닭꼬치 접시 + 맥주 2잔). 핵심 타겟은 닭꼬치.
+tags: ["v2", "meme_round8", "meme_ai_character", "realistic_food_anthropomorph", "product_transform", "standup_talk", "5s"]
+
+template:
+  motion_template: null
+  meme_template: meme_ai_character
+  category: meme
+  subcategory: meme_ai_character
+  intent: meme
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/meme_5s.yaml
+
+input:
+  mode: i2v
+  image: assets/samples/japan_beer_chicken.png
+  prompt: "one of the front yakitori chicken skewers on the black plate slowly stands up on its wooden stick like a tiny human, cartoon eyes pop open on the top chicken piece, a small sesame-speckled mouth forms on the second piece, two thin chicken-piece arms extend from its sides, it stands upright on the plate balancing on its skewer stick and starts talking animatedly waving its little chicken arms, sesame seeds shift like freckles, glossy tare sauce shines as it speaks, the other skewers stay lying on the plate, two beer mugs remain still in the background with foam softly settling, izakaya wooden tabletop background stays fixed, single centered framing, handheld phone camera feel, 9:16 vertical"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, plate moving, beer spilling, extra skewers, scary face, horror, text overlay, camera shake, NSFW, aggressive motion, skewer flying away"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_meme_char_japan_chicken_standup_talk

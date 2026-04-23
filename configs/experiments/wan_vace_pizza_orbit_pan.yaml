@@ -1,0 +1,27 @@
+experiment: wan_vace_pizza_orbit_pan
+notes: |
+  motion template showcase — pizza.png + orbit_pan. 피자 둘레를 천천히 좌→우로
+  훑는 light orbit. food hero 용 orbit/pan 프리미티브 샘플.
+tags: ["v2", "round9_ext", "motion_showcase", "orbit_pan", "5s"]
+
+template:
+  motion_template: orbit_pan
+  meme_template: null
+  category: motion
+  subcategory: orbit_pan
+  intent: product_showcase
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/meme_5s.yaml
+
+input:
+  mode: i2v
+  image: assets/samples/pizza.png
+  prompt: "smooth gentle orbit pan camera move, the camera slowly sweeps from the left side of the hot pepperoni basil pizza around to the right side with a subtle arc, framing stays tight on the pizza keeping it center, wooden board rotates relative to camera as orbit progresses, pizza itself remains perfectly still on the board, cheese surface keeps a soft glossy shimmer, very thin warm steam curls up gently, pepperoni highlights move naturally with the light as angle changes, warm kitchen lighting, shallow depth of field, handheld phone feel but very stable, 9:16 vertical"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, fast orbit, dolly in, dolly out, handheld shake, pizza spinning, board spinning violently, extra pizzas, text overlay, NSFW, whip pan"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_pizza_orbit_pan

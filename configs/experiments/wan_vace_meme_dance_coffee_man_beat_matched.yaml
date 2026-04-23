@@ -1,0 +1,31 @@
+experiment: wan_vace_meme_dance_coffee_man_beat_matched
+notes: |
+  meme_dance_ref round6 — 프롬프트에 **시간 세그먼트** 를 명시해서 레퍼런스 붐샤카라카 안무 박자를 유도.
+  5초 영상을 0-1s / 1-2s / 2-3s / 3-4s / 4-5s 구간으로 쪼개 각 비트에 대응하는 동작을 프롬프트에 기재.
+  베이스: 자체 샘플 coffee_man.png (레퍼런스 프레임 사용 금지).
+tags: ["v2", "meme_round6", "meme_dance_ref", "beat_matched_prompt", "own_sample_only", "5s"]
+
+template:
+  motion_template: null
+  meme_template: meme_dance_ref
+  category: meme
+  subcategory: meme_dance_ref
+  intent: meme
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/meme_5s.yaml
+
+input:
+  mode: i2v
+  image: assets/samples/coffee_man.png
+  source_reference:
+    url: https://www.youtube.com/shorts/0qKKrIXT1Lo
+    description: "붐샤카라카 댄스 안무 — 프롬프트에 시간 세그먼트로 인코딩. 이미지는 자체 샘플 coffee_man.png."
+  prompt: "the young man in black blazer still holding his iced coffee performs a short trending viral dance in 5 seconds, beat-matched choreography: at 0-1s he sways his hips left and right twice while bobbing his head to the beat, at 1-2s his free arm rises up above his head and alternates side to side like waving in rhythm, at 2-3s he pumps his free fist forward twice in sharp beat pumps, at 3-4s he does a small hop in place with shoulders rolling, at 4-5s he lands back into a confident pose with a big smile, coffee cup stays in hand throughout, warm rooftop cafe sunset bokeh background stays fixed, full upper body and partial leg framing, handheld phone camera feel, 9:16 vertical"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, face morphing, extra arms, coffee cup disappearing, coffee spilling, text overlay, static still pose, only head moving, camera shake, horror, NSFW, slow motion, freeze frame"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_meme_dance_coffee_man_beat_matched

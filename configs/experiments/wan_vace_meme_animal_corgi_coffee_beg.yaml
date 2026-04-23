@@ -1,0 +1,28 @@
+experiment: wan_vace_meme_animal_corgi_coffee_beg
+notes: |
+  meme_ai_animal round9 — coffee_man.png. 외부 동물(코기 강아지) 이 테이블 옆에서
+  등장해 앞발을 모으고 애원하듯 쳐다보는 "beg" 밈 연출. 인물·커피컵 고정,
+  외부 동물 등장 (#3) 범위 확장.
+tags: ["v2", "round9", "meme_ai_animal", "external_animal", "beg_interaction", "5s"]
+
+template:
+  motion_template: null
+  meme_template: meme_ai_animal
+  category: meme
+  subcategory: meme_ai_animal
+  intent: meme
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/meme_5s.yaml
+
+input:
+  mode: i2v
+  image: assets/samples/coffee_man.png
+  prompt: "a cute fluffy corgi puppy pops up from the left side of the cafe table, its happy head and two short front paws peek over the table edge, big pleading amber eyes look up directly at the iced coffee cup, the corgi tilts its head side to side adorably, pink tongue briefly sticks out as it pants softly, short stubby tail wags excitedly out of frame, man holding the coffee cup remains perfectly still with only very subtle smile forming, coffee cup and background cafe stay fixed, warm window light, shallow depth of field, centered framing, phone handheld camera feel, 9:16 vertical"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, scary dog, teeth showing, aggressive motion, dog knocking cup, coffee spilling, extra dogs, human face distortion, text overlay, NSFW, camera shake, horror, man moving dramatically"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_meme_animal_corgi_coffee_beg

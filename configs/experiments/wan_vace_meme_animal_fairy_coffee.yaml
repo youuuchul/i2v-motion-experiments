@@ -1,0 +1,27 @@
+experiment: wan_vace_meme_animal_fairy_coffee
+notes: |
+  meme_ai_animal round7 — 커피컵 옆에 작은 픽시 요정이 나타나 마법 가루를 뿌리는 외부 캐릭터 등장 밈.
+  베이스: 자체 샘플 coffee_man.png (남자와 커피는 유지, 외부 캐릭터 추가). i2v + text only.
+tags: ["v2", "meme_round7", "meme_ai_animal", "external_character", "5s"]
+
+template:
+  motion_template: null
+  meme_template: meme_ai_animal
+  category: meme
+  subcategory: meme_ai_animal
+  intent: meme
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/meme_5s.yaml
+
+input:
+  mode: i2v
+  image: assets/samples/coffee_man.png
+  prompt: "a tiny glowing pixie fairy with translucent dragonfly wings and a small sparkly dress flies in from the right side of the frame and hovers next to the iced coffee cup, she scatters shimmering golden magic dust over the cup with her little hand, the dust trails down in slow glittering spirals, her wings flutter quickly, she giggles silently, the young man holding the coffee and the rooftop sunset background stay perfectly still, warm bokeh lighting preserved, cinematic cute fantasy integration, handheld phone camera feel, 9:16 vertical"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, face morphing on the man, coffee cup deformation, multiple fairies, scary fairy, horror fantasy, text overlay, camera shake, NSFW, coffee spilling"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_meme_animal_fairy_coffee

@@ -1,0 +1,27 @@
+experiment: wan_vace_sample_consume_product
+notes: |
+  motion round7 — consume_product (6개 프리미티브 중 기존 config 0개였던 TODO 항목).
+  베이스: 자체 샘플 sample.png (여성이 라떼를 들고 있음). 한 모금 마시는 동작 생성.
+tags: ["v2", "motion_round7", "consume_product", "motion_primitive", "5s"]
+
+template:
+  motion_template: consume_product
+  meme_template: null
+  category: motion
+  subcategory: consume_product
+  intent: product_showcase
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/meme_5s.yaml
+
+input:
+  mode: i2v
+  image: assets/samples/sample.png
+  prompt: "the young Korean woman slowly raises the latte cup with both hands toward her lips, she tilts the cup gently and takes a small mindful sip of the warm latte, foam art rippling slightly on the surface, her eyes close softly in pleasure, a subtle satisfied smile after she lowers the cup back down, cream sweater and apron stay in place, warm cafe interior with hanging string lights background stays fixed, upper body framing, handheld phone camera feel, 9:16 vertical"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, face morphing, cup deformation, coffee spilling, tongue out, exaggerated cartoon expression, text overlay, camera shake, NSFW, body proportions warping"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_sample_consume_product

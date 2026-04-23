@@ -1,0 +1,27 @@
+experiment: wan_vace_pizza_lift_to_camera
+notes: |
+  motion template showcase — pizza.png + lift_to_camera. 보이지 않는 손이 피자 조각
+  하나를 프레임 안에서 들어올려 카메라 쪽으로 치즈 늘어나는 리프트 연출.
+tags: ["v2", "round9_ext", "motion_showcase", "lift_to_camera", "5s"]
+
+template:
+  motion_template: lift_to_camera
+  meme_template: null
+  category: motion
+  subcategory: lift_to_camera
+  intent: product_showcase
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/meme_5s.yaml
+
+input:
+  mode: i2v
+  image: assets/samples/pizza.png
+  prompt: "a single slice of the pepperoni basil pizza slowly lifts upward out of the round pie, two thin stretchy mozzarella cheese strings extend between the lifted slice and the rest of the pizza, the slice rises smoothly toward the camera lens in a clean vertical motion, melted cheese glistens and drips slightly, pepperoni catches warm light, the rest of the pizza and the wooden board stay perfectly still, warm kitchen lighting with gentle key light from above, centered framing, shallow depth of field, tiny subtle phone camera stillness, 9:16 vertical, cinematic food advertising"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, pizza flipping, cheese breaking violently, slice flying out of frame, hand visible with distortion, extra slices, text overlay, NSFW, camera shake"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_pizza_lift_to_camera

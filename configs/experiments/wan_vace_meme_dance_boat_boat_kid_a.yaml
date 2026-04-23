@@ -1,0 +1,30 @@
+experiment: wan_vace_meme_dance_boat_boat_kid_a
+notes: |
+  boat_dance round1 — 자체 샘플 boat_kid.png 베이스로 6단계 conductor dance 프롬프트 재현.
+  A 변주: 프롬프트에 시간 세그먼트(beat-matched)를 완전히 명시한 full-script version.
+tags: ["v2", "meme_boat_dance_round1", "meme_dance_ref", "boat_dance", "own_sample_only", "beat_matched_prompt", "5s"]
+
+template:
+  motion_template: null
+  meme_template: meme_dance_ref
+  category: meme
+  subcategory: meme_dance_ref
+  intent: meme
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/meme_5s.yaml
+
+input:
+  mode: i2v
+  image: assets/samples/boat_kid.png
+  source_reference:
+    url: https://www.youtube.com/shorts/Or_1yQGAjCQ
+    description: "드래곤 보트 레전드 꼬마 선장 안무 — 프롬프트로 시간 세그먼트 인코딩. 이미지는 자체 샘플 boat_kid.png (ref 프레임 사용 금지)."
+  prompt: "the child in the photo stays in the same pose and background but performs a 5-second conductor dance leading the boat crew, beat-matched choreography: at 0-1s stays still facing forward with arms lowered and gives one gentle ready nod, at 1-2s raises both hands in front of the chest with palms down and waves them left and right twice in small rhythmic shakes like counting the beat, at 2-3s rotates both hands in front of the body making small forward circles like steering paddles, at 3-4s thrusts right arm forward and left arm back in a wide lunge pose then alternates once in a swimming stroke motion, at 4-5s finishes with right arm stretched straight forward toward the camera in a confident conducting gesture, the boat and water and background stay fixed throughout, full body framing, handheld phone camera feel, 9:16 vertical"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, face morphing, extra arms, identity change, person teleporting, boat tipping, child falling into water, subtitles, text overlay, static still pose, only head moving, camera shake, horror, NSFW, slow motion, freeze frame"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_meme_dance_boat_boat_kid_a

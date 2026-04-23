@@ -1,0 +1,27 @@
+experiment: wan_vace_beer_dolly_in
+notes: |
+  motion template showcase — beer.png + dolly_in. 맥주병 단독 샘플에 대한 hero shot
+  slow push-in. beer subject 전용 dolly_in 샘플 (기존엔 beer_menu_hero 레거시만).
+tags: ["v2", "round9_ext", "motion_showcase", "dolly_in", "5s"]
+
+template:
+  motion_template: dolly_in
+  meme_template: null
+  category: motion
+  subcategory: dolly_in
+  intent: product_showcase
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/meme_5s.yaml
+
+input:
+  mode: i2v
+  image: assets/samples/beer.png
+  prompt: "slow smooth cinematic dolly-in camera move gradually pushing forward toward the beer bottle, camera glides steadily closer over five seconds, framing tightens from full table view to a hero close-up centered on the label and the cold condensation droplets on the glass, depth of field subtly deepens as we approach, tiny beads of condensation trickle very slowly down the bottle, foam head if visible barely settles, beer bottle and wooden table stay otherwise still, warm pub lighting with a gentle cool rim light, cinematic beer advertising style, 9:16 vertical"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, fast zoom, pulling back, pan, orbit, bottle tipping, beer spilling, handheld shake, extra bottles, text overlay, NSFW, heavy motion blur"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_beer_dolly_in

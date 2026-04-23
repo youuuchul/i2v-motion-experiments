@@ -1,0 +1,28 @@
+experiment: wan_vace_meme_animal_cat_pizza_steal
+notes: |
+  meme_ai_animal round9 — pizza.png. 외부 동물(귀여운 주황 줄무늬 새끼 고양이) 이
+  프레임 옆에서 등장해 피자 한 조각으로 앞발을 뻗는 "pizza steal" 밈 장면.
+  제품(피자) 은 고정, 외부 동물이 상호작용.
+tags: ["v2", "round9", "meme_ai_animal", "external_animal", "reach_interaction", "5s"]
+
+template:
+  motion_template: null
+  meme_template: meme_ai_animal
+  category: meme
+  subcategory: meme_ai_animal
+  intent: meme
+
+model_config: configs/models/wan2_1_vace_14b.yaml
+preset: configs/presets/meme_5s.yaml
+
+input:
+  mode: i2v
+  image: assets/samples/pizza.png
+  prompt: "a cute small orange tabby kitten slowly rises up from the bottom edge of the wooden board, its round fluffy head and two tiny front paws become visible as it leans over the pizza, big wide green eyes lock onto a pepperoni slice, the kitten stretches out one paw carefully toward the pizza, pauses mid-reach with ears twitching, then looks up quickly as if it was caught, whiskers wiggle, pizza and wooden board and background remain perfectly fixed, warm kitchen lighting, shallow depth of field, centered framing, phone-style handheld feel, 9:16 vertical"
+  negative_prompt: "low quality, blurry, watermark, distorted, jittery, scary cat, teeth bared, aggressive motion, cat eating pizza violently, pizza flying, board tipping, extra cats, text overlay, NSFW, camera shake, horror"
+
+run:
+  seed: 42
+  num_inference_steps: 40
+  guidance_scale: 5.0
+  out_dir: outputs/wan_vace_meme_animal_cat_pizza_steal

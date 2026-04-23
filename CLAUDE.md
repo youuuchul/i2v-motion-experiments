@@ -39,8 +39,15 @@
 - 레퍼런스 소스 URL (외부 영상에서 가져온 경우)
 - 소속 템플릿 (motion_template 또는 meme_template — `docs/TEMPLATES.md` 기준)
 - 생성 duration (3s / 5s / ...)
-- 레이턴시 (wall_sec)
+- 레이턴시 (wall_sec 필수. 가능하면 load_sec / inference_sec / steps_per_sec 도 meta.json 에 남김)
 - 의도/가설 (왜 이 실험을 돌렸는지 한 줄)
+
+**레이턴시 측정 규약** (2026-04-20~):
+- `wall_sec` = run 전체 (로드 + 생성 + 저장). 모든 run 에 필수
+- `load_sec` = 모델 로드 구간. 배치 그룹의 **첫 실행만** 실측치, 같은 그룹 2번째부터 0
+- `inference_sec` = `pipe.generate(request)` 구간 (순수 diffusion)
+- `steps_per_sec` = `num_inference_steps / inference_sec`
+- 모두 `meta.json → metrics.*` 와 `index.jsonl` 에 flat 으로 저장
 
 **배치 단위**로 그룹핑하고, 배치 시작/종료 시점 + 주요 결정/관찰 기록.
 실험 결과 판단 (성공/실패/개선 방향)은 배치 끝에 **관찰** 섹션으로.
@@ -48,5 +55,5 @@
 ## 밈 실험 원칙
 - **meme_ai_character (#1)**: 제품 자체가 캐릭터로 변함 (일어나기/걷기/말하기). 외부 캐릭터 등장이 아님.
 - **meme_ai_animal (#3)**: 외부 캐릭터 또는 동물이 씬에 등장. 범위 = character + animal.
-- **meme_dance_ref (#2)**: i2v base는 **자체 샘플만** 사용. 레퍼런스 영상 프레임을 생성 입력으로 쓰면 안 됨 (PoC 비교 테스트 제외, 명시 태그 필수).
+- **meme_dance_ref (#2)**: i2v base 는 **반드시** `assets/samples/*` 자체 샘플만. 레퍼런스 영상 프레임 (`assets/memes/*/frames/*`) 을 생성 입력 이미지로 쓰는 것 **절대 금지** (예외 없음 — 프레임은 프롬프트 작성 참고용만).
 - 모든 밈 config의 `input.source_reference` 에 원본 영상 URL·프레임 위치 기록.

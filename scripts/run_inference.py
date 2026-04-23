@@ -32,13 +32,15 @@ from i2v.utils.seed import seed_everything
 from i2v.utils.video import center_crop_to_aspect
 
 
-def _build_pipeline(model_cfg: dict):
+def _build_pipeline(model_cfg: dict) -> tuple:
+    """Returns (pipe, load_sec)."""
     cls_path = model_cfg["class"]
     module_name, cls_name = cls_path.rsplit(".", 1)
     cls = getattr(importlib.import_module(module_name), cls_name)
     pipe = cls(**model_cfg.get("init", {}))
+    t = time.time()
     pipe.load()
-    return pipe
+    return pipe, round(time.time() - t, 2)
 
 
 def _vram_peak_mib() -> float | None:
@@ -76,6 +78,8 @@ def main() -> None:
     video_path: Path | None = None
     wall_sec: float | None = None
     vram_peak: float | None = None
+    load_sec: float | None = None
+    inference_sec: float | None = None
 
     with Tee(run_dir / "run.log"):
         t0 = time.time()
@@ -97,7 +101,7 @@ def main() -> None:
             ]
 
             _ = registry  # keeps import used
-            pipe = _build_pipeline(model_cfg)
+            pipe, load_sec = _build_pipeline(model_cfg)
 
             request = GenerationRequest(
                 image=image,
@@ -111,7 +115,9 @@ def main() -> None:
                 num_inference_steps=run.get("num_inference_steps"),
                 extra={"out_dir": str(run_dir)},
             )
+            t_gen = time.time()
             result = pipe.generate(request)
+            inference_sec = round(time.time() - t_gen, 2)
             video_path = Path(result.video_path)
             print(f"saved -> {video_path}")
         except Exception as e:
@@ -137,6 +143,8 @@ def main() -> None:
         video_path=video_path,
         wall_sec=wall_sec,
         vram_peak_mib=round(vram_peak, 1) if vram_peak is not None else None,
+        load_sec=load_sec,
+        inference_sec=inference_sec,
     )
     write_meta(run_dir, meta)
     append_index(args.outputs_root, to_index_entry(meta))

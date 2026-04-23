@@ -60,6 +60,19 @@ st.title("i2v motion lab")
 OUTPUTS_ROOT = Path("outputs")
 INDEX_PATH = OUTPUTS_ROOT / "index.jsonl"
 
+# v2 canonical taxonomy (docs/TEMPLATES.md). 사이드바 필터 순서 고정용.
+CANONICAL_CATEGORIES = ["motion", "meme", "archived"]
+CANONICAL_MOTION_SUBS = [
+    "consume_product", "lift_to_camera",
+    "dolly_in", "orbit_pan",
+    "steam_rise", "surface_shimmer",
+]
+CANONICAL_MEME_SUBS = ["meme_ai_character", "meme_ai_animal", "meme_dance_ref"]
+SUB_BY_CATEGORY = {
+    "motion": CANONICAL_MOTION_SUBS,
+    "meme": CANONICAL_MEME_SUBS,
+}
+
 
 @st.cache_data(ttl=5)
 def load_index(path: Path) -> pd.DataFrame:
@@ -114,9 +127,11 @@ def load_index(path: Path) -> pd.DataFrame:
     # input_type: mode + 이미지 소스를 한눈에 보이는 컬럼
     # t2v → "텍스트 생성", i2v → 이미지 파일명, r2v → "레퍼런스"
     def _input_type(row):
-        mode = row.get("mode") or ""
-        img = row.get("image_path") or ""
-        ref_url = row.get("source_ref_url") or ""
+        def _s(v):
+            return "" if v is None or (isinstance(v, float) and pd.isna(v)) else str(v)
+        mode = _s(row.get("mode"))
+        img = _s(row.get("image_path"))
+        ref_url = _s(row.get("source_ref_url"))
         if mode == "t2v":
             return "텍스트 생성"
         elif mode == "r2v":
@@ -162,6 +177,9 @@ TABLE_COLUMNS = [
     "cfg",
     "seed",
     "wall_sec",
+    "load_sec",
+    "inference_sec",
+    "steps_per_sec",
     "vram_peak_mib",
     "status",
     "archived",
@@ -200,6 +218,9 @@ def render_detail(entry: dict) -> None:
     c1, c2 = st.columns([1, 1])
 
     with c1:
+        st.subheader("source image")
+        _render_source_image(meta, entry, compact=False)
+
         st.subheader("video")
         if video_path and Path(video_path).exists():
             st.video(video_path)
@@ -241,6 +262,9 @@ def render_detail(entry: dict) -> None:
                 "cfg": entry.get("cfg"),
                 "seed": entry.get("seed"),
                 "wall_sec": entry.get("wall_sec"),
+                "load_sec": entry.get("load_sec"),
+                "inference_sec": entry.get("inference_sec"),
+                "steps_per_sec": entry.get("steps_per_sec"),
                 "vram_peak_mib": entry.get("vram_peak_mib"),
                 "status": entry.get("status"),
                 "archived": entry.get("archived"),
@@ -277,6 +301,25 @@ def render_detail(entry: dict) -> None:
             st.info("no run.log (legacy run)")
 
 
+def _render_source_image(meta: dict, entry: dict, *, compact: bool) -> None:
+    """compare/detail 공용 — 원본 입력 이미지 썸네일을 표시."""
+    inp = meta.get("input") or {}
+    img_path = inp.get("image_path") or entry.get("image_path")
+    mode = entry.get("mode") or inp.get("mode") or ""
+    if not img_path:
+        if mode == "t2v":
+            st.caption("source: (t2v — no input image)")
+        else:
+            st.caption("source: (none)")
+        return
+    p = Path(img_path)
+    cap = f"source: {p.name}"
+    if p.exists():
+        st.image(str(p), caption=cap, width=220 if compact else 360)
+    else:
+        st.caption(f"{cap} — _file missing_")
+
+
 def _compare_card(entry: dict) -> None:
     run_dir = entry.get("run_dir", "")
     meta = load_meta(run_dir)
@@ -285,6 +328,7 @@ def _compare_card(entry: dict) -> None:
         f"{entry.get('template_category')}/{entry.get('template_subcategory')} · "
         f"{utc_naive_to_kst(entry.get('started_at'))} KST"
     )
+    _render_source_image(meta, entry, compact=True)
     vp = entry.get("video_path")
     if vp and Path(vp).exists():
         st.video(vp)
@@ -325,10 +369,42 @@ def gallery_tab() -> None:
         return
 
     with st.sidebar:
-        st.subheader("filters")
+        st.subheader("template filters (v2)")
 
-        cats = st.multiselect("template.category (primary)", _unique_sorted(df, "template_category"))
-        subs = st.multiselect("template.subcategory (primary)", _unique_sorted(df, "template_subcategory"))
+        # category: 정규 순서 + 데이터에 있는 것만 노출
+        available_cats = set(_unique_sorted(df, "template_category"))
+        cat_options = [c for c in CANONICAL_CATEGORIES if c in available_cats]
+        # v2 외 잔여값은 뒤에 (이론상 0, 방어용)
+        cat_options += sorted(available_cats - set(CANONICAL_CATEGORIES))
+        cats = st.multiselect(
+            "category", cat_options,
+            help="motion = 활성 6개 모션 프리미티브 / meme = 활성 3개 밈 / archived = 폐기된 legacy",
+        )
+
+        # subcategory: 선택된 category 따라 동적 제안, 선택 없으면 전체
+        if cats:
+            suggested: list[str] = []
+            for c in cats:
+                suggested += SUB_BY_CATEGORY.get(c, [])
+            if "archived" in cats:
+                suggested += sorted({
+                    s for c_, s in zip(df["template_category"], df["template_subcategory"])
+                    if c_ == "archived" and isinstance(s, str)
+                })
+        else:
+            suggested = CANONICAL_MOTION_SUBS + CANONICAL_MEME_SUBS
+            suggested += sorted({
+                s for c_, s in zip(df["template_category"], df["template_subcategory"])
+                if c_ == "archived" and isinstance(s, str)
+            })
+        # 중복 제거, 데이터에 존재하는 값만
+        present = set(_unique_sorted(df, "template_subcategory"))
+        sub_options: list[str] = []
+        for s in suggested:
+            if s in present and s not in sub_options:
+                sub_options.append(s)
+        subs = st.multiselect("subcategory", sub_options)
+
         intents = st.multiselect("intent", _unique_sorted(df, "intent"))
 
         # secondary: "camera_move/dolly_in" 포맷의 any-match
@@ -336,11 +412,15 @@ def gallery_tab() -> None:
             s for row in df.get("template_secondary", [])
             if isinstance(row, list) for s in row
         })
-        secondary_pick = st.multiselect(
-            "secondary (any-match, primary OR secondary 에 있으면)", all_sec
-        )
+        if all_sec:
+            secondary_pick = st.multiselect(
+                "secondary (any-match, primary OR secondary 에 있으면)", all_sec
+            )
+        else:
+            secondary_pick = []
 
         st.divider()
+        st.subheader("run filters")
         exps = st.multiselect("experiment", _unique_sorted(df, "experiment"))
         modes = st.multiselect("mode", _unique_sorted(df, "mode"))
         tiers = st.multiselect("resolution_tier", _unique_sorted(df, "resolution_tier"))
@@ -353,7 +433,7 @@ def gallery_tab() -> None:
         tag_pick = st.multiselect("tags (any-match)", all_tags)
 
         legacy_mode = st.radio("legacy", ["all", "exclude legacy", "only legacy"], index=0)
-        archived_mode = st.radio("archived", ["all", "local only", "archived only"], index=0)
+        archived_mode = st.radio("archived (drive)", ["all", "local only", "archived only"], index=0)
 
         st.divider()
         search = st.text_input("search (experiment contains)", "")
@@ -410,7 +490,10 @@ def gallery_tab() -> None:
             "run_num": st.column_config.NumberColumn("#", width="small", help="전역 실행 일련번호 (시간순 1..N)"),
             "version": st.column_config.NumberColumn("v", width="small", help="experiment 내 설정(config_hash) 버전"),
             "started_at_kst": st.column_config.TextColumn("started (KST)", width="medium"),
-            "wall_sec": st.column_config.NumberColumn("wall_s", format="%.0f"),
+            "wall_sec": st.column_config.NumberColumn("wall_s", format="%.0f", help="전체 실행시간 (로드 + 생성)"),
+            "load_sec": st.column_config.NumberColumn("load_s", format="%.0f", help="모델 로드 시간 (배치 그룹 첫 실행만)"),
+            "inference_sec": st.column_config.NumberColumn("infer_s", format="%.0f", help="생성(diffusion) 순수 시간"),
+            "steps_per_sec": st.column_config.NumberColumn("steps/s", format="%.3f"),
             "vram_peak_mib": st.column_config.NumberColumn("vram_MiB", format="%.0f"),
             "archived": st.column_config.CheckboxColumn("archived"),
             "legacy": st.column_config.CheckboxColumn("legacy"),

@@ -35,13 +35,15 @@ from i2v.utils.seed import seed_everything
 from i2v.utils.video import center_crop_to_aspect
 
 
-def _build_pipeline(model_cfg: dict):
+def _build_pipeline(model_cfg: dict) -> tuple:
+    """Returns (pipe, load_sec)."""
     cls_path = model_cfg["class"]
     module_name, cls_name = cls_path.rsplit(".", 1)
     cls = getattr(importlib.import_module(module_name), cls_name)
     pipe = cls(**model_cfg.get("init", {}))
+    t = time.time()
     pipe.load()
-    return pipe
+    return pipe, round(time.time() - t, 2)
 
 
 def _vram_peak_mib() -> float | None:
@@ -55,7 +57,10 @@ def _vram_peak_mib() -> float | None:
     return None
 
 
-def run_one(pipe, cfg_path: Path, cfg: dict, model_cfg: dict, outputs_root: Path) -> dict:
+def run_one(
+    pipe, cfg_path: Path, cfg: dict, model_cfg: dict, outputs_root: Path,
+    *, load_sec: float | None = None,
+) -> dict:
     import torch
 
     preset = load_yaml(cfg["preset"])
@@ -73,6 +78,7 @@ def run_one(pipe, cfg_path: Path, cfg: dict, model_cfg: dict, outputs_root: Path
     error: str | None = None
     video_path: Path | None = None
     wall_sec: float | None = None
+    inference_sec: float | None = None
 
     # 실행별 VRAM 피크 별도 측정 위해 리셋
     if torch.cuda.is_available():
@@ -105,7 +111,9 @@ def run_one(pipe, cfg_path: Path, cfg: dict, model_cfg: dict, outputs_root: Path
                 num_inference_steps=run.get("num_inference_steps"),
                 extra={"out_dir": str(run_dir)},
             )
+            t_gen = time.time()
             result = pipe.generate(request)
+            inference_sec = round(time.time() - t_gen, 2)
             video_path = Path(result.video_path)
             print(f"saved -> {video_path}")
         except Exception as e:
@@ -131,6 +139,8 @@ def run_one(pipe, cfg_path: Path, cfg: dict, model_cfg: dict, outputs_root: Path
         video_path=video_path,
         wall_sec=wall_sec,
         vram_peak_mib=round(vram_peak, 1) if vram_peak else None,
+        load_sec=load_sec,
+        inference_sec=inference_sec,
     )
     write_meta(run_dir, meta)
     entry = to_index_entry(meta)
@@ -172,11 +182,14 @@ def main() -> None:
     ok, err = 0, 0
     for mcfg_path, items in groups.items():
         print(f"[batch] loading model: {mcfg_path}  ({len(items)} runs)")
-        pipe = _build_pipeline(items[0][2])
+        pipe, load_sec = _build_pipeline(items[0][2])
+        print(f"[batch] model loaded in {load_sec}s")
         try:
             for i, (cfg_path, cfg, model_cfg) in enumerate(items, 1):
                 print(f"[batch] ({i}/{len(items)}) {cfg_path.name}")
-                entry = run_one(pipe, cfg_path, cfg, model_cfg, args.outputs_root)
+                # load_sec는 그룹의 첫 실행만 실측치, 이후 실행은 0 (로드 재사용)
+                this_load = load_sec if i == 1 else 0.0
+                entry = run_one(pipe, cfg_path, cfg, model_cfg, args.outputs_root, load_sec=this_load)
                 if entry["status"] == "ok":
                     ok += 1
                     print(f"  OK wall={entry['wall_sec']}s")

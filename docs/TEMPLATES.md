@@ -54,6 +54,24 @@
 
 **현재 상태:** A/B/C 중 1개 PoC 착수 필요. 배치 실험 범위에서 제외.
 
+#### 트래킹 중인 레퍼런스 댄스 밈
+
+| id | 레퍼런스 | 자산 경로 | 안무 시퀀스 (5s beat) |
+|---|---|---|---|
+| `boomshakalaka` | https://www.youtube.com/shorts/0qKKrIXT1Lo | `assets/memes/dance_ref/frames/` (구 src.mp4) | 좌우 스웨이 → 팔 위로 흔들 → 주먹 펌프 → 홉 → 포즈 |
+| `boat_dance` | https://www.youtube.com/shorts/Or_1yQGAjCQ | `assets/memes/dance_ref/boat_dance/` (source.webm, frames/, start_frame_kid_standing.png) | 정적 서기 → 양손 앞으로 펴고 아래 흔들 → 양손 회전 → 앞뒤 양팔 뻗기 → 수영 스트로크 → 한 팔 앞으로 쭉 |
+
+**boat_dance (드래곤 보트 "레전드 꼬마 선장") 안무 디테일:**
+드래곤 보트 뱃머리에 선 꼬마(검은 전통 의상 + 뾰족한 모자 + 선글라스)가 뒤에서 노 젓는 팀을 지휘하듯 6단계 안무를 수행.
+1. **0.0–0.8s** 정적 서기 — 양손 가볍게 앞으로 내리고 정면을 본다
+2. **0.8–1.6s** 양손을 앞으로 살짝 펴고 아래쪽에서 좌우로 가볍게 흔든다 (지휘)
+3. **1.6–2.5s** 양손을 앞에서 원을 그리듯 돌린다 (패들 rotation 모사)
+4. **2.5–3.3s** 한쪽 팔은 앞으로, 반대쪽 팔은 뒤로 크게 벌린다 (런지 자세)
+5. **3.3–4.1s** 앞뒤 팔을 교대하며 수영 스트로크 동작
+6. **4.1–5.0s** 마지막 한 팔(오른팔)을 앞쪽 카메라 방향으로 쭉 뻗으며 마무리 포즈
+
+**규칙 재확인 (critical):** `meme_dance_ref` 실험의 i2v 입력 이미지는 **반드시 `assets/samples/*` 자체 샘플만 사용**. 레퍼런스 프레임(`assets/memes/dance_ref/*/frames/*`, `start_frame_*`)을 입력으로 쓰는 것은 원칙적 **금지**. 단 벤치마크 용 **1회성 ref-frame baseline** 은 실험 로그에 예외 사유 명시 후 허용 (`tags: ["ref_frame_exception_1shot"]`). 나머지 실험은 모두 자체 샘플.
+
 ### Meme 프롬프트 템플릿 (슬롯 DSL)
 
 `meme_ai_character`, `meme_ai_animal` 처럼 프롬프트로 해결되는 케이스는 `src/i2v/prompts/` 아래 슬롯 빌더를 둘 예정:
